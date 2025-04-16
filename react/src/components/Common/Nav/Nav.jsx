@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
+  const navi = useNavigate();
+
   return (
     <NavLayout>
       <NavLinks>
@@ -22,7 +25,9 @@ const Nav = () => {
         <NavItem>
           마일리지
           <DropdownMenu>
-            <DropdownItem>마일리지 안내</DropdownItem>
+            <DropdownItem onClick={() => navi("/mileageInfo")}>
+              마일리지 안내
+            </DropdownItem>
             <DropdownItem>마일리지 신청</DropdownItem>
           </DropdownMenu>
         </NavItem>
