@@ -13,6 +13,7 @@ const Header = () => {
         <HeaderLinks>
           <HeaderLink>로그인</HeaderLink>
           <HeaderLink>회원가입</HeaderLink>
+          <HeaderLink>마이페이지</HeaderLink>
         </HeaderLinks>
       </HeaderLayout>
       <Nav />
