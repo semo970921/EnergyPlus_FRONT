@@ -1,19 +1,30 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StyleImg1 from "../../../assets/img/bicycleImg.png";
 import StyleImg2 from "../../../assets/img/containerImg.png";
 
 const MileageInfo = () => {
+  const [selected, setSelected] = useState("bicycle");
+
   useEffect(() => {
-    axios.get(`http://localhost/apis/bicycle`).then((response) => {
-      const row = response.data.stationInfo.row;
-      console.log(row);
+    let apiUrl = "";
+
+    if (selected === "bicycle") {
+      apiUrl = `http://localhost/apis/bicycle`;
+    } else if (selected === "container") {
+      apiUrl = `http://localhost/apis/container`;
+    }
+
+    axios.get(apiUrl).then((response) => {
+      const data =
+        selected === "bicycle" ? response.data.stationInfo.row : response.data;
+      console.log(data);
 
       var mapContainer = document.getElementById("map"),
         mapOption = {
-          center: new window.kakao.maps.LatLng(37.55274582, 126.91861725),
-          level: 8,
+          center: new window.kakao.maps.LatLng(37.566832, 126.978204),
+          level: 9,
         };
 
       var map = new window.kakao.maps.Map(mapContainer, mapOption);
@@ -26,9 +37,9 @@ const MileageInfo = () => {
         imageSize
       );
 
-      row.forEach((item) => {
-        const lat = parseFloat(item.STA_LAT);
-        const lng = parseFloat(item.STA_LONG);
+      data.forEach((item) => {
+        const lat = selected === "bicycle" ? item.STA_LAT : item.lat;
+        const lng = selected === "bicycle" ? item.STA_LONG : item.lot;
         const title = item.RENT_ID_NM;
 
         const marker = new window.kakao.maps.Marker({
@@ -40,18 +51,18 @@ const MileageInfo = () => {
         marker.setMap(map);
       });
     });
-  }, []);
+  }, [selected]);
 
   return (
     <MileageInfoLayout>
       <InfoTop>
         <TopTitle>탄소 절감을 위해 마일리지를 적립할 수 있는 방법</TopTitle>
         <SectionBox>
-          <SectionCard>
+          <SectionCard onClick={() => setSelected("bicycle")}>
             <StyleImg src={StyleImg1} alt="자전거 이미지" />
             <p>자전거</p>
           </SectionCard>
-          <SectionCard>
+          <SectionCard onClick={() => setSelected("container")}>
             <StyleImg src={StyleImg2} alt="다회용기 이미지" />
             <p>다회용기</p>
           </SectionCard>
@@ -104,11 +115,13 @@ const SectionCard = styled.div`
   align-items: center;
   font-size: 30px;
   font-weight: 500;
+  cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 
   &:hover {
     transform: translateY(-4px);
+    background: rgb(101, 150, 28);
   }
 `;
 
@@ -130,7 +143,9 @@ const ApplyFormButton = styled.button`
   transition: background 0.2s ease;
 
   &:hover {
-    background-color: #6bad48;
+    background: white;
+    color: black;
+    border: 1px solid #408c70;
   }
 `;
 

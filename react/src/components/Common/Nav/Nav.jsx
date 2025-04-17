@@ -8,7 +8,9 @@ const Nav = () => {
     <NavLayout>
       <NavLinks>
         <NavItem>
-          <a href="/" style={{ color: 'white', textDecoration: 'none' }}>HOME</a>
+          <a href="/" style={{ color: "white", textDecoration: "none" }}>
+            HOME
+          </a>
         </NavItem>
 
         <NavItem>
@@ -85,7 +87,7 @@ const DropdownMenu = styled.div`
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%);0
   background: white;
   min-width: 140px;
   border: 1px solid lightgray;
