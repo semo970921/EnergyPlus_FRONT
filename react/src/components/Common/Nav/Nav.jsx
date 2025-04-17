@@ -1,14 +1,14 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
+  const navi = useNavigate();
+
   return (
     <NavLayout>
       <NavLinks>
         <NavItem>
-          HOME
-          <DropdownMenu>
-            <DropdownItem>홈 화면</DropdownItem>
-          </DropdownMenu>
+          <a href="/" style={{ color: 'white', textDecoration: 'none' }}>HOME</a>
         </NavItem>
 
         <NavItem>
@@ -22,7 +22,9 @@ const Nav = () => {
         <NavItem>
           마일리지
           <DropdownMenu>
-            <DropdownItem>마일리지 안내</DropdownItem>
+            <DropdownItem onClick={() => navi("/mileageInfo")}>
+              마일리지 안내
+            </DropdownItem>
             <DropdownItem>마일리지 신청</DropdownItem>
           </DropdownMenu>
         </NavItem>
@@ -38,8 +40,9 @@ const Nav = () => {
         <NavItem>
           커뮤니티
           <DropdownMenu>
-            <DropdownItem>커뮤니티 1</DropdownItem>
-            <DropdownItem>커뮤니티 2</DropdownItem>
+            <DropdownItem href="/notices">공지사항</DropdownItem>
+            <DropdownItem>FAQ</DropdownItem>
+            <DropdownItem>중고거래</DropdownItem>
           </DropdownMenu>
         </NavItem>
       </NavLinks>

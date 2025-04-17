@@ -6,11 +6,14 @@ const Header = () => {
   return (
     <>
       <HeaderLayout>
+        <a href="/">
         <Logo src={LogoImg} alt="에너지 생활+ 로고" />
+        </a>
         <Slogan>탄소 중립 실천 다짐을 작성해주세여.</Slogan>
         <HeaderLinks>
           <HeaderLink>로그인</HeaderLink>
           <HeaderLink>회원가입</HeaderLink>
+          <HeaderLink>마이페이지</HeaderLink>
         </HeaderLinks>
       </HeaderLayout>
       <Nav />
@@ -45,7 +48,7 @@ const HeaderLinks = styled.div`
 const HeaderLink = styled.a`
   font-size: 26px;
   color: #000;
-  text-decoratio: none;
+  text-decoration: none;
   n &:hover {
     cursor: pointer;
   }
