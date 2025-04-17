@@ -5,50 +5,44 @@ const Nav = () => {
   const navi = useNavigate();
 
   return (
-    <NavLayout>
-      <NavLinks>
-        <NavItem>
-          <a href="/" style={{ color: "white", textDecoration: "none" }}>
+    <>
+      <div className="nav">
+        <ul>
+          <li className="nav-item" onClick={() => navi("/")}>
             HOME
-          </a>
-        </NavItem>
-
-        <NavItem>
-          소개
-          <DropdownMenu>
-            <DropdownItem>소개 1</DropdownItem>
-            <DropdownItem>소개 2</DropdownItem>
-          </DropdownMenu>
-        </NavItem>
-
-        <NavItem>
-          마일리지
-          <DropdownMenu>
-            <DropdownItem onClick={() => navi("/mileageInfo")}>
-              마일리지 안내
-            </DropdownItem>
-            <DropdownItem>마일리지 신청</DropdownItem>
-          </DropdownMenu>
-        </NavItem>
-
-        <NavItem>
-          챌린지
-          <DropdownMenu>
-            <DropdownItem>챌린지 1</DropdownItem>
-            <DropdownItem>챌린지 2</DropdownItem>
-          </DropdownMenu>
-        </NavItem>
-
-        <NavItem>
-          커뮤니티
-          <DropdownMenu>
-            <DropdownItem href="/notices">공지사항</DropdownItem>
-            <DropdownItem>FAQ</DropdownItem>
-            <DropdownItem>중고거래</DropdownItem>
-          </DropdownMenu>
-        </NavItem>
-      </NavLinks>
-    </NavLayout>
+          </li>
+          <li className="nav-item" onClick={() => navi("/")}>
+            소개
+            <ul>
+              <li>소개 1</li>
+              <li>소개 2</li>
+            </ul>
+          </li>
+          <li className="nav-item">
+            마일리지
+            <ul>
+              <li onClick={() => navi("/mileageInfo")}>마일리지 안내</li>
+              <li>마일리지 신청</li>
+            </ul>
+          </li>
+          <li className="nav-item">
+            챌린지
+            <ul>
+              <li onClick={() => navi("/mileageInfo")}>챌린지1</li>
+              <li>챌린지</li>
+            </ul>
+          </li>
+          <li className="nav-item">
+            커뮤니티
+            <ul>
+              <li onClick={() => navi("/notices")}>공지사항</li>
+              <li>FAQ</li>
+              <li onClick={() => navi("/market_list")}>중고거래</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </>
   );
 };
 
@@ -87,7 +81,7 @@ const DropdownMenu = styled.div`
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);0
+  transform: translateX(-50%);
   background: white;
   min-width: 140px;
   border: 1px solid lightgray;
