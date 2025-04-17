@@ -6,20 +6,22 @@ import Home from "./components/Common/Home/Home";
 import MileageInfo from "./components/Mileage/MileageInfo/MileageInfo";
 import Mypage_main from "./components/Mypage/Mypage_main";
 import Notices from "./components/Notice/Notices";
+import MarketList from "./components/Market/MarketList/MarketList";
 
 function App() {
   return (
     <>
       <Header />
-
-      <Routes>
-        {/* 각자 라우트 추가하기~~ */}
-        <Route path="/" element={<Home />} />
-        <Route path="/notices" element={<Notices />} />
-        <Route path="/mileageinfo" element={<MileageInfo />} />
-        <Route path="/mypage_main" element={<Mypage_main />} />
-      </Routes>
-
+      <div className="container">
+        <Routes>
+          {/* 각자 라우트 추가하기~~ */}
+          <Route path="/" element={<Home />} />
+          <Route path="/notices" element={<Notices />} />
+          <Route path="/mileageinfo" element={<MileageInfo />} />
+          <Route path="/mypage_main" element={<Mypage_main />} />
+          <Route path="/market_list" element={<MarketList />} />
+        </Routes>
+      </div>
       <Footer />
     </>
   );

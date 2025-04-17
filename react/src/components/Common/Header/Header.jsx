@@ -5,51 +5,22 @@ import Nav from "../Nav/Nav";
 const Header = () => {
   return (
     <>
-      <HeaderLayout>
-        <a href="/">
-        <Logo src={LogoImg} alt="에너지 생활+ 로고" />
+      <div className="header">
+        <a href="/" className="logo">
+          <img src={LogoImg} alt="에너지 생활+ 로고" />
         </a>
-        <Slogan>탄소 중립 실천 다짐을 작성해주세여.</Slogan>
-        <HeaderLinks>
-          <HeaderLink>로그인</HeaderLink>
-          <HeaderLink>회원가입</HeaderLink>
-          <HeaderLink>마이페이지</HeaderLink>
-        </HeaderLinks>
-      </HeaderLayout>
+        <div className="slogan-wrap">
+          <span>탄소 중립 실천 다짐을 작성해주세여.</span>
+        </div>
+        <ul className="header-link">
+          <li className="link-item">로그인</li>
+          <li className="link-item">회원가입</li>
+          <li className="link-item">마이페이지</li>
+        </ul>
+      </div>
       <Nav />
     </>
   );
 };
 
 export default Header;
-
-const HeaderLayout = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 126px;
-`;
-
-const Logo = styled.img`
-  margin-left: 50px;
-`;
-
-const Slogan = styled.span`
-  font-size: 20px;
-  color: #444;
-`;
-
-const HeaderLinks = styled.div`
-  display: flex;
-  gap: 50px;
-  margin-right: 80px;
-`;
-
-const HeaderLink = styled.a`
-  font-size: 26px;
-  color: #000;
-  text-decoration: none;
-  n &:hover {
-    cursor: pointer;
-  }
-`;
