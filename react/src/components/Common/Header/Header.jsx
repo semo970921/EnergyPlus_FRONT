@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import LogoImg from "../../../assets/img/Logo.png";
 import Nav from "../Nav/Nav";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navi = useNavigate();
+
   return (
     <>
       <HeaderLayout>
@@ -13,7 +16,7 @@ const Header = () => {
         <HeaderLinks>
           <HeaderLink>로그인</HeaderLink>
           <HeaderLink>회원가입</HeaderLink>
-          <HeaderLink>마이페이지</HeaderLink>
+          <HeaderLink onClick={() => navi("/mypage_main")}>마이페이지</HeaderLink>
         </HeaderLinks>
       </HeaderLayout>
       <Nav />
