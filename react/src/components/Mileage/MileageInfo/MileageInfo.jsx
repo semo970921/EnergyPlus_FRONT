@@ -19,7 +19,7 @@ const MileageInfo = () => {
     axios.get(apiUrl).then((response) => {
       const data =
         selected === "bicycle" ? response.data.stationInfo.row : response.data;
-      console.log(data);
+      // console.log(data);
 
       var mapContainer = document.getElementById("map"),
         mapOption = {
