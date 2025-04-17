@@ -6,6 +6,7 @@ import Home from "./components/Common/Home/Home";
 import MileageInfo from "./components/Mileage/MileageInfo/MileageInfo";
 import Mypage_main from "./components/Mypage/Mypage_main";
 import Notices from "./components/Notice/Notices";
+import Mypage_info from "./components/Mypage/Mypage_info";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/notices" element={<Notices />} />
         <Route path="/mileageinfo" element={<MileageInfo />} />
         <Route path="/mypage_main" element={<Mypage_main />} />
+        <Route path="/mypage_info" element={<Mypage_info />} />
       </Routes>
 
       <Footer />
