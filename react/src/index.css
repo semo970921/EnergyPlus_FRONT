@@ -1,3 +1,64 @@
+/* === 기본 폰트 적용 === */
+html,
+body {
+  font-family: "Pretendard", sans-serif;
+  font-weight: 400;
+  color: #222;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+}
+
+/* === 태그별 폰트 스타일 === */
+h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+h4 {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+h5,
+h6 {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+p,
+span,
+li,
+a,
+button,
+input,
+textarea {
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: "Pretendard", sans-serif;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
