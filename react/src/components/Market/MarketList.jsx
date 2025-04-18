@@ -1,11 +1,13 @@
 import axios from "axios";
-import testImg from "../../../assets/test-img/001.jpg";
+import defaultImg from "../../assets/img/default.jpg";
+import { useNavigate } from "react-router-dom";
+import { FaBeer } from "react-icons/fa";
 
-import "../market.css";
+import "./css/market.css";
 import { useEffect, useState } from "react";
 const MarketList = () => {
   const [marketList, setMarketList] = useState([]);
-
+  const navi = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,11 +27,19 @@ const MarketList = () => {
         <ul className="gallery-list no-list">
           {marketList.map((item, idx) =>
             item ? (
-              <li className="gallery-item" key={item.marketNo || idx}>
+              <li
+                className="gallery-item"
+                key={item.marketNo || idx}
+                onClick={() => navi("/market_detail")}
+              >
                 <div className="item-thumb">
                   <span className="item-status">{item.marketStatusLabel}</span>
                   <img
-                    src={`http://localhost${item.thumbnailUrl || testImg}`}
+                    src={
+                      item.thumbnailUrl
+                        ? `http://localhost${item.thumbnailUrl}`
+                        : defaultImg
+                    }
                     alt="중고아이템"
                     className="item-image"
                   />

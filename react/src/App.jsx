@@ -8,8 +8,9 @@ import Mypage_main from "./components/Mypage/Mypage_main";
 import Notices from "./components/Notice/Notices";
 import NoticeForm from "./components/Notice/NoticeForm";
 import NoticeDetail from "./components/Notice/NoticeDetail";
-import MarketList from "./components/Market/MarketList/MarketList";
+import MarketList from "./components/Market/MarketList";
 import Mypage_info from "./components/Mypage/Mypage_info";
+import MarketDetail from "./components/Market/MarketDetail";
 
 function App() {
   return (
@@ -21,12 +22,13 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
+          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticeform" element={<NoticeForm />} />
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mypage_main" element={<Mypage_main />} />
           <Route path="/mypage_info" element={<Mypage_info />} />
           <Route path="/market_list" element={<MarketList />} />
+          <Route path="/market_detail" element={<MarketDetail />} />
         </Routes>
       </div>
       <Footer />
