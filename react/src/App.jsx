@@ -11,6 +11,8 @@ import NoticeDetail from "./components/Notice/NoticeDetail";
 import MarketList from "./components/Market/MarketList";
 import Mypage_info from "./components/Mypage/Mypage_info";
 import MarketDetail from "./components/Market/MarketDetail";
+import MarketForm from "./components/Market/MarketForm";
+import MarketEdit from "./components/Market/MarketEdit";
 
 function App() {
   return (
@@ -28,7 +30,9 @@ function App() {
           <Route path="/mypage_main" element={<Mypage_main />} />
           <Route path="/mypage_info" element={<Mypage_info />} />
           <Route path="/market_list" element={<MarketList />} />
-          <Route path="/market_detail" element={<MarketDetail />} />
+          <Route path="/markets/:marketNo" element={<MarketDetail />} />
+          <Route path="/marketform" element={<MarketForm />} />
+          <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
         </Routes>
       </div>
       <Footer />

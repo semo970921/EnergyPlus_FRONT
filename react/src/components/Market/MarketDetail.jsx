@@ -1,42 +1,112 @@
 import axios from "axios";
 import "./css/market.css";
+import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
 import defaultImg from "../../assets/img/default.jpg";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const MarketDetail = () => {
-  const [showReplyForm, setShowReplyForm] = useState(false);
+  const navi = useNavigate();
+  const { marketNo } = useParams();
+  const [market, setMarket] = useState(null);
+  const [showReplyForm, setShowReplyForm] = useState(false); // 💡 최상단에서 선언해야 함!
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:80/markets/${marketNo}`)
+      .then((res) => setMarket(res.data))
+      .catch((err) => console.error(err));
+  }, [marketNo]);
+
+  if (!market) return <p>로딩중...</p>;
+
   return (
     <>
       <div className="market-container">
         <h1 className="page-title">중고거래</h1>
-        <div className="market-detail-content">
-          <div className="market-detail-content-left">
-            <img src={defaultImg} alt="썸네일" className="market-thumbnail" />
-          </div>
-          <div className="market-detail-content-right">
-            <div className="market-detail-top">
-              <span className="market-detail-status ">판매중</span>
-              <h2 className="market-title">중고 냉장고 팝니다</h2>
-            </div>
-            <div className="market-detail-bottom">
-              <div className="market-detail-meta">
-                <span className="market-writer">김진솔</span>
-                <em>|</em>
-                <span className="market-date">2025.04.18</span>
+        {market && (
+          <div className="market-detail-content-wrap">
+            <div className="market-detail-content">
+              <div className="market-detail-content-left">
+                <img
+                  src={
+                    market.imageList?.[0]
+                      ? `http://localhost${market.imageList[0].imgUrl}`
+                      : defaultImg
+                  }
+                  alt="썸네일"
+                  className="market-thumbnail"
+                />
               </div>
-              <p className="market-price">120,000원</p>
+              <div className="market-detail-content-right">
+                <div className="market-detail-top">
+                  <span className="market-detail-status ">
+                    {market.marketStatusLabel}
+                  </span>
+                  <h2 className="market-title">{market.marketTitle}</h2>
+                </div>
+                <div className="market-detail-bottom">
+                  <div className="market-detail-meta">
+                    <span className="market-writer">
+                      {market.userName || "판매자"}
+                    </span>
+                    <em>|</em>
+                    <span className="market-date">
+                      {new Date(market.marketDate).toLocaleDateString("ko-KR")}
+                    </span>
+                  </div>
+                  <p className="market-price">
+                    {market.marketPrice?.toLocaleString()}원
+                  </p>
 
-              <p className="market-content-text">
-                서울 강남 직거래 가능합니다. 상태 좋아요.
-              </p>
+                  <p className="market-content-text">{market.marketContent}</p>
+                </div>
+              </div>
+            </div>
+            <div className="market-detail-content-img">
+              <img
+                src={
+                  market.imageList?.[0]
+                    ? `http://localhost${market.imageList[0].imgUrl}`
+                    : defaultImg
+                }
+                alt=""
+              />
+              <img
+                src={
+                  market.imageList?.[0]
+                    ? `http://localhost${market.imageList[1].imgUrl}`
+                    : defaultImg
+                }
+                alt=""
+              />
+              <img
+                src={
+                  market.imageList?.[0]
+                    ? `http://localhost${market.imageList[2].imgUrl}`
+                    : defaultImg
+                }
+                alt=""
+              />
             </div>
           </div>
-        </div>
+        )}
 
         <div className="market-detail-buttons">
-          <button className="btn market-btn">게시글 신고</button>
-          <button className="btn market-btn">목록</button>
-          <button className="btn market-btn">수정</button>
+          <button className="btn market-btn">신고</button>
+          <button
+            className="btn market-btn"
+            onClick={() => navi(`/market_list`)}
+          >
+            목록
+          </button>
+          <button
+            className="btn market-btn"
+            onClick={() => navi(`/markets/edit/${market.marketNo}`)}
+          >
+            수정
+          </button>
         </div>
         <div className="comment-section">
           <h3>댓글</h3>
@@ -82,13 +152,16 @@ const MarketDetail = () => {
                 </div>
                 {showReplyForm && (
                   <form className="reply-form">
-                    <textarea
-                      placeholder="답글을 입력하세요"
-                      className="reply-input"
-                    ></textarea>
-                    <button type="submit" className="btn market-btn">
-                      답글 등록
-                    </button>
+                    <MdOutlineSubdirectoryArrowRight />
+                    <div className="reply-form-right">
+                      <textarea
+                        placeholder="답글을 입력하세요"
+                        className="reply-input"
+                      ></textarea>
+                      <button type="submit" className="btn market-btn">
+                        답글 등록
+                      </button>
+                    </div>
                   </form>
                 )}
                 <ul className="reply-list">

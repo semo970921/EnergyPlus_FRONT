@@ -12,7 +12,6 @@ const MarketList = () => {
     const fetchData = async () => {
       try {
         const res = await axios.get("http://localhost/markets");
-        console.log(res.data);
         setMarketList(res.data);
       } catch (err) {
         console.error("리스트 조회 실패 :", err);
@@ -23,6 +22,14 @@ const MarketList = () => {
   return (
     <>
       <h1 className="page-title">중고거래</h1>
+      <div className="btn-wrap text-align-end">
+        <button
+          className="btn market-btn btn-write"
+          onClick={() => navi(`/marketform`)}
+        >
+          글쓰기
+        </button>
+      </div>
       <div className="market-gallery">
         <ul className="gallery-list no-list">
           {marketList.map((item, idx) =>
@@ -30,7 +37,7 @@ const MarketList = () => {
               <li
                 className="gallery-item"
                 key={item.marketNo || idx}
-                onClick={() => navi("/market_detail")}
+                onClick={() => navi(`/markets/${item.marketNo}`)}
               >
                 <div className="item-thumb">
                   <span className="item-status">{item.marketStatusLabel}</span>
