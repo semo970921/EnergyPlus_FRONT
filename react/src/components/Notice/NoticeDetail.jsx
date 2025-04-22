@@ -1,9 +1,19 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  Container,
+  Title,
+  DateText,
+  Content,
+  ButtonGroup,
+  Button,
+} from "./NoticeDetail.style";
+
 
 const NoticeDetail = () => {
   const { noticeId } = useParams();
+  const navigate = useNavigate();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
@@ -16,15 +26,36 @@ const NoticeDetail = () => {
       });
   }, [noticeId]);
 
+
+  const handleDelete = async () => {
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    try {
+      await axios.delete(`http://localhost/notices/${noticeId}`);
+      navigate("/notices");
+    } catch (err) {
+      console.error("삭제 실패", err);
+      alert("삭제에 실패했습니다.");
+    }
+  };
+
   if (!notice) return <p>로딩 중...</p>;
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h2>{notice.noticeTitle}</h2>
-      <p>{notice.noticeDate}</p>
+    <Container>
+      <Title>{notice.noticeTitle}</Title>
+      <DateText>{notice.noticeDate}</DateText>
       <hr />
-      <p>{notice.noticeContent}</p>
-    </div>
+      <Content>{notice.noticeContent}</Content>
+
+      <ButtonGroup>
+        <Button onClick={() => navigate(`/notices/write?editId=${noticeId}`)}>
+          수정하기
+        </Button>
+        <Button variant="delete" onClick={handleDelete}>
+          삭제하기
+        </Button>
+      </ButtonGroup>
+    </Container>
   );
 };
 
