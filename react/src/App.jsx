@@ -16,6 +16,8 @@ import MarketEdit from "./components/Market/MarketEdit";
 import MypageInfo from "./components/Mypage/Member/MypageInfo";
 import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
+import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
+import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
+          <Route path="/mypage_qna_form" element={<MypageQnaForm />} />
+          <Route path="/mypage_qna_detail/:id" element={<MypageQnaDetail />} />
           <Route path="/market_list" element={<MarketList />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
