@@ -11,7 +11,7 @@ const Nav = () => {
           <li className="nav-item" onClick={() => navi("/")}>
             HOME
           </li>
-          <li className="nav-item" onClick={() => navi("/")}>
+          <li className="nav-item">
             소개
             <ul>
               <li>소개 1</li>
