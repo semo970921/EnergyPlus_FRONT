@@ -1,0 +1,413 @@
+.text-align-end {
+  text-align: right;
+}
+h1.page-title {
+  margin-top: 80px;
+}
+.btn-write {
+  margin-bottom: 24px;
+}
+.text-danger {
+  color: rgb(235, 21, 21);
+}
+.gallery-list {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 0 -16px;
+}
+
+.gallery-item {
+  width: calc(33.333% - 34px);
+  margin: 0 16px 32px; /* 좌우 마진만 줌 */
+  aspect-ratio: 1/1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.item-thumb {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.item-image {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  aspect-ratio: 1 / 1;
+}
+
+.item-status {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  border: 1px solid #fff;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-weight: 500;
+  z-index: 1;
+  background-color: rgb(0 0 0 / 0.4);
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+  color: #fff;
+  padding: 12px 16px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 0 0 12px 12px;
+  box-sizing: border-box;
+}
+
+.item-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.item-price {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+}
+
+.item-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.item-info > p {
+  color: #fff;
+}
+
+@media (max-width: 999px) {
+  .gallery-item {
+    width: calc(50% - 34px);
+  }
+  .page-title {
+    padding: 0 24px;
+  }
+  .page-title + .btn-wrap {
+    padding: 0 24px;
+  }
+  .gallery-list {
+    padding: 0 24px;
+  }
+}
+
+/* 게시글 상세페이지  */
+h2.market-title {
+  margin: 0;
+}
+.market-detail-content {
+  display: flex;
+  margin-bottom: 60px;
+}
+.market-detail-status {
+  border: 1px solid #333;
+  padding: 2px 4px;
+  border-radius: 8px;
+  margin-right: 8px;
+  height: 24px;
+}
+.market-detail-content-left {
+  width: 50%;
+  aspect-ratio: 1 / 1;
+}
+.market-detail-content-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.market-detail-content-right {
+  width: 50%;
+  margin-left: 34px;
+}
+.market-detail-content-img {
+  width: 100%;
+}
+.market-detail-content-img img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 16px;
+}
+.market-detail-meta {
+  padding-bottom: 24px;
+}
+.market-detail-meta span {
+  padding: 0 8px;
+  color: #888;
+}
+.market-detail-meta span:first-child {
+  padding-left: 0;
+}
+.market-detail-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+}
+button.market-btn {
+  background-color: #408c70;
+  color: #fff;
+}
+button.market-btn:hover {
+  border: 1px solid #408c70;
+  opacity: 0.65;
+}
+.market-detail-bottom .market-price {
+  font-weight: 900;
+  font-size: 20px;
+}
+.market-content-text {
+  font-size: 20px;
+}
+.market-detail-buttons button {
+  margin: 0 4px;
+}
+.comment-section {
+  margin-top: 32px;
+}
+.comment-section h3 {
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #888;
+  margin-bottom: 16px;
+}
+.comment-form-left {
+  flex: 1;
+}
+.comment-form label {
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.comment-input,
+.reply-input {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  resize: none;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+.secret-checkbox {
+  margin-right: 6px;
+}
+
+.btn-submit,
+.btn-reply,
+.btn-report-comment,
+.btn-report-post {
+  align-self: flex-end;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+button.btn-danger.btn-no-line {
+  background-color: transparent;
+  padding: 4px;
+  margin-left: 8px;
+  color: #ef4a4a;
+  font-size: 16px;
+
+  &:hover {
+    border: 1px solid #ef4a4a;
+  }
+}
+
+.comment-list,
+.reply-list {
+  list-style: none;
+  padding: 0;
+}
+form.comment-form {
+  padding-bottom: 32px;
+}
+.comment-meta {
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 5px;
+  align-items: center;
+}
+.reply-form {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e1e1e1;
+  display: flex;
+}
+.reply-form svg {
+  font-size: 24px;
+}
+.reply-form-right {
+  flex: 1;
+  padding-left: 16px;
+}
+.reply-meta {
+  padding-top: 16px;
+  display: flex;
+  align-items: center;
+}
+.comment-list .line {
+  padding: 0 8px;
+}
+.comment-content-wrap {
+  font-size: 15px;
+  color: #333;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e1e1e1;
+  margin-bottom: 40px;
+}
+.comment-content-wrap button.btn-sm {
+  border: 1px solid #888;
+  margin-right: 8px;
+  padding: 5px 15px;
+}
+.comment-content-wrap .btn-wrap {
+  padding: 10px 0 16px;
+  border-bottom: 1px solid #e1e1e1;
+}
+.reply-meta-left span {
+  color: #666;
+}
+/* market form */
+.market-form {
+  margin: 40px auto;
+  padding: 32px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #f1f1f1;
+}
+
+.market-form h2 {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.market-form label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.market-form input[type="text"],
+.market-form input[type="number"],
+.market-form textarea {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.market-form input[type="file"] {
+  margin-top: 4px;
+}
+
+.market-form textarea {
+  min-height: 300px;
+}
+
+.market-form button[type="submit"] {
+  align-self: center;
+  background-color: #408c70;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.market-form button[type="submit"]:hover {
+  opacity: 0.75;
+}
+/* market-edit */
+.image-box {
+  width: 100px;
+  height: 100px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: rgb(0 0 0 / 0.2);
+
+    top: 0;
+    left: 0;
+  }
+}
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.img-delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  padding: 0;
+  font-size: 10px;
+  z-index: 99;
+}
+.market-form select {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: white;
+}

@@ -8,7 +8,11 @@ import MypageMain from "./components/Mypage/MypageMain";
 import Notices from "./components/Notice/Notices";
 import NoticeForm from "./components/Notice/NoticeForm";
 import NoticeDetail from "./components/Notice/NoticeDetail";
-import MarketList from "./components/Market/MarketList/MarketList";
+import MarketList from "./components/Market/MarketList";
+import Mypage_info from "./components/Mypage/Mypage_info";
+import MarketDetail from "./components/Market/MarketDetail";
+import MarketForm from "./components/Market/MarketForm";
+import MarketEdit from "./components/Market/MarketEdit";
 import MypageInfo from "./components/Mypage/Member/MypageInfo";
 import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
@@ -23,7 +27,7 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
+          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticeform" element={<NoticeForm />} />
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mypage_main" element={<MypageMain />} />
@@ -31,6 +35,9 @@ function App() {
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
           <Route path="/market_list" element={<MarketList />} />
+          <Route path="/markets/:marketNo" element={<MarketDetail />} />
+          <Route path="/marketform" element={<MarketForm />} />
+          <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
         </Routes>
       </div>
       <Footer />

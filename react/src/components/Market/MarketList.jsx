@@ -1,16 +1,17 @@
 import axios from "axios";
-import testImg from "../../../assets/test-img/001.jpg";
+import defaultImg from "../../assets/img/default.jpg";
+import { useNavigate } from "react-router-dom";
+import { FaBeer } from "react-icons/fa";
 
-import "../market.css";
+import "./css/market.css";
 import { useEffect, useState } from "react";
 const MarketList = () => {
   const [marketList, setMarketList] = useState([]);
-
+  const navi = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axios.get("http://localhost/markets");
-        console.log(res.data);
         setMarketList(res.data);
       } catch (err) {
         console.error("리스트 조회 실패 :", err);
@@ -21,15 +22,31 @@ const MarketList = () => {
   return (
     <>
       <h1 className="page-title">중고거래</h1>
+      <div className="btn-wrap text-align-end">
+        <button
+          className="btn market-btn btn-write"
+          onClick={() => navi(`/marketform`)}
+        >
+          글쓰기
+        </button>
+      </div>
       <div className="market-gallery">
         <ul className="gallery-list no-list">
           {marketList.map((item, idx) =>
             item ? (
-              <li className="gallery-item" key={item.marketNo || idx}>
+              <li
+                className="gallery-item"
+                key={item.marketNo || idx}
+                onClick={() => navi(`/markets/${item.marketNo}`)}
+              >
                 <div className="item-thumb">
                   <span className="item-status">{item.marketStatusLabel}</span>
                   <img
-                    src={`http://localhost${item.thumbnailUrl || testImg}`}
+                    src={
+                      item.thumbnailUrl
+                        ? `http://localhost${item.thumbnailUrl}`
+                        : defaultImg
+                    }
                     alt="중고아이템"
                     className="item-image"
                   />
