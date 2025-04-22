@@ -10,6 +10,7 @@ import NoticeForm from "./components/Notice/NoticeForm";
 import NoticeDetail from "./components/Notice/NoticeDetail";
 import MarketList from "./components/Market/MarketList/MarketList";
 import Mypage_info from "./components/Mypage/Mypage_info";
+import MileageForm from "./components/Mileage/MileageForm/MileageForm";
 
 function App() {
   return (
@@ -21,12 +22,13 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
+          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticeform" element={<NoticeForm />} />
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mypage_main" element={<Mypage_main />} />
           <Route path="/mypage_info" element={<Mypage_info />} />
           <Route path="/market_list" element={<MarketList />} />
+          <Route path="/mileage-form" element={<MileageForm />} />
         </Routes>
       </div>
       <Footer />
