@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
     Container,
     TabMenu,
+    TabHeader,
     Tab,
     NoticeBox,
     NoticeHeader,
@@ -15,6 +16,7 @@ import {
     SearchBox,
     SearchInput,
     SearchButton,
+    WriteButton
   } from "./Notices.style";
   
 
@@ -42,17 +44,23 @@ const Notices = () => {
     return (
         
         <Container>
+        <TabHeader>
+          
         <TabMenu>
             {["공지사항", "FAQ", "중고 거래"].map((tab) => (
-            <Tab
-                key={tab}
-                active={activeTab === tab}
-                onClick={() => setActiveTab(tab)}
-            >
+              <Tab
+              key={tab}
+              active={activeTab === tab}
+              onClick={() => setActiveTab(tab)}
+              >
                 {tab}
             </Tab>
             ))}
         </TabMenu>
++       <WriteButton onClick={() => navigate("/noticewrite")}>
++         작성하기
++       </WriteButton>
+            </TabHeader>
 
         <NoticeBox>
             <NoticeHeader onClick={() => navigate("/notices")}>공지사항</NoticeHeader>

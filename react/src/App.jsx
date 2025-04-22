@@ -6,12 +6,12 @@ import Home from "./components/Common/Home/Home";
 import MileageInfo from "./components/Mileage/MileageInfo/MileageInfo";
 import MypageMain from "./components/Mypage/MypageMain";
 import Notices from "./components/Notice/Notices";
-import NoticeForm from "./components/Notice/NoticeForm";
 import NoticeDetail from "./components/Notice/NoticeDetail";
 import MarketList from "./components/Market/MarketList/MarketList";
 import MypageInfo from "./components/Mypage/Member/MypageInfo";
 import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
+import NoticeWrite from "./components/Notice/NoticeWrite";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
           <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
-          <Route path="/noticeform" element={<NoticeForm />} />
+          <Route path="/noticewrite" element={<NoticeWrite />} />
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />

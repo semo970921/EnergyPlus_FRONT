@@ -86,3 +86,24 @@ export const SearchButton = styled.button`
   border: none;
   cursor: pointer;
 `;
+
+export const TabHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+export const WriteButton = styled.button`
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  background-color: #85C662;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  &:hover {
+    opacity: 0.9;
+  }
+`;
