@@ -3,20 +3,20 @@ import { Container, ContentWrapper, TopSection, Profile, Greeting, Welcome, Grad
           MenuGrid, MenuItem, Label } from "./Mypage.style";
 import { useNavigate } from "react-router-dom";
 
-const Mypage_main = () => {
+const MypageMain = () => {
 
   const navi = useNavigate();
 
   // 나중에 axios로 로그인 회원 아이디, 등급 불러와서 관련 로직 추가해야함.
 
   /*
-    메인 페이지: mypage_main
-    내 정보 수정: mypage_info
+    메인 페이지: mypage_main (데이터 불러오기)
+    내 정보 수정: mypage_info (데이터 불러오기)
     회원 탈퇴: mypage_deleteMember
     내 게시글: mypage_board
     내 마일리지 현황: mypage_mile
     내 마일리지 신청 현황: mypage_mileStatus
-    QnA: mypage_Qna
+    QnA: mypage_Qna (데이터 불러오기)
   */
 
   return(
@@ -37,7 +37,7 @@ const Mypage_main = () => {
               <FaUserEdit size={60} />
               <Label>내 정보 수정</Label>
             </MenuItem>
-            <MenuItem onClick={() => navi("/mypage_deleteMember")}>
+            <MenuItem onClick={() => navi("/mypage_delMember")}>
               <FaUserTimes size={60} />
               <Label>회원 탈퇴</Label>
             </MenuItem>
@@ -49,7 +49,7 @@ const Mypage_main = () => {
               <FaCoins size={60} />
               <Label>마일리지 현황</Label>
             </MenuItem>
-            <MenuItem onClick={() => navi("/mypage_Qna")}>
+            <MenuItem onClick={() => navi("/mypage_qna")}>
               <FaQuestionCircle size={60} />
               <Label>QnA</Label>
             </MenuItem>
@@ -60,4 +60,4 @@ const Mypage_main = () => {
   );
 };
 
-export default Mypage_main;
+export default MypageMain;
