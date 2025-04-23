@@ -17,7 +17,7 @@ const Header = () => {
         </div>
         <ul className="header-link">
           <li className="link-item">로그인</li>
-          <li className="link-item">회원가입</li>
+          <li className="link-item" onClick={() => navi("/signup")}>회원가입</li>
           <li className="link-item" onClick={() => navi("/mypage_main")} >마이페이지</li>
         </ul>
       </div>

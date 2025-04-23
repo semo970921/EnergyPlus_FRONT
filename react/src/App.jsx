@@ -20,6 +20,7 @@ import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
 import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
 import ChallengeWrite from "./components/Challenge/ChallengeWrite";
+import SignupForm from "./components/Signup/SignupForm";
 
 
 
@@ -57,6 +58,8 @@ function App() {
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
+
+          <Route path="/signup" element={<SignupForm />}/>
         </Routes>
       </div>
       <Footer />
