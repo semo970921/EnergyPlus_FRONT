@@ -13,7 +13,7 @@ export const HeaderRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 export const SearchBox = styled.div`
@@ -171,6 +171,68 @@ export const ContentDate = styled.div`
 `;
 
 export const ContentDetail = styled.div`
-  font size: 20px;
+  font-size: 16px;
   margin-top: 20px;
+`;
+
+// ------------------------------ mypage_qna_form 글 작성/수정 부분
+export const FooterRow = styled.div`
+  text-align: center;
+  display: inline-flex;
+  gap: 10px;
+`;
+// title
+export const UpdateInput = styled.input`
+  width: 100%;
+  padding: 10px;
+  font-size: 17px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+`;
+// content
+export const UpdateTextarea = styled.textarea`
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  font-size: 17px;
+  box-sizing: border-box;
+  resize: none;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+`;
+// 수정하기
+export const UpdateBtn = styled.button`
+  width: 150px;
+  height: 50px;
+  background-color: #408C70;
+  color: white;
+  font-weight: bold;
+  border: 1px solid #408C70;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  margin: auto;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+`;
+
+// ------------------------------ mypage_qna 댓글 부분
+export const ReplyDiv = styled.div`
+  border: 1px solid rgb(114, 200, 168);
+  border-radius: 7px;
+  padding: 20px 35px;
+  margin-top: 20px;
+`;
+export const ReplyTitle = styled.div`
+  font-size: 16px;
+  float: left;
+`;
+export const ReplyDate = styled.div`
+  font-size: 16px;
+  float: right;
+`;
+export const ReplyDetail = styled.div`
+  font-size: 17px;
 `;
