@@ -6,15 +6,23 @@ import Home from "./components/Common/Home/Home";
 import MileageInfo from "./components/Mileage/MileageInfo/MileageInfo";
 import MypageMain from "./components/Mypage/MypageMain";
 import Notices from "./components/Notice/Notices";
-import NoticeForm from "./components/Notice/NoticeForm";
 import NoticeDetail from "./components/Notice/NoticeDetail";
+import NoticeWrite from "./components/Notice/NoticeWrite";
+import ChallengeList from "./components/Challenge/ChallengeList";
 import MarketList from "./components/Market/MarketList";
+import Mypage_info from "./components/Mypage/Mypage_info";
+import MileageForm from "./components/Mileage/MileageForm/MileageForm";
 import MarketDetail from "./components/Market/MarketDetail";
 import MarketForm from "./components/Market/MarketForm";
 import MarketEdit from "./components/Market/MarketEdit";
 import MypageInfo from "./components/Mypage/Member/MypageInfo";
 import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
+import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
+import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
+import ChallengeWrite from "./components/Challenge/\bChallengeWrite";
+
+
 
 function App() {
   return (
@@ -26,14 +34,23 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
-          <Route path="/noticeform" element={<NoticeForm />} />
+          <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
+          <Route path="/noticewrite" element={<NoticeWrite />} />
+          {/* 챌린지 */}
+          <Route path="/challenges" element={<ChallengeList />} />
+          <Route path="/challenges/write" element={<ChallengeWrite />} />
+
+
+          {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
+          <Route path="/mypage_qna_form" element={<MypageQnaForm />} />
+          <Route path="/mypage_qna_detail/:id" element={<MypageQnaDetail />} />
           <Route path="/market_list" element={<MarketList />} />
+          <Route path="/mileage-form" element={<MileageForm />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />

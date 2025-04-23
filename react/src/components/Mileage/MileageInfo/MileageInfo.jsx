@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StyleImg1 from "../../../assets/img/bicycleImg.png";
 import StyleImg2 from "../../../assets/img/containerImg.png";
+import { useNavigate } from "react-router-dom";
 
 const MileageInfo = () => {
+  const navi = useNavigate();
   const [selected, setSelected] = useState("bicycle");
 
   useEffect(() => {
@@ -67,7 +69,9 @@ const MileageInfo = () => {
             <p>다회용기</p>
           </SectionCard>
         </SectionBox>
-        <ApplyFormButton>마일리지 신청하기 ▶</ApplyFormButton>
+        <ApplyFormButton onClick={() => navi("/mileage-form")}>
+          마일리지 신청하기 ▶
+        </ApplyFormButton>
       </InfoTop>
 
       <MapSection>
@@ -83,7 +87,7 @@ const MileageInfoLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 20px;
+  padding: 50px 0;
 `;
 
 const InfoTop = styled.div`
@@ -162,6 +166,6 @@ const MapSection = styled.div`
 `;
 
 const Map = styled.div`
-  width: 1000px;
-  height: 800px;
+  width: 950px;
+  height: 700px;
 `;
