@@ -10,7 +10,7 @@ import NoticeDetail from "./components/Notice/NoticeDetail";
 import NoticeWrite from "./components/Notice/NoticeWrite";
 import ChallengeList from "./components/Challenge/ChallengeList";
 import MarketList from "./components/Market/MarketList";
-import Mypage_info from "./components/Mypage/Mypage_info";
+
 import MileageForm from "./components/Mileage/MileageForm/MileageForm";
 import MarketDetail from "./components/Market/MarketDetail";
 import MarketForm from "./components/Market/MarketForm";
@@ -20,7 +20,7 @@ import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
 import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
-import ChallengeWrite from "./components/Challenge/\bChallengeWrite";
+import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 
 
 
