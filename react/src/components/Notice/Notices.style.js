@@ -1,109 +1,144 @@
-// Notice.style.js
 import styled from "styled-components";
 
-export const Container = styled.div`
-  padding: 30px 80px;
+// 전체 래퍼
+export const Wrapper = styled.div`
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
 `;
 
+// 헤더(제목 + 버튼 등)
+export const HeaderRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+
+// 페이지/섹션 제목
+export const Title = styled.h2`
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+`;
+
+// 탭 메뉴
 export const TabMenu = styled.div`
   display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 16px;
 `;
 
 export const Tab = styled.button`
-  background-color: ${(props) => (props.active ? "#4CAF75" : "#ddd")};
-  color: white;
-  padding: 10px 20px;
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: ${({ active }) => (active ? "#333" : "#777")};
+  border-bottom: ${({ active }) => (active ? "2px solid #85C662" : "2px solid transparent")};
+`;
+
+// 글쓰기 버튼
+export const WriteButton = styled.button`
+  padding: 8px 16px;
+  background-color: #85C662;
+  color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 `;
 
+// 리스트 박스
 export const NoticeBox = styled.div`
-  border: 1px solid #4CAF75;
-  border-radius: 8px;
+  border: 1px solid #eee;
+  border-radius: 4px;
   overflow: hidden;
 `;
 
+// 리스트 헤더
 export const NoticeHeader = styled.div`
-  background-color: #4CAF75;
-  color: white;
-  padding: 14px;
-  font-weight: bold;
+  background-color: #f5f5f5;
+  padding: 12px 16px;
+  font-weight: 500;
+  cursor: pointer;
 `;
 
+// 리스트 항목 컨테이너
 export const NoticeList = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
+// 리스트 아이템
 export const NoticeItem = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 14px 20px;
+  padding: 12px 16px;
   border-top: 1px solid #eee;
   cursor: pointer;
 
-  transition: background-color 0.2s;
+  &:hover {
+    background-color: #fafafa;
+  }
 
-  &:active {
-    background-color: #f2f2f2;
+  span {
+    &:first-child {
+      flex: 1;
+      font-size: 1rem;
+      color: #333;
+    }
+    &:last-child {
+      font-size: 0.875rem;
+      color: #999;
+    }
   }
 `;
 
+// 페이지네이션
 export const Pagination = styled.div`
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin: 30px 0 20px;
+  align-items: center;
+  margin: 24px 0;
+  gap: 8px;
 `;
 
 export const PageBtn = styled.button`
-  background-color: #4CAF75;
-  color: white;
-  border: none;
-  padding: 6px 14px;
-  border-radius: 50%;
-  cursor: pointer;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background-color: ${({ disabled, $active }) =>
+    disabled ? "#f0f0f0" : $active ? "#85C662" : "#fff"};
+  color: ${({ disabled, $active }) =>
+    disabled ? "#bbb" : $active ? "#fff" : "#333"};
+  border-radius: 4px;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
+// 검색박스 (input + 버튼)
 export const SearchBox = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 8px;
+  margin-top: 16px;
 `;
 
 export const SearchInput = styled.input`
-  width: 250px;
+  flex: 1;
   padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 `;
 
 export const SearchButton = styled.button`
-  background-color: #4CAF75;
-  color: white;
-  padding: 8px 20px;
-  border: none;
-  cursor: pointer;
-`;
-
-export const TabHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-export const WriteButton = styled.button`
   padding: 8px 16px;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
   background-color: #85C662;
   color: #fff;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: opacity 0.2s;
-  &:hover {
-    opacity: 0.9;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
   }
 `;

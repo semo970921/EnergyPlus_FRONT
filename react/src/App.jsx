@@ -7,17 +7,19 @@ import MileageInfo from "./components/Mileage/MileageInfo/MileageInfo";
 import MypageMain from "./components/Mypage/MypageMain";
 import Notices from "./components/Notice/Notices";
 import NoticeDetail from "./components/Notice/NoticeDetail";
+import NoticeWrite from "./components/Notice/NoticeWrite";
+import ChallengeList from "./components/Challenge/ChallengeList";
 import MarketList from "./components/Market/MarketList";
-import Mypage_info from "./components/Mypage/Mypage_info";
 import MarketDetail from "./components/Market/MarketDetail";
 import MarketForm from "./components/Market/MarketForm";
 import MarketEdit from "./components/Market/MarketEdit";
 import MypageInfo from "./components/Mypage/Member/MypageInfo";
 import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
-import NoticeWrite from "./components/Notice/NoticeWrite";
 import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
+import ChallengeWrite from "./components/Challenge/\bChallengeWrite";
+
 
 
 function App() {
@@ -32,8 +34,12 @@ function App() {
           <Route path="/notices" element={<Notices />} />
           <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
           <Route path="/noticewrite" element={<NoticeWrite />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
-          <Route path="/noticeform" element={<NoticeForm />} />
+          {/* 챌린지 */}
+          <Route path="/challenges" element={<ChallengeList />} />
+          <Route path="/challenges/write" element={<ChallengeWrite />} />
+
+
+          {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
