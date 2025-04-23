@@ -41,7 +41,7 @@ const MypageQna = () => {
       },
     })
       .then((response) => {
-        console.log(response);
+        //console.log(response);
         setBoards(response.data.list);
         setTotalCount(response.data.totalCount); // 페이지네이션 유지
       })
@@ -108,7 +108,7 @@ const MypageQna = () => {
           {/* 답변 현황 */}
             {boards.map((qna)=>(
               <tr key={qna.qnaId}
-                  onClick={() => navi(`/mypage_qna_detail/${qna.qnaId}`)} 
+                  onClick={() => navi(`/mypage_qna/${qna.qnaId}`)} 
                   style={{ cursor: "pointer"}}>
                 <td>{qna.qnaId}</td>
                 <td>{qna.qnaTitle}</td>

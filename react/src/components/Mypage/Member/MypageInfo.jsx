@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Title, InfoContainer, LeftDiv, Label, Input, 
           RightDiv, RightInput, BtnDiv, UpdateBtn, BackBtn } from "./Member.style";
 
-const mypageInfo = () => {
+const MypageInfo = () => {
 
   const navi = useNavigate();
 
@@ -39,6 +39,6 @@ const mypageInfo = () => {
 
 };
 
-export default mypageInfo;
+export default MypageInfo;
 
 

@@ -9,7 +9,6 @@ import Notices from "./components/Notice/Notices";
 import NoticeForm from "./components/Notice/NoticeForm";
 import NoticeDetail from "./components/Notice/NoticeDetail";
 import MarketList from "./components/Market/MarketList";
-import Mypage_info from "./components/Mypage/Mypage_info";
 import MarketDetail from "./components/Market/MarketDetail";
 import MarketForm from "./components/Market/MarketForm";
 import MarketEdit from "./components/Market/MarketEdit";
@@ -32,12 +31,16 @@ function App() {
           <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticeform" element={<NoticeForm />} />
           <Route path="/mileageinfo" element={<MileageInfo />} />
+
+          {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
-          <Route path="/mypage_qna_form" element={<MypageQnaForm />} />
-          <Route path="/mypage_qna_detail/:id" element={<MypageQnaDetail />} />
+          <Route path="/mypage_qna_form" element={<MypageQnaForm />} /> {/* 새글 작성 */}
+          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} /> {/* 글 수정 */}
+          <Route path="/mypage_qna/:id" element={<MypageQnaDetail />} />
+
           <Route path="/market_list" element={<MarketList />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
