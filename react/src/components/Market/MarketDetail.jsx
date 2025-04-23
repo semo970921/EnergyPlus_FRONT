@@ -10,7 +10,9 @@ const MarketDetail = () => {
   const navi = useNavigate();
   const { marketNo } = useParams();
   const [market, setMarket] = useState(null);
-  const [showReplyForm, setShowReplyForm] = useState(false); // 💡 최상단에서 선언해야 함!
+  const [showReplyForm, setShowReplyForm] = useState(false);
+  const [commentContent, setCommentContent] = useState("");
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     axios
@@ -18,6 +20,39 @@ const MarketDetail = () => {
       .then((res) => setMarket(res.data))
       .catch((err) => console.error(err));
   }, [marketNo]);
+
+  const fetchComments = () => {
+    axios
+      .get(`http://localhost:80/markets/comments/${marketNo}`)
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, [marketNo]);
+
+  const handleCommentSubmit = (e) => {
+    axios
+      .post("http://localhost:80/markets/comments", {
+        marketNo: marketNo,
+        userId: 1,
+        marketCommentContent: commentContent,
+      })
+      .then(() => {
+        alert("댓글 등록 성공!");
+        setCommentContent(""); // 입력창 초기화
+        fetchComments();
+      })
+      .catch((err) => {
+        console.err(err);
+        alert("댓글 등록 실패");
+      });
+  };
 
   if (!market) return <p>로딩중...</p>;
 
@@ -32,7 +67,7 @@ const MarketDetail = () => {
                 <img
                   src={
                     market.imageList?.[0]
-                      ? `http://localhost${market.imageList[0].imgUrl}`
+                      ? `http://localhost:80${market.imageList[0].imgUrl}`
                       : defaultImg
                   }
                   alt="썸네일"
@@ -65,30 +100,17 @@ const MarketDetail = () => {
               </div>
             </div>
             <div className="market-detail-content-img">
-              <img
-                src={
-                  market.imageList?.[0]
-                    ? `http://localhost${market.imageList[0].imgUrl}`
-                    : defaultImg
-                }
-                alt=""
-              />
-              <img
-                src={
-                  market.imageList?.[0]
-                    ? `http://localhost${market.imageList[1].imgUrl}`
-                    : defaultImg
-                }
-                alt=""
-              />
-              <img
-                src={
-                  market.imageList?.[0]
-                    ? `http://localhost${market.imageList[2].imgUrl}`
-                    : defaultImg
-                }
-                alt=""
-              />
+              {[0, 1, 2].map((i) => (
+                <img
+                  key={i}
+                  src={
+                    market.imageList?.[i]
+                      ? `http://localhost:80${market.imageList[i].imgUrl}`
+                      : defaultImg
+                  }
+                  alt={`상세 이미지 ${i}`}
+                />
+              ))}
             </div>
           </div>
         )}
@@ -111,7 +133,7 @@ const MarketDetail = () => {
         <div className="comment-section">
           <h3>댓글</h3>
 
-          <form className="comment-form">
+          <form className="comment-form" onSubmit={handleCommentSubmit}>
             <label>
               <input type="checkbox" className="secret-checkbox" />
               비밀댓글
@@ -120,6 +142,8 @@ const MarketDetail = () => {
               <textarea
                 placeholder="댓글을 입력하세요"
                 className="comment-input"
+                value={commentContent}
+                onChange={(e) => setCommentContent(e.target.value)}
               ></textarea>
               <button type="submit" className="btn market-btn submit-btn">
                 등록
@@ -128,6 +152,71 @@ const MarketDetail = () => {
           </form>
 
           <ul className="comment-list">
+            {comments.map((c) => (
+              <li key={c.marketCommentNo} className="comment-item">
+                <div className="comment-meta">
+                  <div className="comment-meta-left">
+                    <span className="comment-writer">{c.userName}</span>
+                    <em className="line">|</em>
+                    <span className="comment-date">
+                      {new Date(c.marketCommentDate).toLocaleDateString(
+                        "ko-KR"
+                      )}
+                    </span>
+                  </div>
+
+                  <button className="btn btn-danger btn-no-line">신고</button>
+                </div>
+                <div className="comment-content-wrap">
+                  <p className="comment-content">{c.marketCommentContent}</p>
+                  <div className="btn-wrap">
+                    <button className="btn-sm">수정</button>
+                    <button className="btn-sm">삭제</button>
+                    <button
+                      className="btn-sm"
+                      onClick={() => setShowReplyForm(!showReplyForm)}
+                    >
+                      답댓글
+                    </button>
+                  </div>
+                  {showReplyForm && (
+                    <form className="reply-form">
+                      <MdOutlineSubdirectoryArrowRight />
+                      <div className="reply-form-right">
+                        <textarea
+                          placeholder="답글을 입력하세요"
+                          className="reply-input"
+                        ></textarea>
+                        <button type="submit" className="btn market-btn">
+                          답글 등록
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              </li>
+            ))}
+            {/* reply-list
+             <ul className="reply-list">
+              <li className="reply-item">
+                <div className="reply-item-left"></div>
+                <div className="reply-item-right">
+                  <div className="reply-meta">
+                    <div className="reply-meta-left">
+                      <span className="reply-writer">김진솔</span>
+                      <em className="line">|</em>
+                      <span className="reply-date">2025-04-18</span>
+                    </div>
+
+                    <button className="btn btn-danger btn-no-line">신고</button>
+                  </div>
+                  <div className="reply-content-wrap">
+                    <p className="reply-content">네 어디서 하실까요?</p>
+                  </div>
+                </div>
+              </li>
+            </ul> 
+             reply-list */}
             <li className="comment-item">
               <div className="comment-meta">
                 <div className="comment-meta-left">

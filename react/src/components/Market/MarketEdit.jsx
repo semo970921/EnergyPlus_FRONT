@@ -43,20 +43,38 @@ const MarketEdit = () => {
     newImages[index] = e.target.files[0];
     setImages(newImages);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const sendData = new FormData();
-    const market = new Blob([JSON.stringify({ ...formData, marketNo })], {
-      type: "application/json",
-    });
+
+    // 유지할 기존 이미지 URL 목록 추출
+    const keepImageUrls = existingImages
+      .filter((_, idx) => !deletedImages[idx])
+      .map((img) => img.imgUrl);
+
+    const market = new Blob(
+      [JSON.stringify({ ...formData, marketNo, keepImageUrls })],
+      { type: "application/json" }
+    );
+
     sendData.append("market", market);
-    images.forEach((img) => sendData.append("images", img));
+
+    // 새로 선택한 이미지 추가
+    images.forEach((img) => {
+      if (img) sendData.append("images", img);
+    });
+
+    // 확인용 콘솔 로그
+    for (let [key, value] of sendData.entries()) {
+      console.log(key, value);
+    }
 
     axios
       .put("http://localhost:80/markets/update", sendData, {
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then(() => {
         alert("수정 성공!");
@@ -67,7 +85,6 @@ const MarketEdit = () => {
         alert("수정 실패");
       });
   };
-
   return (
     <div className="market-container">
       <h1 className="page-title">게시글 수정</h1>
