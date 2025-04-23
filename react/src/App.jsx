@@ -9,7 +9,6 @@ import Notices from "./components/Notice/Notices";
 import NoticeForm from "./components/Notice/NoticeForm";
 import NoticeDetail from "./components/Notice/NoticeDetail";
 import MarketList from "./components/Market/MarketList";
-import Mypage_info from "./components/Mypage/Mypage_info";
 import MarketDetail from "./components/Market/MarketDetail";
 import MarketForm from "./components/Market/MarketForm";
 import MarketEdit from "./components/Market/MarketEdit";

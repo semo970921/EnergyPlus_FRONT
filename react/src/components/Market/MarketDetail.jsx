@@ -21,28 +21,35 @@ const MarketDetail = () => {
       .catch((err) => console.error(err));
   }, [marketNo]);
 
-  const handleCommentSubmit = (e) => {
-    e.preventDefault();
-
+  const fetchComments = () => {
     axios
-      .post("http://localhost:80/markets/comments", {
-        marketNo: marketNo,
-        userId: 1,
-        commentContent: commentContent,
-      })
-      .then(() => {
-        alert("댓글 등록 성공!");
-        setCommentContent(""); // 입력창 초기화
-        // 댓글 다시 불러오기
-        return axios.get(
-          `http://localhost:80/markets/comments/list/${marketNo}`
-        );
-      })
+      .get(`http://localhost:80/markets/comments/${marketNo}`)
       .then((res) => {
         setComments(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, [marketNo]);
+
+  const handleCommentSubmit = (e) => {
+    axios
+      .post("http://localhost:80/markets/comments", {
+        marketNo: marketNo,
+        userId: 1,
+        marketCommentContent: commentContent,
+      })
+      .then(() => {
+        alert("댓글 등록 성공!");
+        setCommentContent(""); // 입력창 초기화
+        fetchComments();
+      })
+      .catch((err) => {
+        console.err(err);
         alert("댓글 등록 실패");
       });
   };
@@ -146,20 +153,22 @@ const MarketDetail = () => {
 
           <ul className="comment-list">
             {comments.map((c) => (
-              <li key={c.commentNo} className="comment-item">
+              <li key={c.marketCommentNo} className="comment-item">
                 <div className="comment-meta">
                   <div className="comment-meta-left">
                     <span className="comment-writer">{c.userName}</span>
                     <em className="line">|</em>
                     <span className="comment-date">
-                      {new Date(c.commentDate).toLocaleDateString("ko-KR")}
+                      {new Date(c.marketCommentDate).toLocaleDateString(
+                        "ko-KR"
+                      )}
                     </span>
                   </div>
 
                   <button className="btn btn-danger btn-no-line">신고</button>
                 </div>
                 <div className="comment-content-wrap">
-                  <p className="comment-content">{c.commentContent}</p>
+                  <p className="comment-content">{c.marketCommentContent}</p>
                   <div className="btn-wrap">
                     <button className="btn-sm">수정</button>
                     <button className="btn-sm">삭제</button>
