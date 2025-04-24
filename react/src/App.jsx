@@ -8,7 +8,6 @@ import MypageMain from "./components/Mypage/MypageMain";
 import Notices from "./components/Notice/Notices";
 import NoticeDetail from "./components/Notice/NoticeDetail";
 import NoticeWrite from "./components/Notice/NoticeWrite";
-import ChallengeList from "./components/Challenge/ChallengeList";
 import MarketList from "./components/Market/MarketList";
 import MarketDetail from "./components/Market/MarketDetail";
 import MarketForm from "./components/Market/MarketForm";
@@ -18,7 +17,9 @@ import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
 import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
+import ChallengeList from "./components/Challenge/ChallengeList";
 import ChallengeWrite from "./components/Challenge/\bChallengeWrite";
+import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 
 
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/noticewrite" element={<NoticeWrite />} />
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
+          <Route path="/challenges/:challengeSeq" element={<ChallengeDetail/>} />
           <Route path="/challenges/write" element={<ChallengeWrite />} />
 
 

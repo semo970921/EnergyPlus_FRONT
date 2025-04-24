@@ -18,7 +18,6 @@ const ChallengeWrite = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: form 데이터 서버로 전송
     console.log({ title, content, description, file });
   };
 

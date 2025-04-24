@@ -20,12 +20,11 @@ const NoticeWrite = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      // 백엔드 공지 등록 API 엔드포인트에 맞춰서 URL 변경
       await axios.post('http://localhost/notices', form);
-      navigate('/notices');       // 등록 후 목록으로 이동
+      navigate('/notices'); 
     } catch (err) {
-      console.error('📌 에러 상태:', err.response?.status);
-      console.error('📌 에러 응답 바디:', err.response?.data);
+      console.error('에러 상태:', err.response?.status);
+      console.error('에러 응답 바디:', err.response?.data);
       console.error(err);
       alert('공지사항 등록에 실패했습니다.');
     }
