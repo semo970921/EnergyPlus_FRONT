@@ -236,3 +236,27 @@ export const ReplyDate = styled.div`
 export const ReplyDetail = styled.div`
   font-size: 17px;
 `;
+export const Replybutton = styled.div`
+  font-size: 16px;
+  float: right;
+`;
+// 댓글 삭제
+export const DeleteReply = styled.button`
+  background-color: #CD4749;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 5px;
+`;
+
+// 댓글 등록칸
+export const ReplyTextarea = styled.textarea`
+  width: 90%;
+  height: auto;
+  font-size: 17px;
+  resize: none;
+  border-radius: 5px;
+  border: 1px solid #bbb;
+`;

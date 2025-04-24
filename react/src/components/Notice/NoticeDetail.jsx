@@ -14,7 +14,7 @@ import {
   ContentDate,
   ContentDetail,
   BackBtn
-} from "../Mypage/Qna/MypageQna.style";
+} from "../TableStyle/Table.style";
 
 const NoticeDetail = () => {
   const { noticeId } = useParams();
