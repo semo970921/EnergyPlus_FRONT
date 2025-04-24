@@ -4,6 +4,8 @@ import axios from "axios";
 import "./css/market.css";
 
 const MarketForm = () => {
+  const token =
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreXNtYW4yNTgwQG5hdmVyLmNvbSIsImlhdCI6MTc0NTM5NzgxNCwiZXhwIjoxNzQ1Mzk5NjE0fQ.udM7IZowUMoPf9nVqSueHpdubFkQ34Abpl0g8UHxzmK3gHl0MCr_pr2jgkBWJ3XElDLg1ou2rOg7txtLpM2NNQ";
   const navigate = useNavigate();
   const { marketNo } = useParams();
   const isEdit = !!marketNo;
@@ -17,32 +19,41 @@ const MarketForm = () => {
   const [existingImages, setExistingImages] = useState([]); // 기존 이미지
   const [deletedImages, setDeletedImages] = useState([false, false, false]);
 
+  // Edit 시 기존 데이터 불러오기
   useEffect(() => {
     if (isEdit) {
-      axios.get(`http://localhost:80/markets/${marketNo}`).then((res) => {
-        const { marketTitle, marketContent, marketPrice, imageList } = res.data;
-        setFormData({ marketTitle, marketContent, marketPrice });
-        setExistingImages(imageList);
-      });
+      axios
+        .get(`http://localhost:80/markets/${marketNo}`)
+        .then((res) => {
+          const { marketTitle, marketContent, marketPrice, imageList } =
+            res.data;
+          setFormData({ marketTitle, marketContent, marketPrice });
+          setExistingImages(imageList);
+        })
+        .catch((err) => console.error(err));
     }
   }, [isEdit, marketNo]);
 
+  // 입력값 변경
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // 이미지 변경
   const handleImageChange = (e, index) => {
     const newImages = [...images];
     newImages[index] = e.target.files[0];
     setImages(newImages);
   };
 
+  // 기존 이미지 삭제 처리
   const handleDeleteImage = (index) => {
     const newDeleted = [...deletedImages];
     newDeleted[index] = true;
     setDeletedImages(newDeleted);
   };
 
+  // 등록 or 수정
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -52,17 +63,13 @@ const MarketForm = () => {
     }
 
     const form = new FormData();
-    const market = new Blob(
-      [
-        JSON.stringify({
-          ...formData,
-          marketNo: isEdit ? marketNo : undefined,
-        }),
-      ],
-      { type: "application/json" }
-    );
+    form.append("marketTitle", formData.marketTitle);
+    form.append("marketContent", formData.marketContent);
+    form.append("marketPrice", formData.marketPrice);
 
-    form.append("market", market);
+    if (isEdit) {
+      form.append("marketNo", marketNo);
+    }
 
     images.forEach((img) => {
       if (img) form.append("images", img);
@@ -73,7 +80,10 @@ const MarketForm = () => {
       : "http://localhost:80/markets/write";
 
     axios[isEdit ? "put" : "post"](url, form, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         alert(isEdit ? "수정 성공!" : "등록 성공!");

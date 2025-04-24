@@ -1,5 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 import Footer from "./components/Common/Footer/Footer";
 import Header from "./components/Common/Header/Header";
 import Home from "./components/Common/Home/Home";
@@ -21,9 +23,13 @@ import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
 import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 
-
-
 function App() {
+  useEffect(() => {
+    const token =
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreXNtYW4yNTgwQG5hdmVyLmNvbSIsImlhdCI6MTc0NTM5MjI5MywiZXhwIjoxNzQ1Mzk0MDkzfQ.TrUJSH4kPopKEnT8PZJ87EWIMhfXzO5VxUzxWEo1B8-TpNVBWyMAlcN5nuJsWegZScipEi8pfRThbvGJUn7ncA";
+    localStorage.setItem("accessToken", token);
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }, []);
   return (
     <>
       <Header />
@@ -33,25 +39,23 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
+          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticewrite" element={<NoticeWrite />} />
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
           <Route path="/challenges/write" element={<ChallengeWrite />} />
-
-
           {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
-
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
-          <Route path="/mypage_qna_form" element={<MypageQnaForm />} /> {/* 새글 작성 */}
-          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} /> {/* 글 수정 */}
+          <Route path="/mypage_qna_form" element={<MypageQnaForm />} />{" "}
+          {/* 새글 작성 */}
+          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} />{" "}
+          {/* 글 수정 */}
           <Route path="/mypage_qna/:id" element={<MypageQnaDetail />} />
-
           <Route path="/market_list" element={<MarketList />} />
           <Route path="/mileage-form" element={<MileageForm />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
