@@ -1,7 +1,5 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
-import { useEffect } from "react";
-import axios from "axios";
 import Footer from "./components/Common/Footer/Footer";
 import Header from "./components/Common/Header/Header";
 import Home from "./components/Common/Home/Home";
@@ -24,12 +22,6 @@ import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
 import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 
 function App() {
-  useEffect(() => {
-    const token =
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreXNtYW4yNTgwQG5hdmVyLmNvbSIsImlhdCI6MTc0NTM5MjI5MywiZXhwIjoxNzQ1Mzk0MDkzfQ.TrUJSH4kPopKEnT8PZJ87EWIMhfXzO5VxUzxWEo1B8-TpNVBWyMAlcN5nuJsWegZScipEi8pfRThbvGJUn7ncA";
-    localStorage.setItem("accessToken", token);
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  }, []);
   return (
     <>
       <Header />

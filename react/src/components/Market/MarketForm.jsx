@@ -4,11 +4,11 @@ import axios from "axios";
 import "./css/market.css";
 
 const MarketForm = () => {
-  const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreXNtYW4yNTgwQG5hdmVyLmNvbSIsImlhdCI6MTc0NTM5NzgxNCwiZXhwIjoxNzQ1Mzk5NjE0fQ.udM7IZowUMoPf9nVqSueHpdubFkQ34Abpl0g8UHxzmK3gHl0MCr_pr2jgkBWJ3XElDLg1ou2rOg7txtLpM2NNQ";
   const navigate = useNavigate();
   const { marketNo } = useParams();
   const isEdit = !!marketNo;
+  const token =
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU0ODIyNzMsImV4cCI6MTc0NTQ4NDA3M30.HfF8xzo9wMN7H4coV7NMkLFJ5ceYVXKFS3ChbZkU5BSKoAGxd-LkSxMzOWQpLxeR2nuYAEo7g1GUaDYM7a3Byw";
 
   const [formData, setFormData] = useState({
     marketTitle: "",
@@ -53,7 +53,45 @@ const MarketForm = () => {
     setDeletedImages(newDeleted);
   };
 
-  // 등록 or 수정
+  // 등록
+
+  const submitMarket = (form, url) => {
+    axios
+      .post(url, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        alert("등록 성공!");
+        navigate(`/markets/${res.data.marketNo}`);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("등록 실패");
+      });
+  };
+
+  // 수정
+  const updateMarket = (form, url) => {
+    axios
+      .put(url, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        alert("수정 성공!");
+        navigate(`/markets/${marketNo}`);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("수정 실패");
+      });
+  };
+
+  // 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -67,33 +105,22 @@ const MarketForm = () => {
     form.append("marketContent", formData.marketContent);
     form.append("marketPrice", formData.marketPrice);
 
-    if (isEdit) {
-      form.append("marketNo", marketNo);
-    }
-
     images.forEach((img) => {
       if (img) form.append("images", img);
     });
+    if (isEdit) {
+      form.append("marketNo", marketNo);
+    }
 
     const url = isEdit
       ? "http://localhost:80/markets/update"
       : "http://localhost:80/markets/write";
 
-    axios[isEdit ? "put" : "post"](url, form, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => {
-        alert(isEdit ? "수정 성공!" : "등록 성공!");
-        const newMarketNo = isEdit ? marketNo : res.data.marketNo;
-        navigate(`/markets/${newMarketNo}`);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("처리 실패");
-      });
+    if (isEdit) {
+      updateMarket(form, url);
+    } else {
+      submitMarket(form, url);
+    }
   };
 
   return (
