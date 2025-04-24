@@ -18,7 +18,7 @@ import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
 import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
 import ChallengeList from "./components/Challenge/ChallengeList";
-import ChallengeWrite from "./components/Challenge/\bChallengeWrite";
+import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 
 
