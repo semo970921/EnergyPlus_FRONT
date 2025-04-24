@@ -13,7 +13,7 @@ import {
   Pagination,
   PageBtn,
   BackBtn
-} from "../Mypage/Qna/MypageQna.style";
+} from "../TableStyle/Table.style";
 
 
 const Notices = () => {

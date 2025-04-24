@@ -284,8 +284,6 @@ form.comment-form {
   font-size: 15px;
   color: #333;
   padding-bottom: 16px;
-  border-bottom: 1px solid #e1e1e1;
-  margin-bottom: 40px;
 }
 .comment-content-wrap button.btn-sm {
   border: 1px solid #888;

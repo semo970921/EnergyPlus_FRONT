@@ -9,6 +9,7 @@ import Notices from "./components/Notice/Notices";
 import NoticeDetail from "./components/Notice/NoticeDetail";
 import NoticeWrite from "./components/Notice/NoticeWrite";
 import MarketList from "./components/Market/MarketList";
+import MileageForm from "./components/Mileage/MileageForm/MileageForm";
 import MarketDetail from "./components/Market/MarketDetail";
 import MarketForm from "./components/Market/MarketForm";
 import MarketEdit from "./components/Market/MarketEdit";
@@ -20,6 +21,7 @@ import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
 import ChallengeList from "./components/Challenge/ChallengeList";
 import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
+import SignupForm from "./components/Signup/SignupForm";
 
 
 
@@ -43,16 +45,23 @@ function App() {
 
           {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
+
+          {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
-          <Route path="/mypage_qna_form" element={<MypageQnaForm />} />
-          <Route path="/mypage_qna_detail/:id" element={<MypageQnaDetail />} />
+          <Route path="/mypage_qna_form" element={<MypageQnaForm />} /> {/* 새글 작성 */}
+          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} /> {/* 글 수정 */}
+          <Route path="/mypage_qna/:id" element={<MypageQnaDetail />} />
+
           <Route path="/market_list" element={<MarketList />} />
+          <Route path="/mileage-form" element={<MileageForm />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
+
+          <Route path="/signup" element={<SignupForm />}/>
         </Routes>
       </div>
       <Footer />

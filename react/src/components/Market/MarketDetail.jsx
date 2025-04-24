@@ -13,6 +13,8 @@ const MarketDetail = () => {
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [commentContent, setCommentContent] = useState("");
   const [comments, setComments] = useState([]);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editingContent, setEditingContent] = useState("");
 
   useEffect(() => {
     axios
@@ -21,29 +23,88 @@ const MarketDetail = () => {
       .catch((err) => console.error(err));
   }, [marketNo]);
 
-  const handleCommentSubmit = (e) => {
-    e.preventDefault();
+  const handleDeleteMarket = () => {
+    if (window.confirm("정말 이 게시글을 삭제하시겠습니까?")) {
+      axios
+        .delete(`http://localhost:80/markets/delete/${marketNo}`)
+        .then(() => {
+          alert("삭제 성공!");
+          navi("/market_list"); // 목록으로 이동
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("삭제 실패!");
+        });
+    }
+  };
 
+  const fetchComments = () => {
     axios
-      .post("http://localhost:80/markets/comments", {
-        marketNo: marketNo,
-        userId: 1,
-        commentContent: commentContent,
-      })
-      .then(() => {
-        alert("댓글 등록 성공!");
-        setCommentContent(""); // 입력창 초기화
-        // 댓글 다시 불러오기
-        return axios.get(
-          `http://localhost:80/markets/comments/list/${marketNo}`
-        );
-      })
+      .get(`http://localhost:80/markets/comments/${marketNo}`)
       .then((res) => {
         setComments(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchComments();
+  }, [marketNo]);
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:80/markets/comments", {
+        marketNo: marketNo,
+        userId: 1,
+        marketCommentContent: commentContent,
+      })
+      .then(() => {
+        alert("댓글 등록 성공!");
+        setCommentContent(""); // 입력창 초기화
+        fetchComments();
+      })
+      .catch((err) => {
+        console.error(err);
         alert("댓글 등록 실패");
+      });
+  };
+
+  const handleEditClick = (comment) => {
+    setEditingCommentId(comment.marketCommentNo);
+    setEditingContent(comment.marketCommentContent);
+  };
+
+  const handleUpdate = (commentId, e) => {
+    if (e) e.preventDefault();
+    axios
+      .put("http://localhost:80/markets/comments", {
+        marketCommentNo: commentId,
+        marketCommentContent: editingContent,
+      })
+      .then(() => {
+        alert("수정 완료!");
+        setEditingCommentId(null);
+        fetchComments();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("수정 실패!");
+      });
+  };
+
+  const handleDelete = (commentId) => {
+    axios
+      .get(`http://localhost:80/markets/comments/delete/${commentId}?userId=1`)
+      .then(() => {
+        alert("댓글 삭제 완료!");
+        fetchComments();
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("댓글 삭제 실패!");
       });
   };
 
@@ -122,6 +183,9 @@ const MarketDetail = () => {
           >
             수정
           </button>
+          <button className="btn market-btn" onClick={handleDeleteMarket}>
+            삭제
+          </button>
         </div>
         <div className="comment-section">
           <h3>댓글</h3>
@@ -146,30 +210,72 @@ const MarketDetail = () => {
 
           <ul className="comment-list">
             {comments.map((c) => (
-              <li key={c.commentNo} className="comment-item">
+              <li key={c.marketCommentNo} className="comment-item">
                 <div className="comment-meta">
                   <div className="comment-meta-left">
                     <span className="comment-writer">{c.userName}</span>
                     <em className="line">|</em>
                     <span className="comment-date">
-                      {new Date(c.commentDate).toLocaleDateString("ko-KR")}
+                      {new Date(c.marketCommentDate).toLocaleDateString(
+                        "ko-KR"
+                      )}
                     </span>
                   </div>
 
                   <button className="btn btn-danger btn-no-line">신고</button>
                 </div>
+
                 <div className="comment-content-wrap">
-                  <p className="comment-content">{c.commentContent}</p>
-                  <div className="btn-wrap">
-                    <button className="btn-sm">수정</button>
-                    <button className="btn-sm">삭제</button>
-                    <button
-                      className="btn-sm"
-                      onClick={() => setShowReplyForm(!showReplyForm)}
-                    >
-                      답댓글
-                    </button>
-                  </div>
+                  {editingCommentId === c.marketCommentNo ? (
+                    <div className="edit-form">
+                      <textarea
+                        className="comment-input"
+                        value={editingContent}
+                        onChange={(e) => setEditingContent(e.target.value)}
+                      />
+                      <div className="btn-wrap">
+                        <button
+                          className="btn-sm"
+                          onClick={(e) => handleUpdate(c.marketCommentNo, e)}
+                        >
+                          저장
+                        </button>
+                        <button
+                          className="btn-sm"
+                          onClick={() => setEditingCommentId(null)}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="comment-content">
+                        {c.marketCommentContent}
+                      </p>
+                      <div className="btn-wrap">
+                        <button
+                          className="btn-sm"
+                          onClick={() => handleEditClick(c)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="btn-sm"
+                          onClick={() => handleDelete(c.marketCommentNo)}
+                        >
+                          삭제
+                        </button>
+                        <button
+                          className="btn-sm"
+                          onClick={() => setShowReplyForm(!showReplyForm)}
+                        >
+                          답댓글
+                        </button>
+                      </div>
+                    </>
+                  )}
+
                   {showReplyForm && (
                     <form className="reply-form">
                       <MdOutlineSubdirectoryArrowRight />
@@ -187,7 +293,11 @@ const MarketDetail = () => {
                 </div>
               </li>
             ))}
-            {/* reply-list
+          </ul>
+        </div>
+      </div>
+
+      {/* reply-list
              <ul className="reply-list">
               <li className="reply-item">
                 <div className="reply-item-left"></div>
@@ -208,68 +318,6 @@ const MarketDetail = () => {
               </li>
             </ul> 
              reply-list */}
-            <li className="comment-item">
-              <div className="comment-meta">
-                <div className="comment-meta-left">
-                  <span className="comment-writer">김진솔</span>
-                  <em className="line">|</em>
-                  <span className="comment-date">2025-04-18</span>
-                </div>
-
-                <button className="btn btn-danger btn-no-line">신고</button>
-              </div>
-              <div className="comment-content-wrap">
-                <p className="comment-content">구매 원해요! 쪽지 드릴게요.</p>
-                <div className="btn-wrap">
-                  <button className="btn-sm">수정</button>
-                  <button className="btn-sm">삭제</button>
-                  <button
-                    className="btn-sm"
-                    onClick={() => setShowReplyForm(!showReplyForm)}
-                  >
-                    답댓글
-                  </button>
-                </div>
-                {showReplyForm && (
-                  <form className="reply-form">
-                    <MdOutlineSubdirectoryArrowRight />
-                    <div className="reply-form-right">
-                      <textarea
-                        placeholder="답글을 입력하세요"
-                        className="reply-input"
-                      ></textarea>
-                      <button type="submit" className="btn market-btn">
-                        답글 등록
-                      </button>
-                    </div>
-                  </form>
-                )}
-                <ul className="reply-list">
-                  <li className="reply-item">
-                    <div className="reply-item-left"></div>
-                    <div className="reply-item-right">
-                      <div className="reply-meta">
-                        <div className="reply-meta-left">
-                          <span className="reply-writer">김진솔</span>
-                          <em className="line">|</em>
-                          <span className="reply-date">2025-04-18</span>
-                        </div>
-
-                        <button className="btn btn-danger btn-no-line">
-                          신고
-                        </button>
-                      </div>
-                      <div className="reply-content-wrap">
-                        <p className="reply-content">네 어디서 하실까요?</p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
     </>
   );
 };
