@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Wrapper, HeaderRow, Title, SearchBox, SearchButton, 
       DeleteButton, ContentDiv, BackBtn, 
-      ContentTitle, ContentDate, ContentDetail } from "./MypageQna.style";
+      ContentTitle, ContentDate, ContentDetail } from "../../TableStyle/Table.style";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Reply from "./Reply/Reply";
+import ReplyForm from "./Reply/ReplyForm";
 
 const MypageQnaDetail = () => {
 
@@ -14,14 +15,18 @@ const MypageQnaDetail = () => {
   const [board, setBoard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  // 댓글 현황(Y/N)
+  const [qnaStatus, setQnaStatus] = useState(null);
   
   // 조회
   useEffect(() => {
     axios.get(`http://localhost/qnas/${id}`)
       .then((response) => {
-        //console.log(response);
+        // console.log(response);
         setBoard(response.data);
         setLoading(false);
+        setQnaStatus(response.data.qnaStatus);
       })
       .catch((error) => {
         //console.log(error);
@@ -95,7 +100,14 @@ const MypageQnaDetail = () => {
         </ContentDiv>
         
         {/* 댓글란 */}
-        <Reply qnaId={id} />
+
+        {qnaStatus === "Y" ? (
+          <Reply qnaId={id} /> // 댓글 존재
+        ) : qnaStatus === "N" ? (
+          <ReplyForm qnaId={id} /> // 댓글 없음 → 작성 폼
+        ) : (
+          <p>댓글 상태를 불러오는 중입니다...</p> // 초기 로딩 처리
+        )}
 
         <BackBtn onClick={() => navi(-1)}>뒤로가기</BackBtn>
       </Wrapper>

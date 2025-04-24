@@ -1,6 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Wrapper, HeaderRow, PageBtn, Pagination, SearchBox, SearchButton,
-  SearchInput, StyledTable, Title, WriteButton, BackBtn } from "./MypageQna.style";
+  SearchInput, StyledTable, Title, WriteButton, BackBtn } from "../../TableStyle/Table.style";
 import { useEffect, useState } from "react";
 import axios from "axios";
 

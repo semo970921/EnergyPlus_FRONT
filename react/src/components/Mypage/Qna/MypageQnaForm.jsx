@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Wrapper, HeaderRow, Title, ContentDiv, BackBtn, UpdateInput, UpdateBtn, UpdateTextarea,
-  ContentDetail, FooterRow } from "./MypageQna.style";
+  ContentDetail, FooterRow } from "../../TableStyle/Table.style";
 
 const MypageQnaForm = () => {
 
