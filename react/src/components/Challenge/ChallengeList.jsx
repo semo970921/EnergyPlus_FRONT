@@ -1,18 +1,20 @@
-// src/components/Challenge/ChallengeList.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
-  Container,
+  Wrapper,
   HeaderRow,
-  List,
-  Item,
-  Button,
-  UtilBox,
+  Title,
+  SearchBox,
   SearchInput,
+  SearchButton,
+  StyledTable,
+  WriteButton,
   Pagination,
-  PageBtn
-} from "./ChallengeList.style";
+  PageBtn,
+  BackBtn
+} from "../Mypage/Qna/MypageQna.style";
+
 
 const ChallengeList = () => {
   const [challenges, setChallenges] = useState([]);
@@ -38,31 +40,43 @@ const ChallengeList = () => {
   };
 
   return (
-    <Container>
+    <Wrapper>
       <HeaderRow>
-        <h2>이달의 챌린지 참여 게시판</h2>
-        <UtilBox>
-          <SearchInput
-            type="text"
-            placeholder="검색"
-            value={keyword}
-            onChange={e => setKeyword(e.target.value)}
-          />
-          <Button onClick={handleSearch}>검색</Button>
-          <Button onClick={() => navigate('/challenges/write')}>글 작성</Button>
-        </UtilBox>
+          <Title>챌린지 참여 게시판</Title>
+          <SearchBox>
+            <SearchInput
+              type="text"
+              placeholder="검색"
+              value={keyword}
+              onChange={e => setKeyword(e.target.value)}
+              />
+            <SearchButton onClick={handleSearch}>검색</SearchButton>
+            <WriteButton onClick={() => navigate('/challenges/write')}>글 작성</WriteButton>
+          </SearchBox>
       </HeaderRow>
 
-      <List>
-        {challenges.map(c => (
-          <Item key={c.challengeSeq} onClick={() => navigate(`/challenges/${c.challengeSeq}`)}>
-            <span>{c.challengeSeq}</span>
-            <span>{c.challengeTitle}</span>
-            <span>{new Date(c.enrollDate).toLocaleDateString()}</span>
-            <span>{c.challengeStatus === 'Y' ? '답변완료' : '확인중'}</span>
-          </Item>
-        ))}
-      </List>
+        <StyledTable>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성시간</th>
+              <th>상태</th>
+            </tr>
+          </thead>
+          <tbody>
+            {challenges.map(c => (
+              <tr key={c.challengeSeq} onClick={() => navigate(`/challenges/${c.challengeSeq}`)}>
+                <td>{c.challengeSeq}</td>
+                <td>{c.challengeTitle}</td>
+                <td>{c.userName}</td>
+                <td>{c.enrollDate}</td>
+                <td>{c.challengeStatus === 'Y' ? '답변완료' : '확인중'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </StyledTable>
 
       <Pagination>
         <PageBtn onClick={() => {/* 이전 페이지 로직 */}}>&lt;&lt;</PageBtn>
@@ -71,7 +85,7 @@ const ChallengeList = () => {
         ))}
         <PageBtn onClick={() => {/* 다음 페이지 로직 */}}>&gt;&gt;</PageBtn>
       </Pagination>
-    </Container>
+      </Wrapper>
   );
 };
 
