@@ -8,7 +8,7 @@ const MarketForm = () => {
   const { marketNo } = useParams();
   const isEdit = !!marketNo;
   const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU0ODIyNzMsImV4cCI6MTc0NTQ4NDA3M30.HfF8xzo9wMN7H4coV7NMkLFJ5ceYVXKFS3ChbZkU5BSKoAGxd-LkSxMzOWQpLxeR2nuYAEo7g1GUaDYM7a3Byw";
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU1NDA4NDgsImV4cCI6MTc0NTU0MjY0OH0.E3i1NKfqFYy5MD-K372Rim7siyh5UXy7MmqE5vvYSgqwKbf_xnAy3h0BbeE3FRPU_ukOfKjauYPXCO9NweEmaA";
 
   const [formData, setFormData] = useState({
     marketTitle: "",

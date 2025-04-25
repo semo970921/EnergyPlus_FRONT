@@ -17,8 +17,9 @@ const MarketDetail = () => {
   const [editingContent, setEditingContent] = useState("");
   const [replyContent, setReplyContent] = useState("");
   const [replyTargetCommentNo, setReplyTargetCommentNo] = useState(null);
+  const [replies, setReplies] = useState([]);
   const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU0ODIyNzMsImV4cCI6MTc0NTQ4NDA3M30.HfF8xzo9wMN7H4coV7NMkLFJ5ceYVXKFS3ChbZkU5BSKoAGxd-LkSxMzOWQpLxeR2nuYAEo7g1GUaDYM7a3Byw";
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU1NTc0NzMsImV4cCI6MTc0NTU1OTI3M30.m68L9s2n1YZkilWApLLAKSeKGzSsB8-1XHOH3ZMKVwPzMTJsnzInbB9UKSttJwtQY6fXbPOc084VIRa2dRgHnw";
   useEffect(() => {
     axios
       .get(`http://localhost:80/markets/${marketNo}`)
@@ -52,6 +53,7 @@ const MarketDetail = () => {
       .get(`http://localhost:80/markets/comments/${marketNo}`)
       .then((res) => {
         setComments(res.data);
+        fetchRepliesForAllComments(res.data); // 댓글 받아오면, 대댓글도!
       })
       .catch((err) => {
         console.error(err);
@@ -63,16 +65,18 @@ const MarketDetail = () => {
   const handleCommentSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:80/markets/comments", {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+      .post(
+        "http://localhost:80/markets/comments",
+        {
+          marketNo: marketNo,
+          marketCommentContent: commentContent,
         },
-        marketNo: marketNo,
-        userId: 1,
-        marketCommentContent: commentContent,
-      })
-
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(() => {
         alert("댓글 등록 성공!");
         setCommentContent(""); // 입력창 초기화
@@ -96,10 +100,18 @@ const MarketDetail = () => {
   const handleUpdate = (commentId, e) => {
     if (e) e.preventDefault();
     axios
-      .put("http://localhost:80/markets/comments", {
-        marketCommentNo: commentId,
-        marketCommentContent: editingContent,
-      })
+      .put(
+        "http://localhost:80/markets/comments",
+        {
+          marketCommentNo: commentId,
+          marketCommentContent: editingContent,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(() => {
         alert("수정 완료!");
         setEditingCommentId(null);
@@ -115,7 +127,11 @@ const MarketDetail = () => {
 
   const handleDelete = (commentId) => {
     axios
-      .get(`http://localhost:80/markets/comments/delete/${commentId}?userId=1`)
+      .delete(`http://localhost:80/markets/comments/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(() => {
         alert("댓글 삭제 완료!");
         fetchComments();
@@ -126,15 +142,23 @@ const MarketDetail = () => {
       });
   };
 
-  const handleReplySubmit = (e, commentNo) => {
+  // 대댓글 등록
+  const handleReplySubmit = (e, marketCommentNo) => {
     e.preventDefault();
-
+    console.log("댓글 번호 확인: ", marketCommentNo);
     axios
-      .post("http://localhost:80/markets/reply/write", {
-        replyContent: replyContent,
-        marketCommentNo: commentNo, // 답글 대상 댓글 번호
-        userId: 1, // 임시 userId
-      })
+      .post(
+        "http://localhost:80/markets/reply/write",
+        {
+          replyContent: replyContent,
+          marketCommentNo: marketCommentNo,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then(() => {
         alert("답댓글 등록 성공!");
         setReplyContent(""); // 입력창 초기화
@@ -145,6 +169,27 @@ const MarketDetail = () => {
         console.error(err);
         alert("답댓글 등록 실패!");
       });
+  };
+
+  // 대댓글 조회
+  const fetchRepliesForAllComments = (comments) => {
+    const allReplies = [];
+
+    Promise.all(
+      comments.map((c) =>
+        axios
+          .get(`http://localhost:80/markets/reply/${c.marketCommentNo}`)
+          .then((res) => {
+            // 각 댓글 번호 기준으로 replies 모아서 저장
+            allReplies.push(...res.data);
+          })
+      )
+    )
+      .then(() => {
+        console.log("All replies fetched:", allReplies);
+        setReplies(allReplies); // 모든 대댓글 상태에 저장
+      })
+      .catch((err) => console.error(err));
   };
 
   if (!market) return <p>로딩중...</p>;
@@ -340,34 +385,45 @@ const MarketDetail = () => {
                         </div>
                       </form>
                     )}
+                  <ul className="reply-list">
+                    {replies
+                      .filter((r) => r.marketCommentNo === c.marketCommentNo)
+                      .map((r) => (
+                        <li key={r.replyNo} className="reply-item">
+                          <div className="reply-item-left">
+                            {" "}
+                            <MdOutlineSubdirectoryArrowRight />
+                          </div>
+                          <div className="reply-item-right">
+                            <div className="reply-meta">
+                              <div className="reply-meta-left">
+                                <span className="reply-writer">
+                                  {r.userName}
+                                </span>
+                                <em className="line">|</em>
+                                <span className="reply-date">
+                                  {new Date(r.replyDate).toLocaleDateString(
+                                    "ko-KR"
+                                  )}
+                                </span>
+                              </div>
+                              <button className="btn btn-danger btn-no-line">
+                                신고
+                              </button>
+                            </div>
+                            <div className="reply-content-wrap">
+                              <p className="reply-content">{r.replyContent}</p>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                  </ul>
                 </div>
               </li>
             ))}
           </ul>
         </div>
       </div>
-
-      {/* reply-list
-             <ul className="reply-list">
-              <li className="reply-item">
-                <div className="reply-item-left"></div>
-                <div className="reply-item-right">
-                  <div className="reply-meta">
-                    <div className="reply-meta-left">
-                      <span className="reply-writer">김진솔</span>
-                      <em className="line">|</em>
-                      <span className="reply-date">2025-04-18</span>
-                    </div>
-
-                    <button className="btn btn-danger btn-no-line">신고</button>
-                  </div>
-                  <div className="reply-content-wrap">
-                    <p className="reply-content">네 어디서 하실까요?</p>
-                  </div>
-                </div>
-              </li>
-            </ul> 
-             reply-list */}
     </>
   );
 };
