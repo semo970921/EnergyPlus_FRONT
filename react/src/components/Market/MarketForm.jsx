@@ -7,8 +7,7 @@ const MarketForm = () => {
   const navigate = useNavigate();
   const { marketNo } = useParams();
   const isEdit = !!marketNo;
-  const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU1NDA4NDgsImV4cCI6MTc0NTU0MjY0OH0.E3i1NKfqFYy5MD-K372Rim7siyh5UXy7MmqE5vvYSgqwKbf_xnAy3h0BbeE3FRPU_ukOfKjauYPXCO9NweEmaA";
+  const token = localStorage.getItem("accessToken");
 
   const [formData, setFormData] = useState({
     marketTitle: "",

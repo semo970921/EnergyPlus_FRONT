@@ -15,6 +15,7 @@ const MarketEdit = () => {
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const [deletedImages, setDeletedImages] = useState([false, false, false]);
+  const token = localStorage.getItem("accessToken");
 
   // 게시글 데이터 불러오기
   useEffect(() => {
@@ -74,6 +75,7 @@ const MarketEdit = () => {
       .put("http://localhost:80/markets/update", sendData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then(() => {

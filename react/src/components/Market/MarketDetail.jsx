@@ -18,8 +18,10 @@ const MarketDetail = () => {
   const [replyContent, setReplyContent] = useState("");
   const [replyTargetCommentNo, setReplyTargetCommentNo] = useState(null);
   const [replies, setReplies] = useState([]);
-  const token =
-    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU1NTc0NzMsImV4cCI6MTc0NTU1OTI3M30.m68L9s2n1YZkilWApLLAKSeKGzSsB8-1XHOH3ZMKVwPzMTJsnzInbB9UKSttJwtQY6fXbPOc084VIRa2dRgHnw";
+  const [editingReplyNo, setEditingReplyNo] = useState(null);
+  const [editingReplyContent, setEditingReplyContent] = useState("");
+  const token = localStorage.getItem("accessToken");
+  const userId = localStorage.getItem("userId");
   useEffect(() => {
     axios
       .get(`http://localhost:80/markets/${marketNo}`)
@@ -152,6 +154,7 @@ const MarketDetail = () => {
         {
           replyContent: replyContent,
           marketCommentNo: marketCommentNo,
+          userId: userId,
         },
         {
           headers: {
@@ -192,6 +195,55 @@ const MarketDetail = () => {
       .catch((err) => console.error(err));
   };
 
+  const handleReplyEditClick = (reply) => {
+    setEditingReplyNo(reply.replyNo);
+    setEditingReplyContent(reply.replyContent);
+  };
+
+  const handleReplyUpdate = (replyNo, e) => {
+    if (e) e.preventDefault();
+    axios
+      .put(
+        "http://localhost:80/markets/reply/update",
+        {
+          replyNo: replyNo,
+          replyContent: editingReplyContent,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        alert("대댓글 수정 완료!");
+        setEditingReplyNo(null);
+        fetchComments(); // 대댓글도 함께 갱신
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("대댓글 수정 실패!");
+      });
+  };
+
+  const handleReplyDelete = (replyNo) => {
+    if (window.confirm("정말 이 대댓글을 삭제하시겠습니까?")) {
+      axios
+        .delete(`http://localhost:80/markets/reply/delete/${replyNo}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(() => {
+          alert("대댓글 삭제 완료!");
+          fetchComments(); // 대댓글 포함 새로고침
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("대댓글 삭제 실패!");
+        });
+    }
+  };
   if (!market) return <p>로딩중...</p>;
 
   return (
@@ -357,7 +409,7 @@ const MarketDetail = () => {
                             setReplyTargetCommentNo(c.marketCommentNo);
                           }}
                         >
-                          답댓글
+                          대댓글
                         </button>
                       </div>
                     </>
@@ -388,35 +440,95 @@ const MarketDetail = () => {
                   <ul className="reply-list">
                     {replies
                       .filter((r) => r.marketCommentNo === c.marketCommentNo)
-                      .map((r) => (
-                        <li key={r.replyNo} className="reply-item">
-                          <div className="reply-item-left">
-                            {" "}
-                            <MdOutlineSubdirectoryArrowRight />
-                          </div>
-                          <div className="reply-item-right">
-                            <div className="reply-meta">
-                              <div className="reply-meta-left">
-                                <span className="reply-writer">
-                                  {r.userName}
-                                </span>
-                                <em className="line">|</em>
-                                <span className="reply-date">
-                                  {new Date(r.replyDate).toLocaleDateString(
-                                    "ko-KR"
-                                  )}
-                                </span>
+                      .map((r) => {
+                        console.log("userId:", userId, typeof userId);
+                        console.log("r.userId:", r.userId, typeof r.userId);
+
+                        return (
+                          <li key={r.replyNo} className="reply-item">
+                            <div className="reply-item-left">
+                              <MdOutlineSubdirectoryArrowRight />
+                            </div>
+                            <div className="reply-item-right">
+                              <div className="reply-meta">
+                                <div className="reply-meta-left">
+                                  <span className="reply-writer">
+                                    {r.userName}
+                                  </span>
+                                  <em className="line">|</em>
+                                  <span className="reply-date">
+                                    {new Date(r.replyDate).toLocaleDateString(
+                                      "ko-KR"
+                                    )}
+                                  </span>
+                                </div>
+                                <button className="btn btn-danger btn-no-line">
+                                  신고
+                                </button>
                               </div>
-                              <button className="btn btn-danger btn-no-line">
-                                신고
-                              </button>
+
+                              <div className="reply-content-wrap">
+                                {editingReplyNo === r.replyNo ? (
+                                  <div>
+                                    <input
+                                      value={editingReplyContent}
+                                      onChange={(e) =>
+                                        setEditingReplyContent(e.target.value)
+                                      }
+                                    />
+                                    <button
+                                      onClick={() =>
+                                        handleReplyUpdate(r.replyNo)
+                                      }
+                                    >
+                                      저장
+                                    </button>
+                                    <button
+                                      onClick={() => setEditingReplyNo(null)}
+                                    >
+                                      취소
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <>
+                                    <p className="reply-content">
+                                      {r.replyContent}
+                                    </p>
+
+                                    <div className="reply-btn-wrap">
+                                      {r.userId === userId ? (
+                                        <>
+                                          <p style={{ color: "green" }}>
+                                            작성자입니다!
+                                          </p>
+                                          <button
+                                            onClick={() =>
+                                              handleReplyEditClick(r)
+                                            }
+                                          >
+                                            수정
+                                          </button>
+                                          <button
+                                            onClick={() =>
+                                              handleReplyDelete(r.replyNo)
+                                            }
+                                          >
+                                            삭제
+                                          </button>
+                                        </>
+                                      ) : (
+                                        <p style={{ color: "red" }}>
+                                          작성자 아님
+                                        </p>
+                                      )}
+                                    </div>
+                                  </>
+                                )}
+                              </div>
                             </div>
-                            <div className="reply-content-wrap">
-                              <p className="reply-content">{r.replyContent}</p>
-                            </div>
-                          </div>
-                        </li>
-                      ))}
+                          </li>
+                        );
+                      })}
                   </ul>
                 </div>
               </li>
