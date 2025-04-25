@@ -68,7 +68,7 @@ export const BtnDiv = styled.div`
 
 // 수정
 export const UpdateBtn = styled.button`
-  width: 150px;
+  width: 160px;
   height: 50px;
   background-color: #408C70;
   border: 1px solid #408C70;
@@ -98,6 +98,25 @@ export const BackBtn = styled.button`
 
   &:hover {
     background-color: #408C70;
+    color: white;
+  }
+`;
+
+// 나의 다짐 수정
+export const PromiseUpdateBtn = styled.button`
+  width: 100%;
+  height: 50px;
+  background-color: #408C70;
+  border: 1px solid #408C70;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color:rgb(103, 178, 150);
+    border: 1px solid #408C70;
     color: white;
   }
 `;
