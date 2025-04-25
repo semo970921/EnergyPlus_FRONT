@@ -13,9 +13,8 @@ import {
   Pagination,
   PageBtn,
   BackBtn
-} from "../Mypage/Qna/MypageQna.style";
+} from "../TableStyle/Table.style";
 
-// …imports 생략…
 
 const Notices = () => {
   const [notices, setNotices]             = useState([]);
@@ -36,10 +35,6 @@ const Notices = () => {
 
       setNotices(res.data);
       setTotalCount(res.data.length);
-
-      // 혹은 PageInfo(list/pages/total) 사용 시:
-      // setNotices(res.data.list);
-      // setTotalCount(res.data.total);
     })
     .catch(err => console.error("공지사항 불러오기 실패", err));
   }, [page, searchKeyword]);
@@ -57,6 +52,8 @@ const Notices = () => {
     setSearchKeyword("");
     setPage(0);
   };
+
+  // 
 
   // 3) 페이징 블록 계산 (QnA와 동일)
   const blockSize  = 5;
@@ -84,8 +81,7 @@ const Notices = () => {
           </WriteButton>
         </SearchBox>
       </HeaderRow>
-
-      {/* 2) 테이블 */}
+      
       <StyledTable>
         <thead>
           <tr>

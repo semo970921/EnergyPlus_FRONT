@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-// QnA 상세보기에서 쓰던 스타일 컴포넌트 전부 재활용
 import {
   Wrapper,
   HeaderRow,
@@ -14,7 +13,7 @@ import {
   ContentDate,
   ContentDetail,
   BackBtn
-} from "../Mypage/Qna/MypageQna.style";
+} from "../TableStyle/Table.style";
 
 const NoticeDetail = () => {
   const { noticeId } = useParams();
@@ -38,7 +37,6 @@ const NoticeDetail = () => {
 
   return (
     <Wrapper>
-      {/* 글 번호 (QnA 페이지처럼) */}
       <p style={{ textAlign: "center", marginBottom: 8, color: "#555" }}>
         공지사항 번호: {noticeId}
       </p>
