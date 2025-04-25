@@ -32,11 +32,11 @@ const ChallengeWrite = () => {
     try {
       await axios.post('http://localhost/challenges', formData, {
        
-        header: {
+        headers: {
           'Content-Type' : 'multipart/form-data',
         },
       });
-      
+
       alert('챌린지가 등록되었습니다.');
       navigate('/challenges');
     } catch (err) {
