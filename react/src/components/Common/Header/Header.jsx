@@ -10,7 +10,16 @@ const Header = () => {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
+    // 초기 로그인 상태 확인
     checkLoginStatus();
+    
+    // 로그인상태 변경 이벤트 리스너 등록
+    window.addEventListener('loginStateChanged', checkLoginStatus);
+    
+    // 컴포넌트가 DOM에서 제거 -> 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('loginStateChanged', checkLoginStatus);
+    };
   }, []);
 
   // 로그인 상태 확인 함수
@@ -27,7 +36,6 @@ const Header = () => {
     }
   };
 
-
   // 로그아웃 처리 함수
   const handleLogout = () => {
     // 로컬 스토리지에서 토큰 및 사용자 정보 제거
@@ -39,6 +47,9 @@ const Header = () => {
     // 로그인 상태 업데이트
     setIsLoggedIn(false);
     setUserName("");
+    
+    // 로그인 상태 변경 이벤트 발생
+    window.dispatchEvent(new Event('loginStateChanged'));
     
     alert("로그아웃 되었습니다.");
     

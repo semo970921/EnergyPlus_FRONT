@@ -19,6 +19,8 @@ const LoginForm = () => {
   const [userPassword, setUserPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -37,7 +39,7 @@ const LoginForm = () => {
         console.log("로그인 시도:", { userEmail, userPassword });
         
         // 백엔드 API 호출
-        const response =  await axios.post("http://localhost:80/auth/login", {
+        const response = await axios.post("http://localhost:80/auth/login", {
           userEmail: userEmail,
           userPassword: userPassword
         });
@@ -53,6 +55,14 @@ const LoginForm = () => {
           // 사용자 정보 저장
           localStorage.setItem("userEmail", response.data.userEmail);
           localStorage.setItem("userName", response.data.userName);
+
+          // 상태 업데이트
+          setIsLoggedIn(true);
+          setUserName(response.data.userName);
+          
+          // 로그인 상태변경 이벤트 발생하면 헤더에 알림
+          window.dispatchEvent(new Event('loginStateChanged'));
+          
           
           alert(response.data.userName + "님 환영합니다!");
           
@@ -61,7 +71,7 @@ const LoginForm = () => {
         }
       } catch (error) {
         console.error("로그인 오류:", error);
-
+        setErrorMsg("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
       } finally {
         setIsLoading(false);
       }
