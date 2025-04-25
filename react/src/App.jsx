@@ -24,8 +24,6 @@ import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
 import LoginForm from "./components/Login/LoginForm";
 
-
-
 function App() {
   return (
     <>
@@ -36,26 +34,24 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
+          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticewrite" element={<NoticeWrite />} />
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
           <Route path="/challenges/:challengeSeq" element={<ChallengeDetail/>} />
           <Route path="/challenges/write" element={<ChallengeWrite />} />
-
-
           {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
-
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
-          <Route path="/mypage_qna_form" element={<MypageQnaForm />} /> {/* 새글 작성 */}
-          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} /> {/* 글 수정 */}
+          <Route path="/mypage_qna_form" element={<MypageQnaForm />} />{" "}
+          {/* 새글 작성 */}
+          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} />{" "}
+          {/* 글 수정 */}
           <Route path="/mypage_qna/:id" element={<MypageQnaDetail />} />
-
           <Route path="/market_list" element={<MarketList />} />
           <Route path="/mileage-form" element={<MileageForm />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
