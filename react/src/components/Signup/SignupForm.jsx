@@ -16,6 +16,10 @@ import {
     ErrorMessage,
     SuccessMessage
   } from "./SignupForm.style";
+import axios from "axios"; // axios 추가
+
+// API 기본 URL 설정
+const API_BASE_URL = "http://localhost:80"; // 백엔드 서버 주소에 맞게 수정
 
 const SignupForm = () => {
 
@@ -109,7 +113,6 @@ const SignupForm = () => {
         e.preventDefault();
         
         if (!validateForm()) {
-
             const firstErrorField = Object.keys(errors)[0];
             const errorElement = document.querySelector(`[name="${firstErrorField}"]`);
             if (errorElement) errorElement.focus();
@@ -118,27 +121,58 @@ const SignupForm = () => {
         
         setIsSubmitting(true);
         
-        // 백엔드 연동 없이 임시로 프론트엔드에서 처리
-        setTimeout(() => {
-            alert("회원가입이 완료되었습니다!");
-            setIsSubmitting(false);
-            
-            // 폼 초기화 
-            setFormData({
-                userName: '',
-                userEmail: '',
-                emailCode: '',
-                userPassword: '',
-                passwordConfirm: '',
-                userPhone: ''
+        try {
+            // 회원가입 API 호출
+            const response = await axios.post(`${API_BASE_URL}/members`, {
+                userName: formData.userName,
+                userEmail: formData.userEmail,
+                userPassword: formData.userPassword,
+                userPhone: formData.userPhone || null,
+                gradeId: 1 // 기본 등급 아이디 설정
             });
-            setEmailVerified(false);
-            setSuccess({});
-        }, 1500);
+            
+            if (response.status === 201) {
+                alert("회원가입이 완료되었습니다!");
+                
+                // 인증된 이메일 목록에서 제거하는 API 호출
+                try {
+                    await axios.post(`${API_BASE_URL}/api/verification/check-status`, {
+                        email: formData.userEmail
+                    });
+                } catch (error) {
+                    console.error("인증 상태 확인 실패:", error);
+                }
+                
+                // 폼 초기화 
+                setFormData({
+                    userName: '',
+                    userEmail: '',
+                    emailCode: '',
+                    userPassword: '',
+                    passwordConfirm: '',
+                    userPhone: ''
+                });
+                setEmailVerified(false);
+                setSuccess({});
+                
+                // 메인 페이지로 이동 또는 로그인 페이지로 이동
+                // window.location.href = "/login";
+            }
+        } catch (error) {
+            // 에러 처리
+            console.error("회원가입 실패:", error);
+            if (error.response && error.response.data && error.response.data.error) {
+                alert(error.response.data.error);
+            } else {
+                alert("회원가입 중 오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     // 이메일 인증코드 발송
-    const sendEmailCode = () => {
+    const sendEmailCode = async () => {
         // 이메일 유효성 검사
         const emailRegex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
         if (!formData.userEmail) {
@@ -160,20 +194,38 @@ const SignupForm = () => {
         setEmailSending(true);
         setErrors(prev => ({ ...prev, userEmail: '' }));
         
-        // 임시 구현 (백엔드 없이)
-        setTimeout(() => {
+        try {
+            // 이메일 인증 코드 발송 API 호출
+            const response = await axios.post(`${API_BASE_URL}/api/verification/send-code`, {
+                email: formData.userEmail
+            });
+            
+            if (response.status === 200) {
+                setSuccess(prev => ({
+                    ...prev,
+                    emailCode: "인증번호가 이메일로 발송되었습니다. 이메일을 확인해주세요."
+                }));
+            }
+        } catch (error) {
+            console.error("인증 코드 발송 실패:", error);
+            if (error.response && error.response.data && error.response.data.error) {
+                setErrors(prev => ({
+                    ...prev,
+                    userEmail: error.response.data.error
+                }));
+            } else {
+                setErrors(prev => ({
+                    ...prev,
+                    userEmail: "인증 코드 발송에 실패했습니다. 다시 시도해주세요."
+                }));
+            }
+        } finally {
             setEmailSending(false);
-            setSuccess(prev => ({
-                ...prev,
-                emailCode: "인증번호가 이메일로 발송되었습니다. 이메일을 확인해주세요."
-            }));
-            // 테스트용 인증코드 저장
-            sessionStorage.setItem('verificationCode', '123456');
-        }, 1500);
+        }
     };
 
     // 이메일 인증코드 확인
-    const verifyEmailCode = () => {
+    const verifyEmailCode = async () => {
         if (!formData.emailCode) {
             setErrors(prev => ({
                 ...prev,
@@ -185,24 +237,36 @@ const SignupForm = () => {
         setVerifying(true);
         setErrors(prev => ({ ...prev, emailCode: '' }));
         
-        // 임시 구현 (백엔드 없이)
-        setTimeout(() => {
-            setVerifying(false);
-            // 테스트용 인증코드 확인
-            const savedCode = sessionStorage.getItem('verificationCode');
-            if (formData.emailCode === savedCode) {
+        try {
+            // 이메일 인증 코드 확인 API 호출
+            const response = await axios.post(`${API_BASE_URL}/api/verification/verify-code`, {
+                email: formData.userEmail,
+                code: formData.emailCode
+            });
+            
+            if (response.status === 200) {
                 setEmailVerified(true);
                 setSuccess(prev => ({
                     ...prev,
                     emailVerified: "이메일 인증이 완료되었습니다."
                 }));
+            }
+        } catch (error) {
+            console.error("인증 코드 확인 실패:", error);
+            if (error.response && error.response.data && error.response.data.error) {
+                setErrors(prev => ({
+                    ...prev,
+                    emailCode: error.response.data.error
+                }));
             } else {
                 setErrors(prev => ({
                     ...prev,
-                    emailCode: "인증번호가 일치하지 않습니다."
+                    emailCode: "인증 코드 확인에 실패했습니다. 다시 시도해주세요."
                 }));
             }
-        }, 1000);
+        } finally {
+            setVerifying(false);
+        }
     };
 
 

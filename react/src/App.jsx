@@ -22,6 +22,7 @@ import ChallengeList from "./components/Challenge/ChallengeList";
 import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
+import LoginForm from "./components/Login/LoginForm";
 
 
 
@@ -61,7 +62,12 @@ function App() {
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
 
+          {/* 회원가입 */}
           <Route path="/signup" element={<SignupForm />}/>
+
+          {/* 로그인 */}
+          <Route path="/login" element={<LoginForm/>} />
+
         </Routes>
       </div>
       <Footer />
