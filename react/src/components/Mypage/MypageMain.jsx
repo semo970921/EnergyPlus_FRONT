@@ -10,13 +10,22 @@ const MypageMain = () => {
   // 나중에 axios로 로그인 회원 아이디, 등급 불러와서 관련 로직 추가해야함.
 
   /*
-    메인 페이지: mypage_main (데이터 불러오기)
-    내 정보 수정: mypage_info (데이터 불러오기)
+    메인 페이지: mypage_main
+
+    내 정보 수정: mypage_info
+    > 나의 다짐 기능까지 완료
+
     회원 탈퇴: mypage_deleteMember
-    내 게시글: mypage_board
+    > 화면만
+
+    내 게시글: mypage_market
+
     내 마일리지 현황: mypage_mile
+
     내 마일리지 신청 현황: mypage_mileStatus
-    QnA: mypage_Qna (데이터 불러오기)
+
+    QnA: mypage_Qna
+    > 댓글까지 모두 완료
   */
 
   return(
@@ -41,7 +50,7 @@ const MypageMain = () => {
               <FaUserTimes size={60} />
               <Label>회원 탈퇴</Label>
             </MenuItem>
-            <MenuItem onClick={() => navi("/mypage_board")}>
+            <MenuItem onClick={() => navi("/mypage_market")}>
               <FaClipboard size={60} />
               <Label>나의 게시글</Label>
             </MenuItem>

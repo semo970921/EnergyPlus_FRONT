@@ -28,16 +28,16 @@ const MypageQna = () => {
   const startPage = currentBlock * pageBlockSize;
   const endPage = Math.min(startPage + pageBlockSize, totalPages);
 
-
-  // 로그인 기능 완성되면 로그인한 사용자의 QNA글만 보이도록
-  // 백, 프론트 모두 수정해야함
-
+  const token = localStorage.getItem("accessToken");
   
   useEffect(() => {
     axios.get("http://localhost/qnas", {
       params: {
         page : page,
         keyword : searchKeyword, // 검색어
+      },
+      headers: {
+        Authorization: `Bearer ${token}`, // 토큰 추가
       },
     })
       .then((response) => {
@@ -90,7 +90,7 @@ const MypageQna = () => {
               <SearchButton onClick={resetSearch}>초기화</SearchButton>
             )}
 
-            <WriteButton onClick={() => navi("/mypage_qna_form")}>글 작성</WriteButton>
+            <WriteButton onClick={() => navi("/mypage_qna_write")}>글 작성</WriteButton>
           </SearchBox>
         </HeaderRow>
 

@@ -17,7 +17,7 @@ import {
 
 const NoticeDetail = () => {
   const { noticeId } = useParams();
-  const navigate     = useNavigate();
+  const navi     = useNavigate();
   const [notice, setNotice] = useState(null);
 
   useEffect(() => {
@@ -26,11 +26,18 @@ const NoticeDetail = () => {
       .catch(err => console.error("공지사항 상세 불러오기 실패", err));
   }, [noticeId]);
 
-  const handleEdit = () => navigate(`/notices/write?editId=${noticeId}`);
+  const handleEdit = () => navi(`/notices/edit/${noticeId}`);
   const handleDelete = async () => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
-    await axios.delete(`http://localhost/notices/${noticeId}`);
-    navigate("/notices");
+
+    try{await axios.delete(`http://localhost/notices/${noticeId}`);
+    alert("삭제가 완료되었습니다.");
+    navi("/notices");
+
+  } catch (err) {
+    console.error("삭제 실패", err);
+    alert("삭제 중 오류가 발생했습니다.");
+  }
   };
 
   if (!notice) return <Wrapper>로딩 중...</Wrapper>;
@@ -66,7 +73,7 @@ const NoticeDetail = () => {
       </ContentDiv>
 
       {/* 3) 뒤로가기 버튼 */}
-      <BackBtn onClick={() => navigate(-1)}>뒤로가기</BackBtn>
+      <BackBtn onClick={() => navi(-1)}>뒤로가기</BackBtn>
     </Wrapper>
   );
 };
