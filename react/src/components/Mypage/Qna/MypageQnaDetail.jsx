@@ -19,6 +19,9 @@ const MypageQnaDetail = () => {
   // 댓글 현황(Y/N)
   const [qnaStatus, setQnaStatus] = useState(null);
   
+  // 토큰
+  const token = localStorage.getItem("accessToken");
+  
   // 조회
   useEffect(() => {
     axios.get(`http://localhost/qnas/${id}`)
@@ -41,7 +44,11 @@ const MypageQnaDetail = () => {
     
     if(confirm("정말 삭제하시겠습니까?")){
       // 로그인 구현 완료되면 아래 부분 수정
-      axios.delete(`http://localhost/qnas/${id}`)
+      axios.delete(`http://localhost/qnas/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then(() => {
         setBoard({
           qnaTitle : "삭제중입니다...",
@@ -53,6 +60,10 @@ const MypageQnaDetail = () => {
           alert("삭제되었습니다.");
           navi("/mypage_qna");
         }, 500);
+      })
+      .catch((error) => {
+        console.error("글 삭제 실패", error);
+        alert("글 삭제에 실패했습니다.");
       });
     }
   };

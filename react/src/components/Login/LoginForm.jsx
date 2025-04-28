@@ -49,12 +49,12 @@ const LoginForm = () => {
         // 로그인 성공 처리
         if (response.data) {
           // 토큰 저장
-          localStorage.setItem("accessToken", response.data.accessToken);
-          localStorage.setItem("refreshToken", response.data.refreshToken);
+          sessionStorage.setItem("accessToken", response.data.accessToken);
+          sessionStorage.setItem("refreshToken", response.data.refreshToken);
           
           // 사용자 정보 저장
-          localStorage.setItem("userEmail", response.data.userEmail);
-          localStorage.setItem("userName", response.data.userName);
+          sessionStorage.setItem("userEmail", response.data.userEmail);
+          sessionStorage.setItem("userName", response.data.userName);
 
           // 상태 업데이트
           setIsLoggedIn(true);
@@ -107,8 +107,6 @@ const LoginForm = () => {
         
         <LinkContainer>
           <LinkItem onClick={() => navigate("/find-password")}>비밀번호 찾기</LinkItem>
-          <Separator>|</Separator>
-          <LinkItem onClick={() => navigate("/find-id")}>아이디 찾기</LinkItem>
           <Separator>|</Separator>
           <LinkItem onClick={() => navigate("/signup")}>회원가입</LinkItem>
         </LinkContainer>
