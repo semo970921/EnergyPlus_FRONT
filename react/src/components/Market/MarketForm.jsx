@@ -7,7 +7,7 @@ const MarketForm = () => {
   const navigate = useNavigate();
   const { marketNo } = useParams();
   const isEdit = !!marketNo;
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
 
   const [formData, setFormData] = useState({
     marketTitle: "",
@@ -77,7 +77,7 @@ const MarketForm = () => {
     axios
       .put(url, form, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then(() => {
@@ -107,8 +107,22 @@ const MarketForm = () => {
     images.forEach((img) => {
       if (img) form.append("images", img);
     });
+
     if (isEdit) {
       form.append("marketNo", marketNo);
+
+      // 기존 이미지 유지할 URL 전송
+      const keepImageUrls = existingImages.map((img, idx) => {
+        if (!deletedImages[idx] && img) {
+          return img.imgUrl;
+        } else {
+          return null;
+        }
+      });
+
+      keepImageUrls.forEach((url, idx) => {
+        form.append(`keepImageUrls[${idx}]`, url ? url : "");
+      });
     }
 
     const url = isEdit

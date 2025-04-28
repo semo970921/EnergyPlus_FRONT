@@ -15,7 +15,7 @@ const MarketEdit = () => {
   const [images, setImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const [deletedImages, setDeletedImages] = useState([false, false, false]);
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
 
   // 게시글 데이터 불러오기
   useEffect(() => {
@@ -49,22 +49,39 @@ const MarketEdit = () => {
 
     const sendData = new FormData();
 
-    // 유지할 기존 이미지 URL 목록 추출
-    const keepImageUrls = existingImages
-      .filter((_, idx) => !deletedImages[idx])
-      .map((img) => img.imgUrl);
+    // market 관련 필드 직접 추가!
+    sendData.append("marketNo", marketNo);
+    sendData.append("marketTitle", formData.marketTitle);
+    sendData.append("marketContent", formData.marketContent);
+    sendData.append("marketPrice", formData.marketPrice);
+    sendData.append("marketStatus", formData.marketStatus);
 
-    const market = new Blob(
-      [JSON.stringify({ ...formData, marketNo, keepImageUrls })],
-      { type: "application/json" }
-    );
+    // 순서 유지하면서 keepImageUrls 각각 추가
+    const keepImageUrls = existingImages.map((img, idx) => {
+      if (!deletedImages[idx] && img) {
+        return img.imgUrl;
+      } else {
+        return "";
+      }
+    });
 
-    sendData.append("market", market);
+    // keepImageUrls 배열 통째로 추가
+    sendData.append("keepImageUrls", JSON.stringify(keepImageUrls));
+
+    // 또는 하나씩
+    keepImageUrls.forEach((url, idx) => {
+      sendData.append(`keepImageUrls[${idx}]`, url ? url : "");
+    });
 
     // 새로 선택한 이미지 추가
     images.forEach((img) => {
       if (img) sendData.append("images", img);
     });
+
+    // FormData 확인
+    for (let [key, value] of sendData.entries()) {
+      console.log("FormData Key:", key, "Value:", value);
+    }
 
     // 확인용 콘솔 로그
     for (let [key, value] of sendData.entries()) {
@@ -74,7 +91,6 @@ const MarketEdit = () => {
     axios
       .put("http://localhost:80/markets/update", sendData, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       })

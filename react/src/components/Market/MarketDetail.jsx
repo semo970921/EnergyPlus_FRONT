@@ -20,19 +20,36 @@ const MarketDetail = () => {
   const [replies, setReplies] = useState([]);
   const [editingReplyNo, setEditingReplyNo] = useState(null);
   const [editingReplyContent, setEditingReplyContent] = useState("");
-  const token = localStorage.getItem("accessToken");
-  const userId = parseInt(localStorage.getItem("userId"));
-  localStorage.removeItem("accessToken");
-  localStorage.removeItem("userId"); // 이거 꼭 포함!
+  const token = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
     axios
       .get(`http://localhost:80/markets/${marketNo}`)
       .then((res) => setMarket(res.data))
       .catch((err) => console.error(err));
-
+    fetchMarket();
     fetchComments();
   }, [marketNo]);
+
+  const fetchMarket = () => {
+    const config = token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {};
+
+    axios
+      .get(`http://localhost:80/markets/${marketNo}`, config)
+      .then((res) => {
+        console.log("게시글 데이터:", res.data); // 여기서 isMine 확인해봐도 좋음!
+        setMarket(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   // 게시글 삭제
 
@@ -54,17 +71,24 @@ const MarketDetail = () => {
   // 댓글 유지
 
   const fetchComments = () => {
+    const config = token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : {}; // 토큰 없으면 헤더 없이 요청!
+
     axios
-      .get(`http://localhost:80/markets/comments/${marketNo}`)
+      .get(`http://localhost:80/markets/comments/${marketNo}`, config)
       .then((res) => {
         setComments(res.data);
-        fetchRepliesForAllComments(res.data); // 댓글 받아오면, 대댓글도!
+        fetchRepliesForAllComments(res.data); // 대댓글도!
       })
       .catch((err) => {
         console.error(err);
       });
   };
-
   // 댓글 등록
 
   const handleCommentSubmit = (e) => {
@@ -178,32 +202,23 @@ const MarketDetail = () => {
 
   // 대댓글 조회
   const fetchRepliesForAllComments = (comments) => {
-    const allReplies = [];
+    const config = token
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : {};
 
+    const allReplies = [];
     Promise.all(
       comments.map((c) =>
         axios
-          .get(`http://localhost:80/markets/reply/${c.marketCommentNo}`)
+          .get(`http://localhost:80/markets/reply/${c.marketCommentNo}`, config)
           .then((res) => {
-            // 각 댓글 번호 기준으로 replies 모아서 저장
             allReplies.push(...res.data);
           })
       )
     )
       .then(() => {
-        console.log("All replies fetched:", allReplies);
+        console.log("대댓글 데이터:", allReplies);
         setReplies(allReplies);
-
-        const myUserId = parseInt(localStorage.getItem("userId"), 10);
-        console.log("내 userId:", myUserId);
-
-        allReplies.forEach((r) => {
-          console.log("대댓글 userId:", r.userId);
-          console.log(
-            `내 userId (${myUserId}) === 대댓글 userId (${r.userId}) :`,
-            myUserId === r.userId
-          );
-        });
       })
       .catch((err) => console.error(err));
   };
@@ -219,8 +234,8 @@ const MarketDetail = () => {
       .put(
         "http://localhost:80/markets/reply/update",
         {
-          replyNo: replyNo, // DTO 기준 OK
-          replyContent: editingReplyContent, // DTO 기준 OK
+          replyNo: replyNo,
+          replyContent: editingReplyContent,
         },
         {
           headers: {
@@ -242,7 +257,7 @@ const MarketDetail = () => {
   const handleReplyDelete = (replyNo) => {
     if (window.confirm("정말 이 대댓글을 삭제하시겠습니까?")) {
       axios
-        .delete(`http://localhost:80/markets/reply/delete/${replyNo}`, {
+        .delete(`http://localhost:80/markets/reply/${replyNo}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -326,15 +341,19 @@ const MarketDetail = () => {
           >
             목록
           </button>
-          <button
-            className="btn market-btn"
-            onClick={() => navi(`/markets/edit/${market.marketNo}`)}
-          >
-            수정
-          </button>
-          <button className="btn market-btn" onClick={handleDeleteMarket}>
-            삭제
-          </button>
+          {market.isMine === true && (
+            <>
+              <button
+                className="btn market-btn"
+                onClick={() => navi(`/markets/edit/${market.marketNo}`)}
+              >
+                수정
+              </button>
+              <button className="btn market-btn" onClick={handleDeleteMarket}>
+                삭제
+              </button>
+            </>
+          )}
         </div>
         <div className="comment-section">
           <h3>댓글</h3>
@@ -403,18 +422,23 @@ const MarketDetail = () => {
                         {c.marketCommentContent}
                       </p>
                       <div className="btn-wrap">
-                        <button
-                          className="btn-sm"
-                          onClick={() => handleEditClick(c)}
-                        >
-                          수정
-                        </button>
-                        <button
-                          className="btn-sm"
-                          onClick={() => handleDelete(c.marketCommentNo)}
-                        >
-                          삭제
-                        </button>
+                        {c.isMine === true && (
+                          <>
+                            <button
+                              className="btn-sm"
+                              onClick={() => handleEditClick(c)}
+                            >
+                              수정
+                            </button>
+                            <button
+                              className="btn-sm"
+                              onClick={() => handleDelete(c.marketCommentNo)}
+                            >
+                              삭제
+                            </button>
+                          </>
+                        )}
+
                         <button
                           className="btn-sm"
                           onClick={() => {
@@ -503,8 +527,7 @@ const MarketDetail = () => {
                                   </p>
 
                                   <div className="reply-btn-wrap">
-                                    {parseInt(r.userId) ===
-                                      parseInt(userId) && (
+                                    {r.isMine && (
                                       <>
                                         <button
                                           className="btn-sm"
