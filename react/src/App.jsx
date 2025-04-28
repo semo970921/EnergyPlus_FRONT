@@ -12,6 +12,7 @@ import MarketList from "./components/Market/MarketList/MarketList";
 import MypageInfo from "./components/Mypage/Member/MypageInfo";
 import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
+import MileageForm from "./components/Mileage/MileageForm/MileageForm";
 
 function App() {
   return (
@@ -23,9 +24,10 @@ function App() {
           <Route path="/" element={<Home />} />
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
-          <Route path="/notices/:noticeId" element={<NoticeDetail/>} />
+          <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticeform" element={<NoticeForm />} />
           <Route path="/mileageinfo" element={<MileageInfo />} />
+          <Route path="/mileage-form" element={<MileageForm />} />
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
