@@ -11,7 +11,7 @@ const Nav = () => {
           <li className="nav-item" onClick={() => navi("/")}>
             HOME
           </li>
-          <li className="nav-item" onClick={() => navi("/")}>
+          <li className="nav-item">
             소개
             <ul>
               <li>소개 1</li>
@@ -28,8 +28,8 @@ const Nav = () => {
           <li className="nav-item">
             챌린지
             <ul>
-              <li onClick={() => navi("/mileageInfo")}>챌린지1</li>
-              <li>챌린지</li>
+              <li onClick={() => navi("/challenges")}>챌린지 안내</li>
+              <li onClick={ () => navi("/challenges/write")}>챌린지 신청</li>
             </ul>
           </li>
           <li className="nav-item">
