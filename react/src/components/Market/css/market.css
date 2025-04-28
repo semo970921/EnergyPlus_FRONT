@@ -260,8 +260,7 @@ form.comment-form {
   align-items: center;
 }
 .reply-form {
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding: 16px 0 16px 16px;
   border-bottom: 1px solid #e1e1e1;
   display: flex;
 }
@@ -273,7 +272,6 @@ form.comment-form {
   padding-left: 16px;
 }
 .reply-meta {
-  padding-top: 16px;
   display: flex;
   align-items: center;
 }
@@ -296,6 +294,17 @@ form.comment-form {
 }
 .reply-meta-left span {
   color: #666;
+}
+.reply-item-right {
+  padding-left: 16px;
+}
+.reply-item {
+  display: flex;
+  padding: 16px 0 16px 16px;
+  border-bottom: 1px solid #e1e1e1;
+}
+.reply-item svg {
+  font-size: 24px;
 }
 /* market form */
 .market-form {

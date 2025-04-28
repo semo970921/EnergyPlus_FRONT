@@ -7,6 +7,8 @@ const MarketForm = () => {
   const navigate = useNavigate();
   const { marketNo } = useParams();
   const isEdit = !!marketNo;
+  const token =
+    "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU1NDA4NDgsImV4cCI6MTc0NTU0MjY0OH0.E3i1NKfqFYy5MD-K372Rim7siyh5UXy7MmqE5vvYSgqwKbf_xnAy3h0BbeE3FRPU_ukOfKjauYPXCO9NweEmaA";
 
   const [formData, setFormData] = useState({
     marketTitle: "",
@@ -17,32 +19,79 @@ const MarketForm = () => {
   const [existingImages, setExistingImages] = useState([]); // 기존 이미지
   const [deletedImages, setDeletedImages] = useState([false, false, false]);
 
+  // Edit 시 기존 데이터 불러오기
   useEffect(() => {
     if (isEdit) {
-      axios.get(`http://localhost:80/markets/${marketNo}`).then((res) => {
-        const { marketTitle, marketContent, marketPrice, imageList } = res.data;
-        setFormData({ marketTitle, marketContent, marketPrice });
-        setExistingImages(imageList);
-      });
+      axios
+        .get(`http://localhost:80/markets/${marketNo}`)
+        .then((res) => {
+          const { marketTitle, marketContent, marketPrice, imageList } =
+            res.data;
+          setFormData({ marketTitle, marketContent, marketPrice });
+          setExistingImages(imageList);
+        })
+        .catch((err) => console.error(err));
     }
   }, [isEdit, marketNo]);
 
+  // 입력값 변경
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // 이미지 변경
   const handleImageChange = (e, index) => {
     const newImages = [...images];
     newImages[index] = e.target.files[0];
     setImages(newImages);
   };
 
+  // 기존 이미지 삭제 처리
   const handleDeleteImage = (index) => {
     const newDeleted = [...deletedImages];
     newDeleted[index] = true;
     setDeletedImages(newDeleted);
   };
 
+  // 등록
+
+  const submitMarket = (form, url) => {
+    axios
+      .post(url, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        alert("등록 성공!");
+        navigate(`/markets/${res.data.marketNo}`);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("등록 실패");
+      });
+  };
+
+  // 수정
+  const updateMarket = (form, url) => {
+    axios
+      .put(url, form, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        alert("수정 성공!");
+        navigate(`/markets/${marketNo}`);
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("수정 실패");
+      });
+  };
+
+  // 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -52,38 +101,26 @@ const MarketForm = () => {
     }
 
     const form = new FormData();
-    const market = new Blob(
-      [
-        JSON.stringify({
-          ...formData,
-          marketNo: isEdit ? marketNo : undefined,
-        }),
-      ],
-      { type: "application/json" }
-    );
-
-    form.append("market", market);
+    form.append("marketTitle", formData.marketTitle);
+    form.append("marketContent", formData.marketContent);
+    form.append("marketPrice", formData.marketPrice);
 
     images.forEach((img) => {
       if (img) form.append("images", img);
     });
+    if (isEdit) {
+      form.append("marketNo", marketNo);
+    }
 
     const url = isEdit
       ? "http://localhost:80/markets/update"
       : "http://localhost:80/markets/write";
 
-    axios[isEdit ? "put" : "post"](url, form, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((res) => {
-        alert(isEdit ? "수정 성공!" : "등록 성공!");
-        const newMarketNo = isEdit ? marketNo : res.data.marketNo;
-        navigate(`/markets/${newMarketNo}`);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("처리 실패");
-      });
+    if (isEdit) {
+      updateMarket(form, url);
+    } else {
+      submitMarket(form, url);
+    }
   };
 
   return (

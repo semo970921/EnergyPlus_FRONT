@@ -24,8 +24,8 @@ const Header = () => {
 
   // 로그인 상태 확인 함수
   const checkLoginStatus = () => {
-    const token = localStorage.getItem("accessToken");
-    const storedUserName = localStorage.getItem("userName");
+    const token = sessionStorage.getItem("accessToken");
+    const storedUserName = sessionStorage.getItem("userName");
     
     if (token && storedUserName) {
       setIsLoggedIn(true);
@@ -38,11 +38,11 @@ const Header = () => {
 
   // 로그아웃 처리 함수
   const handleLogout = () => {
-    // 로컬 스토리지에서 토큰 및 사용자 정보 제거
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userName");
+    // t세션에서 토큰 및 사용자 정보 제거
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
+    sessionStorage.removeItem("userEmail");
+    sessionStorage.removeItem("userName");
     
     // 로그인 상태 업데이트
     setIsLoggedIn(false);
