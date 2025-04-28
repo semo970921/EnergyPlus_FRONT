@@ -23,6 +23,8 @@ import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
 import LoginForm from "./components/Login/LoginForm";
+import ChallengeEdit from "./components/Challenge/ChallengeEdit";
+import NoticeEdit from "./components/Notice/NoticeEdit";
 
 function App() {
   return (
@@ -36,10 +38,13 @@ function App() {
           <Route path="/notices" element={<Notices />} />
           <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticewrite" element={<NoticeWrite />} />
+          <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
+
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
           <Route path="/challenges/:challengeSeq" element={<ChallengeDetail/>} />
           <Route path="/challenges/write" element={<ChallengeWrite />} />
+          <Route path="/challenges/edit/:challengeSeq" element={<ChallengeEdit />} />
           {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           {/* 마이페이지 */}
