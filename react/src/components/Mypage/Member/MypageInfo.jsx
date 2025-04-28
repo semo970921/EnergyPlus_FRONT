@@ -8,7 +8,7 @@ const MypageInfo = () => {
 
   const navi = useNavigate();
   //const testToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4IiwidXNlckVtYWlsIjoia3lzbWFuMjU4MEBuYXZlci5jb20iLCJpYXQiOjE3NDU1NTc2OTgsImV4cCI6MTc0NTU1OTQ5OH0.Prgl_3jgJKMShNYrWqYjaT6_0gaaEqeUBCxi5IGSj5wLQBGYbBqw3i7ixivx5NHKAYl7N70RHs-CPJvB70FDIQ";
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
 
 
   return(

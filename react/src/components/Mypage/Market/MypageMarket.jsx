@@ -12,7 +12,7 @@ const MypageMarket = () => {
   const navi = useNavigate();
 
   // 토큰
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
     axios.get("http://localhost/mymarket", {

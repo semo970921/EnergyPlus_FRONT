@@ -10,7 +10,7 @@ const MypageQnaForm = () => {
   const navi = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
 
   useEffect(() => {
     axios.get(`http://localhost/qnas/${id}`, {

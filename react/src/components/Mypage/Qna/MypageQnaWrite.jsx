@@ -9,7 +9,7 @@ const MypageQnaWrite = () => {
   const navi = useNavigate();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
 
   const handleSubmit = () => {
     const data = { qnaTitle: title, qnaContent: content };
