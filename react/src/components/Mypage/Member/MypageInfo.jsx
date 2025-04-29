@@ -49,6 +49,18 @@ const MypageInfo = () => {
   const handleInfoUpdate = async (e) => {
     e.preventDefault();
 
+    // 유효성 검사
+    if(userName.trim().length < 2 || userName.trim().length > 10){
+      alert("이름은 이름은 2글자 이상 10글자 이하 입력 가능합니다.");
+      return;
+    }
+
+    // 전화번호는 11자리 숫자만 입력해주세요.
+    if(userPhone.trim().length !== 11 || isNaN(userPhone)){
+      alert("전화번호는 11자리 숫자만 입력해주세요.");
+      return;
+    }
+
     setIsLoading(true);
     setErrorMsg("");
 
@@ -65,8 +77,15 @@ const MypageInfo = () => {
       }
     );
 
+    // 세션스토리지에도 이름 업데이트
+    sessionStorage.setItem("userName", userName);
+    sessionStorage.setItem("userPhone", userPhone);
+
+    // 이름 변경 이벤트
+    window.dispatchEvent(new Event('userNameChanged'));
+
     alert("정보가 수정되었습니다.");
-    navi("/mypage_main");
+    navi("/mypage_info");
 
     }
     catch(error) {
