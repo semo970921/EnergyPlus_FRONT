@@ -40,6 +40,7 @@ const MypagePromise = ( {token} ) => {
       });
       alert("나의 다짐이 등록되었습니다.");
       setPromiseExists(true); // 이후부터는 다짐 수정
+      window.dispatchEvent(new Event('promiseChanged'));
 
     } catch (error) {
       console.error("등록 실패", error);
@@ -58,6 +59,7 @@ const MypagePromise = ( {token} ) => {
         },
       });
       alert("나의 다짐이 수정되었습니다.");
+      window.dispatchEvent(new Event('promiseChanged'));
 
     } catch(error) {
       console.error("수정 실패", error);

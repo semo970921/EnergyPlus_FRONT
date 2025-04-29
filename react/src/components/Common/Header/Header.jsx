@@ -3,11 +3,53 @@ import styled from "styled-components";
 import LogoImg from "../../../assets/img/Logo.png";
 import Nav from "../Nav/Nav";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = () => {
   const navi = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
+
+  // 나의 다짐
+  const [userPromise, setUserPromise] = useState("");
+  
+  // 나의 다짐 조회
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try{
+        // 토큰 없으면 다짐 비워줌
+        const token = sessionStorage.getItem("accessToken");
+
+        if(!token){
+          setUserPromise("");
+          return;
+        }
+        const response = await axios.get("http://localhost/promise/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserPromise(response.data.userPromise);
+
+      } catch (error) {
+        console.error("나의 다짐 불러오기 실패", error);
+        setUserPromise(""); // 에러 떠도 다짐 비워줌
+      }
+    };
+    fetchUserData();
+
+    // 마이페이지에서 나의 다짐 수정 시 실시간으로 수정되도록 이벤트 발생
+    const handlePromiseChanged = () => {
+      fetchUserData();
+    };
+
+    window.addEventListener('promiseChanged', handlePromiseChanged);
+
+    return () => {
+      window.addEventListener('promiseChanged', handlePromiseChanged);
+    };
+  }, [isLoggedIn]); // 로그인 상태 바뀔 때마다 실행함
+
 
   useEffect(() => {
     // 초기 로그인 상태 확인
@@ -63,9 +105,16 @@ const Header = () => {
         <a href="/" className="logo">
           <img src={LogoImg} alt="에너지 생활+ 로고" />
         </a>
+
+        {/* 나의 다짐 불러오기 */}
         <div className="slogan-wrap">
-          <span>탄소 중립 실천 다짐을 작성해주세요</span>
+          {userPromise ? (
+            <span>{userPromise}</span> // 다짐 있을 때
+          ) : (
+            <span>탄소 중립 실천 다짐을 작성해주세요</span>
+          )}
         </div>
+
         <ul className="header-link">
           {isLoggedIn ? (
             // 로그인 상태일 때
