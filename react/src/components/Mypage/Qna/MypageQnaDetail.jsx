@@ -20,7 +20,7 @@ const MypageQnaDetail = () => {
   const [qnaStatus, setQnaStatus] = useState(null);
   
   // 토큰
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
   
   // 조회
   useEffect(() => {

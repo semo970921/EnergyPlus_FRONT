@@ -28,7 +28,7 @@ const MypageQna = () => {
   const startPage = currentBlock * pageBlockSize;
   const endPage = Math.min(startPage + pageBlockSize, totalPages);
 
-  const token = localStorage.getItem("accessToken");
+  const token = sessionStorage.getItem("accessToken");
   
   useEffect(() => {
     axios.get("http://localhost/qnas", {
