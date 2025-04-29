@@ -21,15 +21,15 @@ const Nav = () => {
           <li className="nav-item">
             마일리지
             <ul>
-              <li onClick={() => navi("/mileageInfo")}>마일리지 안내</li>
-              <li>마일리지 신청</li>
+              <li onClick={() => navi("/mileage/info")}>마일리지 안내</li>
+              <li onClick={() => navi("/mileage/store")}>마일리지 사용</li>
             </ul>
           </li>
           <li className="nav-item">
             챌린지
             <ul>
               <li onClick={() => navi("/challenges")}>챌린지 안내</li>
-              <li onClick={ () => navi("/challenges/write")}>챌린지 신청</li>
+              <li onClick={() => navi("/challenges/write")}>챌린지 신청</li>
             </ul>
           </li>
           <li className="nav-item">

@@ -43,8 +43,10 @@ function App() {
             element={<ChallengeDetail />}
           />
           <Route path="/challenges/write" element={<ChallengeWrite />} />
-          {/* 분류해서 모아주세요 */}
-          <Route path="/mileageinfo" element={<MileageInfo />} />
+          {/* 마일리지 */}
+          <Route path="/mileage/info" element={<MileageInfo />} />
+          <Route path="/mileageform" element={<MileageForm />} />
+          <Route path="/mileagestore" />
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
