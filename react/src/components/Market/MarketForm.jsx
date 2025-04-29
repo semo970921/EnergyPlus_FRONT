@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./css/market.css";
 
 const MarketForm = () => {
   const navigate = useNavigate();
-  const { marketNo } = useParams();
-  const isEdit = !!marketNo;
   const token = sessionStorage.getItem("accessToken");
 
   const [formData, setFormData] = useState({
@@ -14,51 +12,38 @@ const MarketForm = () => {
     marketContent: "",
     marketPrice: "",
   });
-  const [images, setImages] = useState([]); // 새로 선택된 이미지
-  const [existingImages, setExistingImages] = useState([]); // 기존 이미지
-  const [deletedImages, setDeletedImages] = useState([false, false, false]);
+  const [images, setImages] = useState([]);
 
-  // Edit 시 기존 데이터 불러오기
-  useEffect(() => {
-    if (isEdit) {
-      axios
-        .get(`http://localhost:80/markets/${marketNo}`)
-        .then((res) => {
-          const { marketTitle, marketContent, marketPrice, imageList } =
-            res.data;
-          setFormData({ marketTitle, marketContent, marketPrice });
-          setExistingImages(imageList);
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [isEdit, marketNo]);
-
-  // 입력값 변경
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 이미지 변경
   const handleImageChange = (e, index) => {
     const newImages = [...images];
     newImages[index] = e.target.files[0];
     setImages(newImages);
   };
 
-  // 기존 이미지 삭제 처리
-  const handleDeleteImage = (index) => {
-    const newDeleted = [...deletedImages];
-    newDeleted[index] = true;
-    setDeletedImages(newDeleted);
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  // 등록
+    if (images.length !== 3 || images.includes(undefined)) {
+      alert("이미지는 3장을 모두 등록해야 합니다.");
+      return;
+    }
 
-  const submitMarket = (form, url) => {
+    const form = new FormData();
+    form.append("marketTitle", formData.marketTitle);
+    form.append("marketContent", formData.marketContent);
+    form.append("marketPrice", formData.marketPrice);
+
+    images.forEach((img) => {
+      if (img) form.append("images", img);
+    });
+
     axios
-      .post(url, form, {
+      .post("http://localhost:80/markets/write", form, {
         headers: {
-          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       })
@@ -72,73 +57,9 @@ const MarketForm = () => {
       });
   };
 
-  // 수정
-  const updateMarket = (form, url) => {
-    axios
-      .put(url, form, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(() => {
-        alert("수정 성공!");
-        navigate(`/markets/${marketNo}`);
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("수정 실패");
-      });
-  };
-
-  // 핸들러
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!isEdit && images.length !== 3) {
-      alert("이미지는 3장 등록해야 합니다.");
-      return;
-    }
-
-    const form = new FormData();
-    form.append("marketTitle", formData.marketTitle);
-    form.append("marketContent", formData.marketContent);
-    form.append("marketPrice", formData.marketPrice);
-
-    images.forEach((img) => {
-      if (img) form.append("images", img);
-    });
-
-    if (isEdit) {
-      form.append("marketNo", marketNo);
-
-      // 기존 이미지 유지할 URL 전송
-      const keepImageUrls = existingImages.map((img, idx) => {
-        if (!deletedImages[idx] && img) {
-          return img.imgUrl;
-        } else {
-          return null;
-        }
-      });
-
-      keepImageUrls.forEach((url, idx) => {
-        form.append(`keepImageUrls[${idx}]`, url ? url : "");
-      });
-    }
-
-    const url = isEdit
-      ? "http://localhost:80/markets/update"
-      : "http://localhost:80/markets/write";
-
-    if (isEdit) {
-      updateMarket(form, url);
-    } else {
-      submitMarket(form, url);
-    }
-  };
-
   return (
     <div className="market-container">
-      <h1 className="page-title">중고거래 {isEdit ? "수정" : "등록"}</h1>
+      <h1 className="page-title">중고거래 등록</h1>
       <form
         onSubmit={handleSubmit}
         className="market-form"
@@ -188,32 +109,18 @@ const MarketForm = () => {
               {i === 0 ? "썸네일" : `${i}번째 상세 이미지`}{" "}
               <em className="text-danger">*</em>
             </div>
-            {!deletedImages[i] && existingImages[i] && !images[i] && (
-              <div className="image-box" onClick={() => handleDeleteImage(i)}>
-                <img
-                  src={`http://localhost${existingImages[i].imgUrl}`}
-                  alt={`기존 이미지 ${i}`}
-                  style={{ width: "120px", marginBottom: "8px" }}
-                />
-                <button type="button" className="img-delete-btn">
-                  ✕
-                </button>
-              </div>
-            )}
-            {(deletedImages[i] || !existingImages[i] || images[i]) && (
-              <input
-                type="file"
-                name={`image-${i}`}
-                accept="image/*"
-                onChange={(e) => handleImageChange(e, i)}
-                required={!isEdit}
-              />
-            )}
+            <input
+              type="file"
+              name={`image-${i}`}
+              accept="image/*"
+              onChange={(e) => handleImageChange(e, i)}
+              required
+            />
           </label>
         ))}
 
         <button type="submit" className="btn market-btn">
-          {isEdit ? "수정하기" : "등록하기"}
+          등록하기
         </button>
       </form>
     </div>

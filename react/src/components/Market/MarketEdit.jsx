@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./css/market.css";
@@ -6,18 +6,18 @@ import "./css/market.css";
 const MarketEdit = () => {
   const { marketNo } = useParams();
   const navigate = useNavigate();
+  const token = sessionStorage.getItem("accessToken");
+
   const [formData, setFormData] = useState({
     marketTitle: "",
     marketContent: "",
     marketPrice: "",
-    marketStatus: "N", // ← 초기값 추가
+    marketStatus: "N",
   });
-  const [images, setImages] = useState([]);
-  const [existingImages, setExistingImages] = useState([]);
+  const [images, setImages] = useState([null, null, null]);
+  const [existingImages, setExistingImages] = useState([null, null, null]);
   const [deletedImages, setDeletedImages] = useState([false, false, false]);
-  const token = sessionStorage.getItem("accessToken");
 
-  // 게시글 데이터 불러오기
   useEffect(() => {
     axios
       .get(`http://localhost:80/markets/${marketNo}`)
@@ -30,7 +30,12 @@ const MarketEdit = () => {
           imageList,
         } = res.data;
         setFormData({ marketTitle, marketContent, marketPrice, marketStatus });
-        setExistingImages(imageList);
+        //  3개만 고정해서 저장
+        const trimmedImages = (imageList || []).slice(0, 3);
+        while (trimmedImages.length < 3) {
+          trimmedImages.push(null); // 부족하면 null로 채움
+        }
+        setExistingImages(trimmedImages);
       })
       .catch((err) => console.error(err));
   }, [marketNo]);
@@ -40,56 +45,78 @@ const MarketEdit = () => {
   };
 
   const handleImageChange = (e, index) => {
+    const file = e.target.files[0];
+
     const newImages = [...images];
-    newImages[index] = e.target.files[0];
-    setImages(newImages);
+    newImages[index] = file;
+    setImages([...newImages]);
+
+    const newExistingImages = [...existingImages];
+    newExistingImages[index] = null;
+    setExistingImages([...newExistingImages]);
+
+    const newDeleted = [...deletedImages];
+    newDeleted[index] = true;
+    setDeletedImages([...newDeleted]);
+
+    console.log("[handleImageChange] images:", newImages);
+    console.log("[handleImageChange] existingImages:", newExistingImages);
+    console.log("[handleImageChange] deletedImages:", newDeleted);
   };
+
+  const handleDeleteImage = (index) => {
+    const newDeleted = [...deletedImages];
+    newDeleted[index] = true;
+    setDeletedImages(newDeleted);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const sendData = new FormData();
+    const finalImages = [null, null, null];
 
-    // market 관련 필드 직접 추가!
-    sendData.append("marketNo", marketNo);
-    sendData.append("marketTitle", formData.marketTitle);
-    sendData.append("marketContent", formData.marketContent);
-    sendData.append("marketPrice", formData.marketPrice);
-    sendData.append("marketStatus", formData.marketStatus);
-
-    // 순서 유지하면서 keepImageUrls 각각 추가
-    const keepImageUrls = existingImages.map((img, idx) => {
+    existingImages.forEach((img, idx) => {
       if (!deletedImages[idx] && img) {
-        return img.imgUrl;
-      } else {
-        return "";
+        finalImages[idx] = img.imgUrl; // idx에 맞게 넣음
       }
     });
 
-    // keepImageUrls 배열 통째로 추가
-    sendData.append("keepImageUrls", JSON.stringify(keepImageUrls));
-
-    // 또는 하나씩
-    keepImageUrls.forEach((url, idx) => {
-      sendData.append(`keepImageUrls[${idx}]`, url ? url : "");
+    images.forEach((img, idx) => {
+      if (img) {
+        finalImages[idx] = img; // idx에 맞게 덮어쓰기
+      }
     });
 
-    // 새로 선택한 이미지 추가
-    images.forEach((img) => {
-      if (img) sendData.append("images", img);
+    console.log("== 최종 검증용 ==");
+    console.log("finalImages:", finalImages);
+    console.log(
+      "validFinalImages.length:",
+      finalImages.filter((item) => item !== null).length
+    );
+
+    const totalValidCount = finalImages.filter((item) => item !== null).length;
+    if (totalValidCount !== 3) {
+      alert("수정 시 이미지는 총 3장이 있어야 합니다.");
+      return;
+    }
+
+    const form = new FormData();
+    form.append("marketNo", marketNo);
+    form.append("marketTitle", formData.marketTitle);
+    form.append("marketContent", formData.marketContent);
+    form.append("marketPrice", formData.marketPrice);
+    form.append("marketStatus", formData.marketStatus);
+
+    finalImages.forEach((item) => {
+      if (typeof item === "string") {
+        form.append("keepImageUrls", item);
+      } else if (item instanceof File) {
+        form.append("images", item);
+      }
     });
-
-    // FormData 확인
-    for (let [key, value] of sendData.entries()) {
-      console.log("FormData Key:", key, "Value:", value);
-    }
-
-    // 확인용 콘솔 로그
-    for (let [key, value] of sendData.entries()) {
-      console.log(key, value);
-    }
 
     axios
-      .put("http://localhost:80/markets/update", sendData, {
+      .put("http://localhost:80/markets/update", form, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -103,6 +130,7 @@ const MarketEdit = () => {
         alert("수정 실패");
       });
   };
+
   return (
     <div className="market-container">
       <h1 className="page-title">게시글 수정</h1>
@@ -162,12 +190,9 @@ const MarketEdit = () => {
         {[0, 1, 2].map((i) => (
           <label key={i} className="label-flex img-label">
             <div>
-              {i === 0 ? "썸네일" : `${i}번째 상세 이미지`}
+              {i === 0 ? "썸네일" : `${i}번째 상세 이미지`}{" "}
               <em className="text-danger">*</em>
             </div>
-
-            {/* 기존 이미지 보여주기 */}
-
             {!deletedImages[i] && existingImages[i] && !images[i] && (
               <div className="image-box">
                 <img
@@ -177,18 +202,12 @@ const MarketEdit = () => {
                 <button
                   className="img-delete-btn"
                   type="button"
-                  onClick={() => {
-                    const newDel = [...deletedImages];
-                    newDel[i] = true;
-                    setDeletedImages(newDel);
-                  }}
+                  onClick={() => handleDeleteImage(i)}
                 >
                   ✕
                 </button>
               </div>
             )}
-
-            {/* 삭제했거나 기존 이미지가 없으면 input 보여줌 */}
             {(deletedImages[i] || !existingImages[i]) && (
               <input
                 type="file"
