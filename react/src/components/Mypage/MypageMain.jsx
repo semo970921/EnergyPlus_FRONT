@@ -1,4 +1,4 @@
-import { FaUserEdit, FaUserTimes, FaClipboard, FaCoins, FaQuestionCircle } from "react-icons/fa";
+import { FaUserEdit, FaUserLock, FaUserTimes, FaClipboard, FaCoins, FaQuestionCircle } from "react-icons/fa";
 import { Container, ContentWrapper, TopSection, Profile, Greeting, Welcome, Grade, 
           MenuGrid, MenuItem, Label } from "./Mypage.style";
 import { useNavigate } from "react-router-dom";
@@ -15,10 +15,13 @@ const MypageMain = () => {
     내 정보 수정: mypage_info
     > 나의 다짐 기능까지 완료
 
+    비밀번호 수정: mypage_password
+
     회원 탈퇴: mypage_deleteMember
     > 화면만
 
     내 게시글: mypage_market
+    > 완료
 
     내 마일리지 현황: mypage_mile
 
@@ -43,23 +46,27 @@ const MypageMain = () => {
 
           <MenuGrid>
             <MenuItem onClick={() => navi("/mypage_info")}>
-              <FaUserEdit size={60} />
+              <FaUserEdit size={50} />
               <Label>내 정보 수정</Label>
             </MenuItem>
+            <MenuItem onClick={() => navi("/mypage_password")}>
+              <FaUserLock size={50} />
+              <Label>비밀번호 변경</Label>
+            </MenuItem>
             <MenuItem onClick={() => navi("/mypage_delMember")}>
-              <FaUserTimes size={60} />
+              <FaUserTimes size={50} />
               <Label>회원 탈퇴</Label>
             </MenuItem>
             <MenuItem onClick={() => navi("/mypage_market")}>
-              <FaClipboard size={60} />
+              <FaClipboard size={50} />
               <Label>나의 게시글</Label>
             </MenuItem>
             <MenuItem onClick={() => navi("/mypage_mile")}>
-              <FaCoins size={60} />
+              <FaCoins size={50} />
               <Label>마일리지 현황</Label>
             </MenuItem>
             <MenuItem onClick={() => navi("/mypage_qna")}>
-              <FaQuestionCircle size={60} />
+              <FaQuestionCircle size={50} />
               <Label>QnA</Label>
             </MenuItem>
           </MenuGrid>
