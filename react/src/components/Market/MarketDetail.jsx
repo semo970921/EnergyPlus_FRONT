@@ -43,6 +43,35 @@ const MarketDetail = () => {
     }
   };
 
+  const handleReport = async () => {
+    const reason = prompt("신고 사유를 입력하세요:");
+
+    if (!reason || reason.trim() === "") {
+      alert("신고 사유를 입력해야 합니다!");
+      return;
+    }
+
+    const userId = sessionStorage.getItem("userId"); // 로그인할 때 저장해놨던 유저 ID 꺼내기
+
+    try {
+      await axios.post(
+        "http://localhost:80/markets/report",
+        {
+          marketNo, // 신고 대상 게시글 번호
+          reportReason: reason, // 입력한 신고 사유
+          reporterUserId: userId, // 신고한 사람 ID
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert("신고가 완료되었습니다!");
+    } catch (error) {
+      console.error(error);
+      alert("신고에 실패했습니다.");
+    }
+  };
+
   if (!market) return <p>로딩중...</p>;
 
   return (
@@ -107,7 +136,11 @@ const MarketDetail = () => {
 
       {/* 수정, 삭제 버튼 */}
       <div className="market-detail-buttons">
-        <button className="btn market-btn">신고</button>
+        {!market.isMine && (
+          <button className="btn market-btn" onClick={handleReport}>
+            신고
+          </button>
+        )}
         <button
           className="btn market-btn"
           onClick={() => navigate("/market_list")}
