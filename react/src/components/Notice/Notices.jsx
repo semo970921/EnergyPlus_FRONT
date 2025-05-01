@@ -39,9 +39,6 @@ const Notices = () => {
     .catch(err => console.error("공지사항 불러오기 실패", err));
   }, [page, searchKeyword]);
 
-
-
-
   // 2) 검색 핸들러
   const handleSearch = () => {
     setPage(0);
@@ -53,9 +50,7 @@ const Notices = () => {
     setPage(0);
   };
 
-  // 
-
-  // 3) 페이징 블록 계산 (QnA와 동일)
+  // 3) 페이징 블록 계산
   const blockSize  = 5;
   const blockIndex = Math.floor(page / blockSize);
   const startPage  = blockIndex * blockSize;
