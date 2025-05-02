@@ -32,6 +32,7 @@ import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import CardNewsList from "./components/CardNews/CardNewsList";
 import CardNewsDetail from "./components/CardNews/CardNewDetail";
+import Member from "./components/admin/member/Member";
 
 function App() {
   return (
@@ -92,6 +93,8 @@ function App() {
           {/* 카드뉴스 */}
           <Route path="/cardnews_list" element={<CardNewsList />} />
           <Route path="/cardnews_detail" element={<CardNewsDetail />} />
+          {/* 관리자 회원관리 */}
+          <Route path="/admin/member" element={<Member />} />
         </Routes>
         {/* 메인페이지 */}
       </div>
