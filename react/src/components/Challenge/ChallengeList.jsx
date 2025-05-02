@@ -21,22 +21,25 @@ const ChallengeList = () => {
   const [page, setPage]                   = useState(0);
   const [totalCount, setTotalCount]       = useState(0);
   const [keyword, setKeyword] = useState("");
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const size                               = 5;
+  const size = 10;
   const totalPages                         = Math.ceil(totalCount / size);
   const navigate = useNavigate();
+  
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
     axios.get("http://localhost/challenges",{
       params : {page, size, keyword: searchKeyword }
     })
     .then(res => {
-      console.log("▶ API 응답", res.data);
-
       setChallenges(res.data);
-      setTotalCount(res.data.length);
     })
-    .catch(err => console.error("챌린지 불러오기 실패 ", err));
+    axios.get("http://localhost/challenges/pages", {
+      params: { keyword: searchKeyword }
+    })
+    .then(res => {
+      setTotalCount(res.data * size);
+    });
   }, [page, searchKeyword]);
 
   // 검색 핸들러
