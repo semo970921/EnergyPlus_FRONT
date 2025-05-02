@@ -11,7 +11,7 @@ import {
   LinkContainer,
   LinkItem,
   Separator,
-  ErrorMessage
+  ErrorMessage,
 } from "./LoginForm.styles";
 
 const LoginForm = () => {
@@ -25,56 +25,60 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     //폼 유효성 검사
     if (!userEmail.trim() || !userPassword.trim()) {
       setErrorMsg("이메일과 비밀번호를 모두 입력해주세요.");
       return;
     }
-    
+
     setIsLoading(true);
     setErrorMsg("");
-    
-    try {
-        console.log("로그인 시도:", { userEmail, userPassword });
-        
-        // 백엔드 API 호출
-        const response = await axios.post("http://localhost:80/auth/login", {
-          userEmail: userEmail,
-          userPassword: userPassword
-        });
-        
-        console.log("로그인 응답:", response.data);
-        
-        // 로그인 성공 처리
-        if (response.data) {
-          // 토큰 저장
-          sessionStorage.setItem("accessToken", response.data.accessToken);
-          sessionStorage.setItem("refreshToken", response.data.refreshToken);
-          
-          // 사용자 정보 저장
-          sessionStorage.setItem("userEmail", response.data.userEmail);
-          sessionStorage.setItem("userName", response.data.userName);
 
-          // 상태 업데이트
-          setIsLoggedIn(true);
-          setUserName(response.data.userName);
-          
-          // 로그인 상태변경 이벤트 발생하면 헤더에 알림
-          window.dispatchEvent(new Event('loginStateChanged'));
-          
-          
-          alert(response.data.userName + "님 환영합니다!");
-          
-          // 홈 페이지로 리다이렉션
+    try {
+      console.log("로그인 시도:", { userEmail, userPassword });
+
+      // 백엔드 API 호출
+      const response = await axios.post("http://localhost:80/auth/login", {
+        userEmail: userEmail,
+        userPassword: userPassword,
+      });
+
+      console.log("로그인 응답:", response.data);
+
+      // 로그인 성공 처리
+      if (response.data) {
+        // 토큰 저장
+        sessionStorage.setItem("accessToken", response.data.accessToken);
+        sessionStorage.setItem("refreshToken", response.data.refreshToken);
+
+        // 사용자 정보 저장
+        sessionStorage.setItem("userEmail", response.data.userEmail);
+        sessionStorage.setItem("userName", response.data.userName);
+
+        sessionStorage.setItem("userRole", response.data.userRole);
+
+        // 상태 업데이트
+        setIsLoggedIn(true);
+        setUserName(response.data.userName);
+
+        // 로그인 상태변경 이벤트 발생하면 헤더에 알림
+        window.dispatchEvent(new Event("loginStateChanged"));
+
+        alert(response.data.userName + "님 환영합니다!");
+
+        if (response.data.userRole === "ROLE_ADMIN") {
+          navigate("/admin");
+        } else {
           navigate("/");
         }
-      } catch (error) {
-        console.error("로그인 오류:", error);
-        setErrorMsg("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
-      } finally {
-        setIsLoading(false);
       }
+    } catch (error) {
+      console.error("로그인 오류:", error);
+      setErrorMsg("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -83,7 +87,7 @@ const LoginForm = () => {
         <LoginTitle>로그인</LoginTitle>
         <Form onSubmit={handleLogin}>
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
-          
+
           <InputField
             type="email"
             placeholder="이메일"
@@ -91,7 +95,7 @@ const LoginForm = () => {
             onChange={(e) => setUserEmail(e.target.value)}
             disabled={isLoading}
           />
-          
+
           <InputField
             type="password"
             placeholder="비밀번호"
@@ -99,14 +103,16 @@ const LoginForm = () => {
             onChange={(e) => setUserPassword(e.target.value)}
             disabled={isLoading}
           />
-          
+
           <LoginButton type="submit" disabled={isLoading}>
             {isLoading ? "로그인 중..." : "로그인"}
           </LoginButton>
         </Form>
-        
+
         <LinkContainer>
-          <LinkItem onClick={() => navigate("/find-password")}>비밀번호 찾기</LinkItem>
+          <LinkItem onClick={() => navigate("/find-password")}>
+            비밀번호 찾기
+          </LinkItem>
           <Separator>|</Separator>
           <LinkItem onClick={() => navigate("/signup")}>회원가입</LinkItem>
         </LinkContainer>

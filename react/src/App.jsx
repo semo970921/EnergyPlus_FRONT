@@ -23,6 +23,7 @@ import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
 import LoginForm from "./components/Login/LoginForm";
+import MileageStore from "./components/Mileage/MileageStore/MileageStore";
 
 function App() {
   return (
@@ -38,10 +39,14 @@ function App() {
           <Route path="/noticewrite" element={<NoticeWrite />} />
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
-          <Route path="/challenges/:challengeSeq" element={<ChallengeDetail/>} />
+          <Route
+            path="/challenges/:challengeSeq"
+            element={<ChallengeDetail />}
+          />
           <Route path="/challenges/write" element={<ChallengeWrite />} />
           {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
+          <Route path="/mileagestore" element={<MileageStore />} />
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
@@ -57,13 +62,10 @@ function App() {
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
-
           {/* 회원가입 */}
-          <Route path="/signup" element={<SignupForm />}/>
-
+          <Route path="/signup" element={<SignupForm />} />
           {/* 로그인 */}
-          <Route path="/login" element={<LoginForm/>} />
-
+          <Route path="/login" element={<LoginForm />} />
         </Routes>
       </div>
       <Footer />

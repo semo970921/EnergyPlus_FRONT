@@ -21,7 +21,7 @@ const MileageForm = () => {
     formData.append("mileageImg", file);
 
     try {
-      const response = await fetch("http://localhost:80/mileages/save", {
+      const response = await fetch("http://localhost/mileages/save", {
         method: "POST",
         body: formData,
       });
