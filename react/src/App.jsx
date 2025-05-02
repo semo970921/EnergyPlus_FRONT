@@ -29,6 +29,8 @@ import MypageQnaWrite from "./components/Mypage/Qna/MypageQnaWrite";
 import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
+import MypageMile from "./components/Mypage/Mileage/MypageMile";
+import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 
 function App() {
   return (
@@ -62,6 +64,8 @@ function App() {
           <Route path="/mypage_market" element={<MypageMarket />} /> {/* 나의 게시글 메인 */}
           <Route path="/mypage_market/:marketNo" element={<MypageMarketDetail />} /> {/* 나의 게시글 상세 */}
           <Route path="/mypage_password" element={<MypagePassword />} /> {/* 비밀번호 변경 */}
+          <Route path="/mypage_mile" element={<MypageMile />} /> {/* 마일리지 현황 */}
+          <Route path="/mypage_mile_visual" element={<MypageMileVisual />} /> {/* 마일리지 시각화 페이지 */}
 
           <Route path="/market_list" element={<MarketList />} />
           <Route path="/mileage-form" element={<MileageForm />} />
