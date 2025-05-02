@@ -32,6 +32,7 @@ import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
+import Member from "./components/admin/member/Member";
 
 function App() {
   return (
@@ -88,10 +89,14 @@ function App() {
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
+
           {/* 회원가입 */}
           <Route path="/signup" element={<SignupForm />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
+          {/* 관리자 회원관리 */}
+          <Route path="/admin/member" element={<Member />} />
+
         </Routes>
       </div>
       <Footer />

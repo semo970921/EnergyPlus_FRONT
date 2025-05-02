@@ -13,7 +13,6 @@ const Header = () => {
   // 나의 다짐
   const [userPromise, setUserPromise] = useState("");
   
-  
   // 나의 다짐 조회
   useEffect(() => {
     const fetchUserData = async () => {
