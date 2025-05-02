@@ -76,7 +76,7 @@ const MypageMain = () => {
               <FaClipboard size={50} />
               <Label>나의 게시글</Label>
             </MenuItem>
-            <MenuItem onClick={() => navi("/mypage_mile")}>
+            <MenuItem onClick={() => navi("/mypage_mile_visual")}>
               <FaCoins size={50} />
               <Label>마일리지 현황</Label>
             </MenuItem>
