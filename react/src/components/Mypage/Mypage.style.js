@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  height: 510px;
 `;
 
 export const ContentWrapper = styled.div`
@@ -32,26 +32,26 @@ export const Greeting = styled.div`
 `;
 
 export const Welcome = styled.div`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 `;
 
 export const Grade = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   color: #666;
   margin-top: 3px;
 `;
 
 export const MenuGrid = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 10px;
   flex-wrap: wrap;
   justify-content: flex-start;
 `;
 
 export const MenuItem = styled.div`
-  width: 180px;
-  height: 150px;
+  width: 150px;
+  height: 140px;
   border: 1px solid #ddd;
   border-radius: 8px;
   display: flex;

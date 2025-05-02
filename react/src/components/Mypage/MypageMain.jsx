@@ -1,23 +1,50 @@
-import { FaUserEdit, FaUserTimes, FaClipboard, FaCoins, FaQuestionCircle } from "react-icons/fa";
+import { FaUserEdit, FaUserLock, FaUserTimes, FaClipboard, FaCoins, FaQuestionCircle } from "react-icons/fa";
 import { Container, ContentWrapper, TopSection, Profile, Greeting, Welcome, Grade, 
           MenuGrid, MenuItem, Label } from "./Mypage.style";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect  } from "react";
 
 const MypageMain = () => {
 
   const navi = useNavigate();
+  const userName = sessionStorage.getItem("userName"); // 유저명
+  const token = sessionStorage.getItem("accessToken");
+  const [grade, setGrade] = useState({ icon: "", name: "" });
 
-  // 나중에 axios로 로그인 회원 아이디, 등급 불러와서 관련 로직 추가해야함.
+  // 등급 지정
+  const getGradeName = (gradeId) => {
+    switch (gradeId) {
+      case 1:
+        return { icon: "🌱", name: "새싹" };
+      case 2:
+        return { icon: "🌳", name: "나무" };
+      case 3:
+        return { icon: "🌲", name: "숲" };
+      default:
+        return { icon: "🌍", name: "지구" };
+    }
+  };
 
-  /*
-    메인 페이지: mypage_main (데이터 불러오기)
-    내 정보 수정: mypage_info (데이터 불러오기)
-    회원 탈퇴: mypage_deleteMember
-    내 게시글: mypage_board
-    내 마일리지 현황: mypage_mile
-    내 마일리지 신청 현황: mypage_mileStatus
-    QnA: mypage_Qna (데이터 불러오기)
-  */
+  // 내 등급 조회
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try{
+        const response = await axios.get("http://localhost/info/grade", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const gradeId = response.data.gradeId;
+        setGrade(getGradeName(gradeId));
+      } catch (error) {
+        console.error("내 등급 불러오기 실패", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return(
     <>
@@ -26,31 +53,35 @@ const MypageMain = () => {
           <TopSection>
             <Profile>
               <Greeting>
-                <Welcome><strong>○○○</strong>님 환영합니다.</Welcome>
-                <Grade>현재 내 등급 : <strong>새싹</strong></Grade>
+                <Welcome><strong>{userName}</strong>님 환영합니다.</Welcome>
+                <Grade>현재 내 등급 : <strong style={{color: "#408C70"}}>{grade.icon}{grade.name}</strong></Grade>
               </Greeting>
             </Profile>
           </TopSection>
 
           <MenuGrid>
             <MenuItem onClick={() => navi("/mypage_info")}>
-              <FaUserEdit size={60} />
+              <FaUserEdit size={50} />
               <Label>내 정보 수정</Label>
             </MenuItem>
+            <MenuItem onClick={() => navi("/mypage_password")}>
+              <FaUserLock size={50} />
+              <Label>비밀번호 변경</Label>
+            </MenuItem>
             <MenuItem onClick={() => navi("/mypage_delMember")}>
-              <FaUserTimes size={60} />
+              <FaUserTimes size={50} />
               <Label>회원 탈퇴</Label>
             </MenuItem>
-            <MenuItem onClick={() => navi("/mypage_board")}>
-              <FaClipboard size={60} />
+            <MenuItem onClick={() => navi("/mypage_market")}>
+              <FaClipboard size={50} />
               <Label>나의 게시글</Label>
             </MenuItem>
-            <MenuItem onClick={() => navi("/mypage_mile")}>
-              <FaCoins size={60} />
+            <MenuItem onClick={() => navi("/mypage_mile_visual")}>
+              <FaCoins size={50} />
               <Label>마일리지 현황</Label>
             </MenuItem>
             <MenuItem onClick={() => navi("/mypage_qna")}>
-              <FaQuestionCircle size={60} />
+              <FaQuestionCircle size={50} />
               <Label>QnA</Label>
             </MenuItem>
           </MenuGrid>
