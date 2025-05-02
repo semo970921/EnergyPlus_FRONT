@@ -151,9 +151,6 @@ const Header = () => {
               <li className="link-item" onClick={() => navi("/signup")}>
                 회원가입
               </li>
-              <li className="link-item" onClick={() => navi("/mypage_main")}>
-                마이페이지
-              </li>
             </>
           )}
         </ul>
