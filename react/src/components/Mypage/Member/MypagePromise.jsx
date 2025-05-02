@@ -4,7 +4,7 @@ import axios from "axios";
 
 // React의 컴포넌트 간 데이터 전달(= props)
 // 로그인 기능 구현되면 testToken 수정하기
-const MypagePromise = ( {testToken} ) => {
+const MypagePromise = ( {token} ) => {
 
   const [userPromise, setUserPromise] = useState(""); // 나의 다짐
   const [promiseExists, setPromiseExists] = useState(false); // 등록인지 수정인지 판단
@@ -15,7 +15,7 @@ const MypagePromise = ( {testToken} ) => {
       try{
         const response = await axios.get("http://localhost/promise/me", {
           headers: {
-            Authorization: `Bearer ${testToken}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         setUserPromise(response.data.userPromise);
@@ -35,11 +35,12 @@ const MypagePromise = ( {testToken} ) => {
         userPromise: userPromise,
       }, {
         headers: {
-          Authorization: `Bearer ${testToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       alert("나의 다짐이 등록되었습니다.");
       setPromiseExists(true); // 이후부터는 다짐 수정
+      window.dispatchEvent(new Event('promiseChanged'));
 
     } catch (error) {
       console.error("등록 실패", error);
@@ -54,10 +55,11 @@ const MypagePromise = ( {testToken} ) => {
         userPromise: userPromise,
       }, {
         headers: {
-          Authorization: `Bearer ${testToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       alert("나의 다짐이 수정되었습니다.");
+      window.dispatchEvent(new Event('promiseChanged'));
 
     } catch(error) {
       console.error("수정 실패", error);
