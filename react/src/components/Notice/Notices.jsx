@@ -17,30 +17,34 @@ import {
 
 
 const Notices = () => {
+
   const [notices, setNotices]             = useState([]);
   const [page, setPage]                   = useState(0);
   const [totalCount, setTotalCount]       = useState(0);
   const [keyword, setKeyword]             = useState("");
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const size                               = 5;
+  const size                               = 10;
   const totalPages                         = Math.ceil(totalCount / size);
-  const navigate                           = useNavigate();
+  const navi                         = useNavigate();
+  
+  // 검색
+  const [searchKeyword, setSearchKeyword] = useState("");
+
 
   useEffect(() => {
     axios.get("http://localhost/notices", {
-      params: { page, size, keyword: searchKeyword }
+      params: { page, keyword: searchKeyword }
     })
     .then(res => {
-      console.log("▶ API 응답", res.data);
-
       setNotices(res.data);
-      setTotalCount(res.data.length);
     })
-    .catch(err => console.error("공지사항 불러오기 실패", err));
+    axios.get("http://localhost/notices/pages", {
+      params: { keyword: searchKeyword }
+    })
+    .then(res => {
+      setTotalCount(res.data * size);
+    });
+
   }, [page, searchKeyword]);
-
-
-
 
   // 2) 검색 핸들러
   const handleSearch = () => {
@@ -53,9 +57,7 @@ const Notices = () => {
     setPage(0);
   };
 
-  // 
-
-  // 3) 페이징 블록 계산 (QnA와 동일)
+  // 3) 페이징 블록 계산
   const blockSize  = 5;
   const blockIndex = Math.floor(page / blockSize);
   const startPage  = blockIndex * blockSize;
@@ -76,7 +78,7 @@ const Notices = () => {
           {keyword && (
             <SearchButton onClick={resetSearch}>초기화</SearchButton>
           )}
-          <WriteButton onClick={() => navigate("/noticewrite")}>
+          <WriteButton onClick={() => navi("/noticewrite")}>
             글 작성
           </WriteButton>
         </SearchBox>
@@ -94,7 +96,7 @@ const Notices = () => {
           {notices.map(n => (
             <tr
               key={n.noticeId}
-              onClick={() => navigate(`/notices/${n.noticeId}`)}
+              onClick={() => navi(`/notices/${n.noticeId}`)}
               style={{ cursor: "pointer" }}
             >
               <td>{n.noticeId}</td>
@@ -149,7 +151,7 @@ const Notices = () => {
       </Pagination>
 
       {/* 5) 뒤로가기 */}
-      <BackBtn onClick={() => navigate(-1)}>뒤로가기</BackBtn>
+      <BackBtn onClick={() => navi(-1)}>뒤로가기</BackBtn>
     </Wrapper>
   );
 };
