@@ -23,6 +23,7 @@ import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
 import LoginForm from "./components/Login/LoginForm";
+import MileageStore from "./components/Mileage/MileageStore/MileageStore";
 import ChallengeEdit from "./components/Challenge/ChallengeEdit";
 import NoticeEdit from "./components/Notice/NoticeEdit";
 import MypageQnaWrite from "./components/Mypage/Qna/MypageQnaWrite";
@@ -57,6 +58,7 @@ function App() {
           />
           {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
+          <Route path="/mileagestore" element={<MileageStore />} />
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
