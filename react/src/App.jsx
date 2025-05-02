@@ -29,6 +29,7 @@ import MypageQnaWrite from "./components/Mypage/Qna/MypageQnaWrite";
 import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
+import CardNewsList from "./components/CardNews/CardNewsList";
 
 function App() {
   return (
@@ -85,7 +86,10 @@ function App() {
           <Route path="/signup" element={<SignupForm />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
+          {/* 카드뉴스 */}
+          <Route path="/card-news" element={<CardNewsList />} />
         </Routes>
+        {/* 메인페이지 */}
       </div>
       <Footer />
     </>

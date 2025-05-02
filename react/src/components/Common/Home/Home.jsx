@@ -1,14 +1,17 @@
 import styled from "styled-components";
+import CardNewsMain from "../../CardNews/CardNewsMain";
 
 const Home = () => {
   return (
     <>
-      <HomeLayout></HomeLayout>
+      <HomeLayout>
+        <CardNewsMain />
+      </HomeLayout>
     </>
   );
 };
 export default Home;
 
 const HomeLayout = styled.div`
-  height: 600px;
+  min-height: 600px;
 `;
