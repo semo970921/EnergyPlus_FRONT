@@ -18,26 +18,46 @@ import {
 
 const ChallengeList = () => {
   const [challenges, setChallenges] = useState([]);
+  const [page, setPage]                   = useState(0);
+  const [totalCount, setTotalCount]       = useState(0);
   const [keyword, setKeyword] = useState("");
+  const size = 10;
+  const totalPages                         = Math.ceil(totalCount / size);
   const navigate = useNavigate();
+  
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   useEffect(() => {
-    fetchList();
-  }, []);
-
-  const fetchList = async () => {
-    try {
-      const res = await axios.get('http://localhost/challenges');
+    axios.get("http://localhost/challenges",{
+      params : {page, size, keyword: searchKeyword }
+    })
+    .then(res => {
       setChallenges(res.data);
-    } catch (err) {
-      console.error('챌린지 목록 불러오기 실패', err);
-    }
+    })
+    axios.get("http://localhost/challenges/pages", {
+      params: { keyword: searchKeyword }
+    })
+    .then(res => {
+      setTotalCount(res.data * size);
+    });
+  }, [page, searchKeyword]);
+
+  // 검색 핸들러
+  const handleSearch = () => {
+    setPage(0);
+    setSearchKeyword(keyword);
+  };
+  const resetSearch = () => {
+    setKeyword("");
+    setSearchKeyword("");
+    setPage(0);
   };
 
-  const handleSearch = () => {
-    if (!keyword) return fetchList();
-    setChallenges(prev => prev.filter(item => item.challengeTitle.includes(keyword)));
-  };
+   // 3) 페이징 블록 계산
+   const blockSize  = 5;
+   const blockIndex = Math.floor(page / blockSize);
+   const startPage  = blockIndex * blockSize;
+   const endPage    = Math.min(startPage + blockSize, totalPages);
 
   return (
     <Wrapper>
@@ -78,13 +98,44 @@ const ChallengeList = () => {
           </tbody>
         </StyledTable>
 
+      
+
       <Pagination>
-        <PageBtn onClick={() => {/* 이전 페이지 로직 */}}>&lt;&lt;</PageBtn>
-        {[1,2,3,4,5].map(n => (
-          <PageBtn key={n} onClick={() => {/* 페이지 이동 로직 */}}>{n}</PageBtn>
+        <PageBtn onClick={() => setPage(0)} disabled={page === 0}>
+          ≪
+        </PageBtn>
+        <PageBtn
+          onClick={() => setPage(p => Math.max(p - 1, 0))}
+          disabled={page === 0}
+        >
+          {"<"}
+        </PageBtn>
+
+        {Array.from({ length: endPage - startPage }, (_, i) => (
+          <PageBtn
+            key={startPage + i}
+            onClick={() => setPage(startPage + i)}
+            active={page === startPage + i}
+          >
+            {startPage + i + 1}
+          </PageBtn>
         ))}
-        <PageBtn onClick={() => {/* 다음 페이지 로직 */}}>&gt;&gt;</PageBtn>
+
+        <PageBtn
+          onClick={() => setPage(p => Math.min(p + 1, totalPages - 1))}
+          disabled={page === totalPages - 1}
+        >
+          {">"}
+        </PageBtn>
+        <PageBtn
+          onClick={() => setPage(totalPages - 1)}
+          disabled={page === totalPages - 1}
+        >
+          ≫
+        </PageBtn>
       </Pagination>
+
+        <BackBtn onClick={() => navigate(-1)}>뒤로가기</BackBtn>
       </Wrapper>
   );
 };
