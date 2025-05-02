@@ -33,7 +33,7 @@ import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import CardNewsList from "./components/CardNews/CardNewsList";
 import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import Member from "./components/admin/member/Member";
-
+import CardNewsForm from "./components/CardNews/CardNewsForm";
 function App() {
   return (
     <>
@@ -92,7 +92,8 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           {/* 카드뉴스 */}
           <Route path="/cardnews_list" element={<CardNewsList />} />
-          <Route path="/cardnews_detail" element={<CardNewsDetail />} />
+          <Route path="/cardnews_detail/:id" element={<CardNewsDetail />} />
+          <Route path="/cardnews_form" element={<CardNewsForm />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/member" element={<Member />} />
         </Routes>

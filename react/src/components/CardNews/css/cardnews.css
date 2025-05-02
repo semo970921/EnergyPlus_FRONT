@@ -83,3 +83,69 @@ button.more-btn:hover {
   text-align: right;
   padding-bottom: 16px;
 }
+
+/* Card News Form */
+.cardnews-form {
+  margin: 40px auto;
+  padding: 32px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #f1f1f1;
+}
+
+.cardnews-form h2 {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.cardnews-form label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardnews-form input[type="text"],
+.cardnews-form input[type="number"],
+.cardnews-form textarea {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.cardnews-form input[type="file"] {
+  margin-top: 4px;
+}
+
+.cardnews-form textarea {
+  min-height: 300px;
+}
+
+.cardnews-form button[type="submit"] {
+  align-self: center;
+  background-color: #408c70;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cardnews-form button[type="submit"]:hover {
+  opacity: 0.75;
+}
