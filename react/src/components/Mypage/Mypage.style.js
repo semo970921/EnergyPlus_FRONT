@@ -32,12 +32,12 @@ export const Greeting = styled.div`
 `;
 
 export const Welcome = styled.div`
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
 `;
 
 export const Grade = styled.div`
-  font-size: 16px;
+  font-size: 18px;
   color: #666;
   margin-top: 3px;
 `;
