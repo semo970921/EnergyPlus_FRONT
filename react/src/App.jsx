@@ -31,6 +31,7 @@ import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import CardNewsList from "./components/CardNews/CardNewsList";
+import CardNewsDetail from "./components/CardNews/CardNewDetail";
 
 function App() {
   return (
@@ -89,7 +90,8 @@ function App() {
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
           {/* 카드뉴스 */}
-          <Route path="/card-news" element={<CardNewsList />} />
+          <Route path="/cardnews_list" element={<CardNewsList />} />
+          <Route path="/cardnews_detail" element={<CardNewsDetail />} />
         </Routes>
         {/* 메인페이지 */}
       </div>

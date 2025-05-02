@@ -33,7 +33,7 @@ input.search-input:focus {
   border-color: #408c70;
 }
 
-.gallery-list {
+.market-gallery .gallery-list {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -41,7 +41,7 @@ input.search-input:focus {
   margin: 0 -16px;
 }
 
-.gallery-item {
+.market-gallery .gallery-item {
   width: calc(33.333% - 34px);
   margin: 0 16px 32px; /* 좌우 마진만 줌 */
   aspect-ratio: 1/1;
@@ -54,25 +54,25 @@ input.search-input:focus {
   cursor: pointer;
 }
 
-.gallery-item:hover {
+.market-gallery .gallery-item:hover {
   transform: translateY(-4px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-.item-thumb {
+.market-gallery .item-thumb {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.item-image {
+.market-gallery .item-image {
   width: 100%;
   object-fit: cover;
   display: block;
   aspect-ratio: 1 / 1;
 }
 
-.item-status {
+.market-gallery .item-status {
   position: absolute;
   top: 8px;
   left: 8px;
@@ -86,7 +86,7 @@ input.search-input:focus {
   background-color: rgb(0 0 0 / 0.4);
 }
 
-.item-info {
+.market-gallery .item-info {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -100,32 +100,34 @@ input.search-input:focus {
   border-radius: 0 0 12px 12px;
   box-sizing: border-box;
 }
-
-.item-title {
+.market-gallery p {
+  color: #fff;
+}
+.market-gallery .item-title {
   font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: #fff;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
-
-.item-price {
+.market-gallery .item-price {
   font-size: 16px;
   font-weight: 500;
-  color: #666;
 }
 
-.item-meta {
+.market-gallery .item-meta {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
   color: #aaa;
 }
 
-.item-info > p {
-  color: #fff;
-}
-
 @media (max-width: 999px) {
-  .gallery-item {
+  .market-gallery .gallery-item {
     width: calc(50% - 34px);
   }
   .page-title {
@@ -134,7 +136,7 @@ input.search-input:focus {
   .page-title + .btn-wrap {
     padding: 0 24px 16px;
   }
-  .gallery-list {
+  .market-gallery .gallery-list {
     padding: 0 24px;
   }
 }
