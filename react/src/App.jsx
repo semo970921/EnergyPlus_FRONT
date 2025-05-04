@@ -31,6 +31,7 @@ import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import Member from "./components/admin/member/Member";
+import KakaoCallback from "./components/Login/kakaoCallback";
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
           <Route path="/signup" element={<SignupForm />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/member" element={<Member />} />
 
