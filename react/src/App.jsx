@@ -31,7 +31,7 @@ import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import Member from "./components/admin/member/Member";
-import KakaoCallback from "./components/Login/kakaoCallback";
+import kakaoCallback from "./components/Login/kakaoCallback";
 
 function App() {
   return (
