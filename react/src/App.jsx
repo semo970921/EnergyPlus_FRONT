@@ -90,7 +90,7 @@ function App() {
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
           {/* 관리자 회원관리 */}
-          <Route path="/admin/member" element={<Member />} />
+          <Route path="/admin/members" element={<Member />} />
 
         </Routes>
       </div>
