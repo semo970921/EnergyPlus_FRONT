@@ -1,27 +1,81 @@
-import { useSearchParams, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
+import { ChartContainer, ButtonWrap, ChartLabel, ChartWrap, Container,
+  Content, GreenBtn, MileageBox, NoDataBox, NoDataText, Title, WhiteBtn } from "./MypageMileVisual.style";
 
 
 const MypageMileVisual = () => {
 
   const navi = useNavigate();
+  const [totalMile, setTotalMile] = useState(0); // 마일리지 총합
+  const [categoryData, setCategoryData] = useState([0, 0, 0]); // 카테고리
+  const token = sessionStorage.getItem("accessToken");
 
-  // 마일리지 총합 더미 데이터
-  const availableMileage = 1400;
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isAllZero, setIsAllZero] = useState(false);
 
-  // 카테고리별 총합 더미 데이터
+  // 마일리지 총합 조회
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("http://localhost/totalmile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setTotalMile(response.data.totalMileage);
+      } catch(error) {
+        console.error("총 마일리지 불러오기 실패", error);
+      }
+    };
+    
+    fetchUserData();
+  }, []);
+
+
+  // 카테고리별 마일리지 총합 조회
+  useEffect(() => {
+    const fetchCateSum = async () => {
+      try {
+        const response = await axios.get("http://localhost/totalcategory", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        const { bikeTotal = 0, reuseTotal = 0, etcTotal = 0 } = response.data;
+        const newData = [bikeTotal, reuseTotal, etcTotal];
+
+        // newData가 전부 0인지 확인해서 allZero 플래그로 구분
+        const allZero = newData.join("") === "000";
+        
+        setCategoryData(newData);
+        setIsAllZero(allZero);
+        setIsLoaded(true);
+
+      } catch (error) {
+        console.error("카테고리별 마일리지 불러오기 실패", error);
+        setCategoryData([0, 0, 0]);
+        setIsAllZero(true);
+
+      } finally {
+        setIsLoaded(true); // 여기서 무조건 로딩 끝으로 바꿈
+      }
+    };
+  
+    fetchCateSum();
+  }, []);
+
   const consumedData = {
-    labels: ["자전거", "다회용기"],
+    labels: ["자전거", "다회용기", "기타"],
     datasets: [
       {
-        data: [70, 30],
-        backgroundColor: ["#ef5350", "#64b5f6"],
+        data: categoryData,
+        backgroundColor: ["#81c784", "#ffb74d", "#64b5f6"],
         borderWidth: 1,
       },
     ],
@@ -36,19 +90,30 @@ const MypageMileVisual = () => {
           <MileageBox>
             <p>사용 가능한 마일리지</p>
             <strong>
-              {availableMileage.toLocaleString()}<span>마일리지</span>
+              {totalMile}<span>마일리지</span>
             </strong>
           </MileageBox>
 
           <ChartWrap>
-            <Pie data={consumedData} />
-            <ChartLabel>내가 소비한 마일리지</ChartLabel>
+            <ChartContainer>
+              {!isLoaded ? (
+                <NoDataText>로딩 중...</NoDataText>
+              ) : isAllZero ? (
+                <NoDataBox>
+                  <NoDataText>아직 적립 내역이 없습니다 😢</NoDataText>
+                </NoDataBox>
+              ) : (
+                <Pie data={consumedData} />
+              )}
+            </ChartContainer>
+            <ChartLabel>내가 적립한 마일리지</ChartLabel>
           </ChartWrap>
+
         </Content>
 
         <ButtonWrap>
           <GreenBtn onClick={() => navi("/mypage_mile")}>마일리지 신청 현황 바로가기</GreenBtn>
-          <WhiteBtn onClick={() => navi(-1)}>뒤로가기</WhiteBtn>
+          <WhiteBtn onClick={() => navi("/mypage_main")}>뒤로가기</WhiteBtn>
         </ButtonWrap>
       </Container>
     </>
@@ -56,87 +121,3 @@ const MypageMileVisual = () => {
 };
 
 export default MypageMileVisual;
-
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 4rem;
-`;
-
-const Title = styled.h2`
-  font-weight: bold;
-  align-self: flex-start;
-  margin-bottom: 2rem;
-`;
-
-const Content = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4rem;
-  width: 100%;
-`;
-
-const MileageBox = styled.div`
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 1.8rem 2.8rem;
-  text-align: center;
-
-  p {
-    font-size: 1.2rem;
-  }
-
-  strong {
-    font-size: 2.2rem;
-  }
-
-  span {
-    font-size: 1.2rem;
-    margin-left: 4px;
-  }
-`;
-
-const ChartWrap = styled.div`
-  width: 300px;
-  text-align: center;
-  margin-left: 20px;
-`;
-
-const ChartLabel = styled.div`
-  margin-top: 1rem;
-  font-weight: bold;
-  font-size: 20px;
-`;
-
-const ButtonWrap = styled.div`
-  margin-top: 3rem;
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  width: 100%;
-`;
-
-const GreenBtn = styled.button`
-  padding: 0.8rem 1.6rem;
-  background-color: #408C70;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-`;
-
-const WhiteBtn = styled.button`
-  padding: 0.8rem 1.6rem;
-  background-color: white;
-  border: 2px solid #408C70;
-  color: #408C70;
-  border-radius: 8px;
-  cursor: pointer;
-  &:hover {
-    background-color: #408C70;
-    color: white;
-  }
-`;
