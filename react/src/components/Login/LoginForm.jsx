@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { getKakaoLoginURL } from "../../services/authService"; // 서비스 함수 import
 import {
   LoginContainer,
   LoginBox,
@@ -12,17 +13,22 @@ import {
   LinkItem,
   Separator,
   ErrorMessage,
+  SocialLoginSection,
+  KakaoLoginButton,
+  Divider,
 } from "./LoginForm.styles";
+
+import kakaoLogo from '../../assets/kakao_logo.png';
+
 
 const LoginForm = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
+  // 일반 로그인 처리
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -36,15 +42,11 @@ const LoginForm = () => {
     setErrorMsg("");
 
     try {
-      console.log("로그인 시도:", { userEmail, userPassword });
-
       // 백엔드 API 호출
       const response = await axios.post("http://localhost:80/auth/login", {
         userEmail: userEmail,
         userPassword: userPassword,
       });
-
-      console.log("로그인 응답:", response.data);
 
       // 로그인 성공 처리
       if (response.data) {
@@ -55,18 +57,14 @@ const LoginForm = () => {
         // 사용자 정보 저장
         sessionStorage.setItem("userEmail", response.data.userEmail);
         sessionStorage.setItem("userName", response.data.userName);
-
         sessionStorage.setItem("userRole", response.data.userRole);
 
-        // 상태 업데이트
-        setIsLoggedIn(true);
-        setUserName(response.data.userName);
-
-        // 로그인 상태변경 이벤트 발생하면 헤더에 알림
+        // 로그인 상태변경 이벤트 발생
         window.dispatchEvent(new Event("loginStateChanged"));
 
         alert(response.data.userName + "님 환영합니다!");
 
+        // 역할에 따라 리다이렉트
         if (response.data.userRole === "ROLE_ADMIN") {
           navigate("/admin");
         } else {
@@ -81,10 +79,19 @@ const LoginForm = () => {
     }
   };
 
+  // 카카오 로그인 처리
+  const handleKakaoLogin = () => {
+    // 서비스 함수를 사용하여 카카오 로그인 URL 가져오기
+    const kakaoAuthURL = getKakaoLoginURL();
+    window.location.href = kakaoAuthURL;
+  };
+
   return (
     <LoginContainer>
       <LoginBox>
         <LoginTitle>로그인</LoginTitle>
+        
+        {/* 일반 로그인 폼 */}
         <Form onSubmit={handleLogin}>
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
 
@@ -109,6 +116,7 @@ const LoginForm = () => {
           </LoginButton>
         </Form>
 
+        {/* 링크 섹션 */}
         <LinkContainer>
           <LinkItem onClick={() => navigate("/find-password")}>
             비밀번호 찾기
@@ -116,6 +124,19 @@ const LoginForm = () => {
           <Separator>|</Separator>
           <LinkItem onClick={() => navigate("/signup")}>회원가입</LinkItem>
         </LinkContainer>
+
+        {/* 구분선 */}
+        <Divider>
+          <span>또는</span>
+        </Divider>
+
+        {/* 소셜 로그인 섹션 */}
+        <SocialLoginSection>
+          {/* <SocialLoginTitle>소셜 계정으로 간편 로그인</SocialLoginTitle> */}
+          <KakaoLoginButton src={kakaoLogo} onClick={handleKakaoLogin} /> 
+        </SocialLoginSection>
+
+
       </LoginBox>
     </LoginContainer>
   );
