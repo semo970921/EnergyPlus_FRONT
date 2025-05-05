@@ -100,6 +100,9 @@ function App() {
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
 
+          {/* 관리자 qna */}
+          {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
+
         </Routes>
       </div>
       <Footer />
