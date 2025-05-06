@@ -25,7 +25,6 @@ const CardNewsList = () => {
       <div className="main-section-header">
         <h1 className="main-section-title">카드뉴스</h1>
       </div>
-
       <div className="main-section cardnew-gallery">
         {cardNewsList.length === 0 ? (
           <p className="no-cardnews">등록된 카드뉴스가 없습니다.</p>

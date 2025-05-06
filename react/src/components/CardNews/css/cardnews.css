@@ -155,13 +155,16 @@ h2.cardnews-title {
 }
 .cardnews-header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   padding-bottom: 16px;
   border-bottom: 1px solid #000;
 }
 .cardnews-detail-content-wrap {
   padding: 30px 0 40px;
+}
+.cardnews-detail-content-wrap .cardnews-detail-content img {
+  width: 100%;
 }
 .cardnew-detail-buttons {
   display: flex;

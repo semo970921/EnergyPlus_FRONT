@@ -1,12 +1,31 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CardNewsForm = () => {
+  const navi = useNavigate();
+
+  const [isAuthorized, setIsAuthorized] = useState(null);
   const [formData, setFormData] = useState({
-    cardnewsTitle: "",
-    cardnewsContent: "",
+    cardNewsTitle: "",
+    cardNewsContent: "",
   });
   const [file, setFile] = useState(null);
+
+  useEffect(() => {
+    const userRole = sessionStorage.getItem("userRole");
+    const accessToken = sessionStorage.getItem("accessToken");
+
+    // 로그인하지 않았거나, 관리자 권한이 아닌 경우
+    if (!accessToken || userRole !== "ROLE_ADMIN") {
+      alert("접근 권한이 없습니다.");
+      navi("/");
+    } else {
+      setIsAuthorized(true);
+    }
+  }, [navi]);
+
+  if (isAuthorized === null) return null;
 
   const handleChange = (e) => {
     setFormData({
@@ -23,19 +42,20 @@ const CardNewsForm = () => {
     e.preventDefault();
 
     const data = new FormData();
-    data.append("cardnewsTitle", formData.cardnewsTitle);
-    data.append("cardnewsContent", formData.cardnewsContent);
+    data.append("cardNewsTitle", formData.cardNewsTitle);
+    data.append("cardNewsContent", formData.cardNewsContent);
     if (file) data.append("file", file);
 
     try {
-      const token = sessionStorage.getItem("accessToken"); // 관리자 토큰
       await axios.post("http://localhost:80/admin/cardnews/form", data, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
         },
       });
+
       alert("카드뉴스 등록 완료!");
+      navi("/cardnews/list");
     } catch (err) {
       console.error(err);
       alert("등록 실패!");
@@ -56,8 +76,8 @@ const CardNewsForm = () => {
           </div>
           <input
             type="text"
-            name="cardnewsTitle"
-            value={formData.cardnewsTitle}
+            name="cardNewsTitle"
+            value={formData.cardNewsTitle}
             onChange={handleChange}
             required
           />
@@ -68,8 +88,8 @@ const CardNewsForm = () => {
             내용 <em className="text-danger">*</em>
           </div>
           <textarea
-            name="cardnewsContent"
-            value={formData.cardnewsContent}
+            name="cardNewsContent"
+            value={formData.cardNewsContent}
             onChange={handleChange}
             required
           />

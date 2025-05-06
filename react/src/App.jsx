@@ -37,6 +37,7 @@ import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
 import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
+import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
 import kakaoCallback from "./components/Login/kakaoCallback";
 function App() {
   return (
@@ -106,11 +107,9 @@ function App() {
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
           {/* 카드뉴스 */}
           <Route path="/cardnews/list" element={<CardNewsList />} />
-          <Route
-            path="/cardnews_detail/:cardNewsNo"
-            element={<CardNewsDetail />}
-          />
+          <Route path="/cardnews_detail/:id" element={<CardNewsDetail />} />
           <Route path="/cardnews_form" element={<CardNewsForm />} />
+          <Route path="/admin/cardnews/edit/:id" element={<CardNewsEdit />} />
         </Routes>
         {/* 메인페이지 */}
       </div>
