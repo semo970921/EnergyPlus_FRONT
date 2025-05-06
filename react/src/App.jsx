@@ -35,6 +35,7 @@ import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
 import kakaoCallback from "./components/Login/kakaoCallback";
+import SignupType from "./components/Signup/SignupType";
 
 function App() {
   return (
@@ -93,7 +94,8 @@ function App() {
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
 
           {/* 회원가입 */}
-          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/signup-type" element={<SignupType />} />
+          <Route path="/signup-form" element={<SignupForm />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
@@ -103,6 +105,8 @@ function App() {
           {/* 관리자 qna */}
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
 
+
+          
         </Routes>
       </div>
       <Footer />
