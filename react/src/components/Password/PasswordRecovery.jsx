@@ -34,6 +34,7 @@ const PasswordRecovery = () => {
                 <Title>비밀번호 찾기</Title>
 
                 <InputGroup>
+                    <Label>이메일</Label>
                     <InputWrapper>
                         <Input type="email" value={email}  onChange={handleEmail} placeholder="이메일을 입력해주세요."/>
                         <EmailButton onClick={handleEmailSubmit}>이메일 인증</EmailButton>
