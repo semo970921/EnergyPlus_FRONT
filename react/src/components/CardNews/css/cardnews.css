@@ -10,7 +10,7 @@ button.more-btn:hover {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 16px 0;
+  padding: 60px 0 24px;
 }
 .main-section-header h1.main-section-title {
   margin: 0;
@@ -72,16 +72,11 @@ button.more-btn:hover {
   font-size: 18px;
   font-weight: 700;
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* 표시할 최대 줄 수 */
+  -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   word-break: break-word;
-}
-
-.cardnews-date {
-  text-align: right;
-  padding-bottom: 16px;
 }
 
 /* Card News Form */
@@ -148,4 +143,37 @@ button.more-btn:hover {
 
 .cardnews-form button[type="submit"]:hover {
   opacity: 0.75;
+}
+
+/* cardnews detail */
+h2.cardnews-title {
+  margin: 0;
+}
+
+.cardnews-content {
+  padding: 16px 0;
+}
+.cardnews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #000;
+}
+.cardnews-detail-content-wrap {
+  padding: 30px 0 40px;
+}
+.cardnew-detail-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.cardnews-btn {
+  background-color: #408c70;
+  color: #fff;
+}
+button.cardnews-btn:hover {
+  opacity: 0.65;
+  border: 1px solid #408c70;
 }

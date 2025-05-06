@@ -36,7 +36,7 @@ import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
-import CardNewsForm from "./components/CardNews/CardNewsForm";
+import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
 function App() {
   return (
     <>
@@ -99,8 +99,11 @@ function App() {
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
           {/* 카드뉴스 */}
-          <Route path="/cardnews_list" element={<CardNewsList />} />
-          <Route path="/cardnews_detail/:id" element={<CardNewsDetail />} />
+          <Route path="/cardnews/list" element={<CardNewsList />} />
+          <Route
+            path="/cardnews_detail/:cardNewsNo"
+            element={<CardNewsDetail />}
+          />
           <Route path="/cardnews_form" element={<CardNewsForm />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/member" element={<Member />} />

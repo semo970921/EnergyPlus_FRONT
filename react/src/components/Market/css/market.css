@@ -2,7 +2,8 @@
   text-align: right;
 }
 h1.page-title {
-  margin-top: 80px;
+  margin: 80px 0 50px;
+  text-align: center;
 }
 .btn-write {
   margin-bottom: 24px;
@@ -12,7 +13,7 @@ h1.page-title {
 }
 /* 검색창 */
 .btn-wrap.market-search {
-  padding-bottom: 16px;
+  padding-bottom: 30px;
 }
 .btn-wrap.market-search button {
   margin: 0 2px;

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { MdOutlineSubdirectoryArrowRight } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const MarketComment = ({ marketNo }) => {
+  const navigate = useNavigate();
   const token = sessionStorage.getItem("accessToken");
 
   const [commentContent, setCommentContent] = useState("");
@@ -53,6 +55,12 @@ const MarketComment = ({ marketNo }) => {
   const handleCommentSubmit = (e) => {
     e.preventDefault();
 
+    if (!token) {
+      alert("로그인 후 이용해주세요.");
+      navigate("/login");
+      return;
+    }
+
     axios
       .post(
         "http://localhost:80/markets/comments",
@@ -65,7 +73,7 @@ const MarketComment = ({ marketNo }) => {
       })
       .catch((err) => {
         console.error(err);
-        alert("댓글 등록 실패");
+        alert("댓글 등록을 실패하였습니다.");
       });
   };
 
@@ -82,7 +90,7 @@ const MarketComment = ({ marketNo }) => {
       })
       .catch((err) => {
         console.error(err);
-        alert("댓글 수정 실패");
+        alert("댓글을 수정을 실패하였습니다.");
       });
   };
 
@@ -94,7 +102,7 @@ const MarketComment = ({ marketNo }) => {
       .then(() => fetchComments())
       .catch((err) => {
         console.error(err);
-        alert("댓글 삭제 실패");
+        alert("댓글 삭제을 실패하였습니다.");
       });
   };
 
@@ -103,7 +111,7 @@ const MarketComment = ({ marketNo }) => {
     const userId = sessionStorage.getItem("userId");
 
     if (!reason || reason.trim() === "") {
-      alert("신고 사유를 입력해야 합니다!");
+      alert("신고 사유를 입력하셔야 신고 접수가 가능합니다.");
       return;
     }
 
@@ -122,13 +130,17 @@ const MarketComment = ({ marketNo }) => {
       alert("댓글 신고가 완료되었습니다!");
     } catch (error) {
       console.error(error);
-      alert("댓글 신고에 실패했습니다.");
+      alert("댓글 신고를를 실패하였습니다.");
     }
   };
 
   const handleReplySubmit = (e, commentNo) => {
     e.preventDefault();
-
+    if (!token) {
+      alert("로그인 후 이용해주세요.");
+      navigate("/login");
+      return;
+    }
     axios
       .post(
         "http://localhost:80/markets/reply/write",
@@ -142,7 +154,7 @@ const MarketComment = ({ marketNo }) => {
       })
       .catch((err) => {
         console.error(err);
-        alert("답글 등록 실패");
+        alert("답글 등록을 실패하였습니다.");
       });
   };
 
@@ -159,7 +171,7 @@ const MarketComment = ({ marketNo }) => {
       })
       .catch((err) => {
         console.error(err);
-        alert("답글 수정 실패");
+        alert("답글 수정을 실패하였습니다.");
       });
   };
 
@@ -171,7 +183,7 @@ const MarketComment = ({ marketNo }) => {
       .then(() => fetchComments())
       .catch((err) => {
         console.error(err);
-        alert("답글 삭제 실패");
+        alert("답글 삭제를 실패하였습니다.");
       });
   };
 
@@ -181,7 +193,7 @@ const MarketComment = ({ marketNo }) => {
     const token = sessionStorage.getItem("accessToken");
 
     if (!reason || reason.trim() === "") {
-      alert("신고 사유를 입력해야 합니다!");
+      alert("신고 사유를 입력하셔야 답글 신고가 가능합니다.");
       return;
     }
 
@@ -200,7 +212,7 @@ const MarketComment = ({ marketNo }) => {
       alert("답글 신고가 완료되었습니다!");
     } catch (error) {
       console.error(error);
-      alert("답글 신고에 실패했습니다.");
+      alert("답글 신고를 실패하였습니다.");
     }
   };
 
