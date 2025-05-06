@@ -75,3 +75,26 @@ export const VerifyButton = styled.button`
   }
 `;
 
+export const ResetButton = styled.button`
+  width: 150px;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 1rem auto;
+  display: block;
+  
+  &:hover {
+    background-color: #45a049;
+  }
+`;
+
+export const ErrorMessage = styled.div`
+  color: #dc3545;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+

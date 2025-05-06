@@ -10,9 +10,9 @@ import {
     InputWrapper,
     Input,
     EmailButton,
-    VerifyButton
-
-
+    VerifyButton, 
+    ErrorMessage,
+    ResetButton
  } from "./PasswordRecovery.style";
 
 const PasswordRecovery = () => {
@@ -95,7 +95,10 @@ const PasswordRecovery = () => {
                         <VerifyButton onClick={handleVerifyCode}>확인하기</VerifyButton>
                     </InputWrapper>
                 </InputGroup>
-
+        
+                {error && <ErrorMessage>{error}</ErrorMessage>}
+        
+                <ResetButton onClick={handleVerifyCode}>다음 단계</ResetButton>
 
             </RecoveryForm>
         </Container>
