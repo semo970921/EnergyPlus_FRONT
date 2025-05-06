@@ -5,10 +5,15 @@ const PasswordRecovery = () => {
     const [isEmailSent, setIsEmailSent] = useState(false);
     const [error, setError] = useState("");
     const [isVerified, setIsVerified] = useState(false);
+    const [code, setCode] = useState("");
     
 
     const handleEmail = (e) => {
         setEmail(e.target.value);
+    }
+
+    const handleCode = (e) => {
+        setCode(e.target.value);
     }
 
     const handleEmailSubmit = async () => {
@@ -41,7 +46,13 @@ const PasswordRecovery = () => {
                     </InputWrapper>
                 </InputGroup>
 
-
+                <InputGroup>
+                    <Label>인증 번호</Label>
+                    <InputWrapper>
+                        <Input type="text" value={code} onChange={handleCode} placeholder="인증번호를 입력하세요." />
+                        <VerifyButton onClick={handleVerifyCode}>확인하기</VerifyButton>
+                    </InputWrapper>
+                </InputGroup>
 
 
             </RecoveryForm>
