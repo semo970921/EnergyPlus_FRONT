@@ -51,20 +51,6 @@ const Header = () => {
   }, [isLoggedIn]); // 로그인 상태 바뀔 때마다 실행함
 
 
-  // 마이페이지에서 내 정보 수정하면 헤더에 표시되는 이름도 바뀌도록
-  useEffect(() => {
-    checkLoginStatus();
-  
-    window.addEventListener('loginStateChanged', checkLoginStatus);
-    window.addEventListener('userNameChanged', checkLoginStatus); // 이름 변경 이벤트 추가
-  
-    return () => {
-      window.removeEventListener('loginStateChanged', checkLoginStatus);
-      window.removeEventListener('userNameChanged', checkLoginStatus); // 해제
-    };
-  }, []);
-
-
 
   useEffect(() => {
     // 초기 로그인 상태 확인
