@@ -22,12 +22,17 @@ export const login = async (userEmail, userPassword) => {
 };
 
 // 카카오 로그인 URL 
-export const getKakaoLoginURL = () => {
-    const KAKAO_CLIENT_ID = import.meta.env.VITE_KAKAO_CLIENT_ID;
-    const KAKAO_REDIRECT_URI = import.meta.env.VITE_KAKAO_REDIRECT_URI;
-    return `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_CLIENT_ID}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
-  };
-  
+export const getKakaoLoginURL = async () => {
+  try {
+    // 백엔드에서 카카오 로그인 URL 가져오기
+    const response = await axios.get(`${API_URL}/kakao/login-url`);
+    console.log("카카오 로그인 URL 조회 결과:", response.data);  // 디버깅용
+    return response.data.url;
+  } catch (error) {
+    console.error("카카오 로그인 URL 조회 실패:", error);
+    throw error;
+  }
+};
 
 // 로그아웃
 export const logout = () => {

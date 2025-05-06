@@ -79,12 +79,17 @@ const LoginForm = () => {
     }
   };
 
-  // 카카오 로그인 처리
-  const handleKakaoLogin = () => {
+// 카카오 로그인 처리
+const handleKakaoLogin = async () => {
+  try {
     // 서비스 함수를 사용하여 카카오 로그인 URL 가져오기
-    const kakaoAuthURL = getKakaoLoginURL();
+    const kakaoAuthURL = await getKakaoLoginURL();
     window.location.href = kakaoAuthURL;
-  };
+  } catch (error) {
+    console.error("카카오 로그인 URL 조회 실패:", error);
+    alert("카카오 로그인 처리 중 오류가 발생했습니다.");
+  }
+};
 
   return (
     <LoginContainer>

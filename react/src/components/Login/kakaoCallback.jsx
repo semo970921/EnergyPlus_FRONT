@@ -30,6 +30,7 @@ const LoadingSpinner = styled.div`
   }
 `;
 
+// 컴포넌트 이름 대문자로 시작하도록 수정
 const KakaoCallback = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,13 +47,11 @@ const KakaoCallback = () => {
       }
 
       try {
-        // 백엔드에 인증 코드 전송
+        // URL을 정확히 확인 (localhost:80으로 되어 있는지 확인)
         const response = await axios.get(`http://localhost:80/auth/kakao/callback?code=${code}`);
         
         if (response.data) {
-          // 새 사용자인지 확인
-          const isNew = response.data.isNewUser || false;
-          setIsNewUser(isNew);
+          console.log("카카오 로그인 응답:", response.data);
           
           // 토큰 저장
           sessionStorage.setItem("accessToken", response.data.accessToken);
@@ -65,6 +64,10 @@ const KakaoCallback = () => {
           
           // 로그인 상태 변경 이벤트 발생
           window.dispatchEvent(new Event("loginStateChanged"));
+          
+          // isNewUser 확인 추가
+          const isNew = response.data.isNewUser || false;
+          setIsNewUser(isNew);
           
           if (isNew) {
             alert("카카오 계정으로 회원가입이 완료되었습니다!");
