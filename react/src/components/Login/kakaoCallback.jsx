@@ -37,17 +37,20 @@ const KakaoCallback = () => {
 
   useEffect(() => {
     const processKakaoLogin = async () => {
-   
-      const code = new URLSearchParams(location.search).get("code");
-      
-      if (!code) {
-        setError("인증 코드를 찾을 수 없습니다.");
-        return;
-      }
-
       try {
+        const code = new URLSearchParams(location.search).get("code");
+        
+        if (!code) {
+          setError("인증 코드를 찾을 수 없습니다.");
+          return;
+        }
+
+        console.log("카카오 인증 코드:", code);
+        
         // 백엔드에 인증 코드 전송
-        const response = await axios.get(`http://localhost:80/auth/kakao/callback?code=${code}`);
+        const response = await axios.get(`http://localhost/auth/kakao/callback?code=${code}`);
+        
+        console.log("카카오 로그인 응답:", response.data);
         
         if (response.data) {
           // 토큰 저장
@@ -57,28 +60,31 @@ const KakaoCallback = () => {
           // 사용자 정보 저장
           sessionStorage.setItem("userEmail", response.data.userEmail);
           sessionStorage.setItem("userName", response.data.userName);
-          sessionStorage.setItem("userRole", response.data.userRole);
+          sessionStorage.setItem("userRole", response.data.role);
           
           // 로그인 상태 변경 이벤트 발생
           window.dispatchEvent(new Event("loginStateChanged"));
           
           alert(response.data.userName + "님 환영합니다!");
           
-          // 역할에 따라 리다이렉트
-          if (response.data.userRole === "ROLE_ADMIN") {
-            navigate("/admin");
+          console.log("로그인 성공, 홈으로 이동합니다.");
+          
+          // 역할에 따라 리다이렉트 (하나의 메서드만 사용)
+          if (response.data.role === "ROLE_ADMIN") {
+            window.location.href = "/admin";
           } else {
-            navigate("/");
+            window.location.href = "/";
           }
         }
       } catch (error) {
         console.error("카카오 로그인 오류:", error);
+        console.error("오류 응답:", error.response?.data);
         setError("카카오 로그인 처리 중 오류가 발생했습니다.");
       }
     };
     
     processKakaoLogin();
-  }, [location, navigate]);
+  }, [location]);  // navigate 의존성 제거
 
   return (
     <CallbackContainer>
