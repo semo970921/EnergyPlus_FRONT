@@ -35,7 +35,10 @@ import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
 import kakaoCallback from "./components/Login/kakaoCallback";
+import PasswordRecovery from "./components/Password/PasswordRecovery";
+import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
+
 
 function App() {
   return (
@@ -101,6 +104,9 @@ function App() {
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
+          {/* 비번 재설정 */}
+          <Route path="/find-password" element={<PasswordRecovery />}/>
+          <Route path="/password-reset" element={<PasswordReset />} />
 
           {/* 관리자 qna */}
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
