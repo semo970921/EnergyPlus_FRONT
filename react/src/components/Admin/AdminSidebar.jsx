@@ -13,7 +13,7 @@ const AdminSidebar = () => {
       <MenuButton onClick={() => navigate("/admin/card")}>카드뉴스 관리</MenuButton>
       <MenuButton onClick={() => navigate("/admin/community")}>커뮤니티 관리</MenuButton>
       <MenuButton onClick={() => navigate("/admin/challenge")}>챌린지 관리</MenuButton>
-      <MenuButton onClick={() => navigate("/admin/qna")}>QnA 관리</MenuButton>
+      <MenuButton onClick={() => navigate("/admin/mypage_qna")}>QnA 관리</MenuButton>
     </Sidebar>
     </>
   );

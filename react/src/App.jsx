@@ -35,6 +35,8 @@ import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
 import kakaoCallback from "./components/Login/kakaoCallback";
+import AdminQna from "./components/Admin/Qna/AdminQna";
+import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
 
 function App() {
   return (
@@ -69,9 +71,9 @@ function App() {
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
-          <Route path="/mypage_qna_write" element={<MypageQnaWrite />} />{" "}
+          <Route path="/mypage_qna_write" element={<MypageQnaWrite />} />
           {/* 새글 작성 */}
-          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} />{" "}
+          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} />
           {/* 글 수정 */}
           <Route path="/mypage_qna/:id" element={<MypageQnaDetail />} />
           {/* 나의 게시글 메인 */}
@@ -101,7 +103,8 @@ function App() {
           <Route path="/admin/members" element={<Member />} />
 
           {/* 관리자 qna */}
-          {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
+          <Route path="/admin/mypage_qna" element={<AdminQna />} />
+          <Route path="/admin/mypage_qna/:id" element={<AdminQnaDetail />} />
 
         </Routes>
       </div>
