@@ -34,10 +34,10 @@ const KakaoCallback = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState("");
+  const [isNewUser, setIsNewUser] = useState(false);
 
   useEffect(() => {
     const processKakaoLogin = async () => {
-   
       const code = new URLSearchParams(location.search).get("code");
       
       if (!code) {
@@ -50,6 +50,10 @@ const KakaoCallback = () => {
         const response = await axios.get(`http://localhost:80/auth/kakao/callback?code=${code}`);
         
         if (response.data) {
+          // 새 사용자인지 확인
+          const isNew = response.data.isNewUser || false;
+          setIsNewUser(isNew);
+          
           // 토큰 저장
           sessionStorage.setItem("accessToken", response.data.accessToken);
           sessionStorage.setItem("refreshToken", response.data.refreshToken);
@@ -62,7 +66,11 @@ const KakaoCallback = () => {
           // 로그인 상태 변경 이벤트 발생
           window.dispatchEvent(new Event("loginStateChanged"));
           
-          alert(response.data.userName + "님 환영합니다!");
+          if (isNew) {
+            alert("카카오 계정으로 회원가입이 완료되었습니다!");
+          } else {
+            alert(response.data.userName + "님 환영합니다!");
+          }
           
           // 역할에 따라 리다이렉트
           if (response.data.userRole === "ROLE_ADMIN") {
@@ -86,7 +94,9 @@ const KakaoCallback = () => {
         <LoadingText>{error}</LoadingText>
       ) : (
         <>
-          <LoadingText>카카오 로그인 처리 중</LoadingText>
+          <LoadingText>
+            {isNewUser ? "카카오 계정으로 회원가입 중" : "카카오 로그인 처리 중"}
+          </LoadingText>
           <LoadingSpinner />
         </>
       )}
