@@ -40,6 +40,10 @@ import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
 import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
 import Faq from "./components/FAQ/Faq";
 import kakaoCallback from "./components/Login/kakaoCallback";
+import PasswordRecovery from "./components/Password/PasswordRecovery";
+import PasswordReset from "./components/Password/PasswordReset";
+import SignupType from "./components/Signup/SignupType";
+
 function App() {
   return (
     <>
@@ -98,21 +102,24 @@ function App() {
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
           {/* 회원가입 */}
-          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/signup-type" element={<SignupType />} />
+          <Route path="/signup-form" element={<SignupForm />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
-          {/* 관리자 qna */}
-          {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
-          {/* 카드뉴스 */}
+          {/* 비번 재설정 */}
+          <Route path="/find-password" element={<PasswordRecovery />} />
+          <Route path="/password-reset" element={<PasswordReset />} />
           <Route path="/cardnews/list" element={<CardNewsList />} />
           <Route path="/cardnews_detail/:id" element={<CardNewsDetail />} />
           <Route path="/cardnews_form" element={<CardNewsForm />} />
           <Route path="/admin/cardnews/edit/:id" element={<CardNewsEdit />} />
           {/* FAQ */}
           <Route path="/faq" element={<Faq />} />
+          {/* 관리자 qna */}
+          {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
         </Routes>
         {/* 메인페이지 */}
       </div>
