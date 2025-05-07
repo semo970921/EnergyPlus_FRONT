@@ -73,7 +73,15 @@ const MarketList = () => {
         </button>
         <button
           className="btn market-btn btn-write"
-          onClick={() => navi(`/marketform`)}
+          onClick={() => {
+            const token = sessionStorage.getItem("accessToken");
+            if (!token) {
+              alert("로그인 후 이용해주세요.");
+              navi("/login");
+              return;
+            }
+            navi("/marketform");
+          }}
         >
           글쓰기
         </button>
