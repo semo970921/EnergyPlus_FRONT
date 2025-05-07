@@ -34,7 +34,8 @@ import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
-import kakaoCallback from "./components/Login/kakaoCallback";
+import KakaoCallback from "./components/Login/kakaoCallback";
+import LoginSuccess from "./components/Login/LoginSuccess";
 
 function App() {
   return (
@@ -96,7 +97,8 @@ function App() {
           <Route path="/signup" element={<SignupForm />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
+          <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
 
