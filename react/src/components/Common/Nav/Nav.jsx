@@ -36,7 +36,7 @@ const Nav = () => {
             커뮤니티
             <ul>
               <li onClick={() => navi("/notices")}>공지사항</li>
-              <li>FAQ</li>
+              <li onClick={() => navi("/faq")}>FAQ</li>
               <li onClick={() => navi("/market_list")}>중고거래</li>
             </ul>
           </li>
