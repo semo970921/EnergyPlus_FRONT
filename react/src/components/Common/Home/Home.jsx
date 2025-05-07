@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import MainSection1 from "../../Main/MainSection1";
 
 const Home = () => {
   return (
     <>
-      <HomeLayout></HomeLayout>
+      <HomeLayout>
+        <MainSection1 />
+      </HomeLayout>
     </>
   );
 };

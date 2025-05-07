@@ -6,6 +6,8 @@ const MileageForm = () => {
   const [mileageCategory, setCategory] = useState("");
   const [mileageContent, setContent] = useState("");
   const [file, setFile] = useState(null);
+  const [fileDescription, setFileDescription] = useState("");
+  const token = sessionStorage.getItem("accessToken");
 
   const enrollButton = async () => {
     if (!file) {
@@ -14,16 +16,19 @@ const MileageForm = () => {
     }
 
     const formData = new FormData();
-    formData.append("userId", "1");
     formData.append("mileageTitle", mileageTitle);
     formData.append("mileageCategory", mileageCategory);
     formData.append("mileageContent", mileageContent);
     formData.append("mileageImg", file);
+    formData.append("fileDescription", fileDescription);
 
     try {
       const response = await fetch("http://localhost/mileages/save", {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -60,6 +65,7 @@ const MileageForm = () => {
               <option value="">카테고리</option>
               <option value="자전거">자전거</option>
               <option value="다회용기">다회용기</option>
+              <option value="기타">기타</option>
             </Select>
           </Column>
         </RowHorizontal>
@@ -75,7 +81,11 @@ const MileageForm = () => {
 
         <Row>
           <Label>인증 사진 설명</Label>
-          <Textarea placeholder="사진이 잘 안보일 경우를 대비해 간단한 설명을 작성해주세요." />
+          <Textarea
+            placeholder="사진이 잘 안보일 경우를 대비해 간단한 설명을 작성해주세요."
+            value={fileDescription}
+            onChange={(e) => setFileDescription(e.target.value)}
+          />
         </Row>
 
         <Row>
