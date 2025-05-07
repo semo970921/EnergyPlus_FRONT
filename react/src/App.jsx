@@ -33,8 +33,11 @@ import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
-import Member from "./components/admin/member/Member";
+import Member from "./components/Admin/member/Member";
 import kakaoCallback from "./components/Login/kakaoCallback";
+import AdminNotice from "./components/Admin/notice/AdminNotice";
+
+
 
 function App() {
   return (
@@ -49,6 +52,10 @@ function App() {
           <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticewrite" element={<NoticeWrite />} />
           <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
+
+          {/* 관리자 공지사항 */}
+          <Route path="/admin/notices" element={<Notices />} />
+
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
           <Route
