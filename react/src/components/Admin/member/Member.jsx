@@ -178,7 +178,7 @@ const Member = () => {
             <TableHeader>No</TableHeader>
             <TableHeader>아이디</TableHeader>
             <TableHeader>이름</TableHeader>
-            <TableHeader>가입일</TableHeader>
+            {/* <TableHeader>가입일</TableHeader> */}
             <TableHeader>역할</TableHeader>
             <TableHeader>등급</TableHeader>
             <TableHeader>탈퇴</TableHeader>
@@ -190,7 +190,7 @@ const Member = () => {
               <TableCell>{(currentPage - 1) * itemsPerPage + idx + 1}</TableCell>
               <TableCell>{member.userEmail}</TableCell>
               <TableCell>{member.userName}</TableCell>
-              <TableCell>{member.joinDate}</TableCell>
+              {/* <TableCell>{member.joinDate}</TableCell> */}
               <TableCell>
                 <RoleToggle
                   onClick={() => handleRoleToggle(member.userId, member.role)}
