@@ -36,6 +36,9 @@ import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
 import KakaoCallback from "./components/Login/kakaoCallback";
 import LoginSuccess from "./components/Login/LoginSuccess";
+import PasswordRecovery from "./components/Password/PasswordRecovery";
+import PasswordReset from "./components/Password/PasswordReset";
+import SignupType from "./components/Signup/SignupType";
 
 function App() {
   return (
@@ -94,13 +97,17 @@ function App() {
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
 
           {/* 회원가입 */}
-          <Route path="/signup" element={<SignupForm />} />
+          <Route path="/signup-form" element={<SignupForm />} />
+          <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
           <Route path="/login-success" element={<LoginSuccess />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
+          {/* 비번 재설정 */}
+          <Route path="/find-password" element={<PasswordRecovery />}/>
+          <Route path="/password-reset" element={<PasswordReset />} />
 
           {/* 관리자 qna */}
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
