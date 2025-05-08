@@ -41,6 +41,8 @@ import LoginSuccess from "./components/Login/LoginSuccess";
 import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
 import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
 import Faq from "./components/FAQ/Faq";
+import AdminQna from "./components/Admin/Qna/AdminQna";
+import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
@@ -78,9 +80,9 @@ function App() {
           <Route path="/mypage_info" element={<MypageInfo />} />
           <Route path="/mypage_delMember" element={<MypageDelMember />} />
           <Route path="/mypage_qna" element={<MypageQna />} />
-          <Route path="/mypage_qna_write" element={<MypageQnaWrite />} />{" "}
+          <Route path="/mypage_qna_write" element={<MypageQnaWrite />} />
           {/* 새글 작성 */}
-          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} />{" "}
+          <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} />
           {/* 글 수정 */}
           <Route path="/mypage_qna/:id" element={<MypageQnaDetail />} />
           {/* 나의 게시글 메인 */}
@@ -121,6 +123,8 @@ function App() {
           {/* FAQ */}
           <Route path="/faq" element={<Faq />} />
           {/* 관리자 qna */}
+          <Route path="/admin/mypage_qna" element={<AdminQna />} />
+          <Route path="/admin/mypage_qna/:id" element={<AdminQnaDetail />} />
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
         </Routes>
         {/* 메인페이지 */}
