@@ -36,18 +36,16 @@ import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
+import KakaoCallback from "./components/Login/kakaoCallback";
+import LoginSuccess from "./components/Login/LoginSuccess";
 import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
 import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
 import Faq from "./components/FAQ/Faq";
-import kakaoCallback from "./components/Login/kakaoCallback";
-<<<<<<< HEAD
 import AdminQna from "./components/Admin/Qna/AdminQna";
 import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
-=======
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
->>>>>>> c962de7a69e5be4751c45ccaf430092cc796d2d0
 
 function App() {
   return (
@@ -107,11 +105,12 @@ function App() {
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
           {/* 회원가입 */}
-          <Route path="/signup-type" element={<SignupType />} />
           <Route path="/signup-form" element={<SignupForm />} />
+          <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
+          <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
           {/* 비번 재설정 */}
@@ -124,13 +123,9 @@ function App() {
           {/* FAQ */}
           <Route path="/faq" element={<Faq />} />
           {/* 관리자 qna */}
-<<<<<<< HEAD
           <Route path="/admin/mypage_qna" element={<AdminQna />} />
           <Route path="/admin/mypage_qna/:id" element={<AdminQnaDetail />} />
-
-=======
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
->>>>>>> c962de7a69e5be4751c45ccaf430092cc796d2d0
         </Routes>
         {/* 메인페이지 */}
       </div>
