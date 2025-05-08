@@ -16,6 +16,30 @@ const AdminSidebar = () => {
       <MenuButton onClick={() => navigate("/admin/notices")}>공지사항 관리</MenuButton>
       <MenuButton onClick={() => navigate("/admin/qna")}>QnA 관리</MenuButton>
     </Sidebar>
+      <Sidebar>
+        <h3 style={{ marginBottom: "0px" }}>관리자 메뉴</h3>
+        <MenuButton onClick={() => navigate("/admin/mileage")}>
+          마일리지 신청
+        </MenuButton>
+        <MenuButton onClick={() => navigate("/admin/member")}>
+          회원 관리
+        </MenuButton>
+        <MenuButton onClick={() => navigate("/admin/card")}>
+          카드뉴스 관리
+        </MenuButton>
+        <MenuButton onClick={() => navigate("/admin/community")}>
+          커뮤니티 관리
+        </MenuButton>
+        <MenuButton onClick={() => navigate("/admin/challenge")}>
+          챌린지 관리
+        </MenuButton>
+        <MenuButton onClick={() => navigate("/admin/notices")}>
+          공지사항 관리
+        </MenuButton>
+        <MenuButton onClick={() => navigate("/admin/mypage_qna")}>
+          QnA 관리
+        </MenuButton>
+      </Sidebar>
     </>
   );
 };
@@ -37,7 +61,7 @@ const Sidebar = styled.div`
 `;
 
 const MenuButton = styled.button`
-  background-color: #408C70;
+  background-color: #408c70;
   color: white;
   border: none;
   padding: 10px 12px;
@@ -45,6 +69,6 @@ const MenuButton = styled.button`
   border-radius: 6px;
   cursor: pointer;
   &:hover {
-    background-color: #408C70;
+    background-color: #408c70;
   }
 `;

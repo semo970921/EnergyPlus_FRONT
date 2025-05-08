@@ -1,0 +1,182 @@
+button.more-btn {
+  border-color: transparent;
+  background: none;
+  padding: 0;
+}
+button.more-btn:hover {
+  opacity: 0.65;
+}
+.main-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 60px 0 24px;
+}
+.main-section-header h1.main-section-title {
+  margin: 0;
+  font-size: 40px;
+}
+.cardnew-gallery .gallery-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.cardnew-gallery .no-list {
+  list-style: none;
+}
+
+.cardnew-gallery .gallery-item {
+  background-color: #fff;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.cardnew-gallery .gallery-item:hover {
+  transform: translateY(-5px);
+}
+
+.cardnew-gallery .item-thumb {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  position: relative;
+}
+.cardnew-gallery .item-thumb::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.03);
+  border: 1px solid #eee;
+}
+.cardnew-gallery .item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cardnew-gallery .item-info {
+  padding: 8px 0 0;
+}
+.cardnew-gallery .item-date {
+  display: block;
+  color: #777;
+}
+.cardnew-gallery .item-title {
+  font-size: 18px;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 표시할 최대 줄 수 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+/* Card News Form */
+.cardnews-form {
+  margin: 40px auto;
+  padding: 32px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #f1f1f1;
+}
+
+.cardnews-form h2 {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.cardnews-form label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardnews-form input[type="text"],
+.cardnews-form input[type="number"],
+.cardnews-form textarea {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.cardnews-form input[type="file"] {
+  margin-top: 4px;
+}
+
+.cardnews-form textarea {
+  min-height: 300px;
+}
+
+.cardnews-form button[type="submit"] {
+  align-self: center;
+  background-color: #408c70;
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cardnews-form button[type="submit"]:hover {
+  opacity: 0.75;
+}
+
+/* cardnews detail */
+h2.cardnews-title {
+  margin: 0;
+}
+
+.cardnews-content {
+  padding: 16px 0;
+}
+.cardnews-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #000;
+}
+.cardnews-detail-content-wrap {
+  padding: 30px 0 40px;
+}
+.cardnews-detail-content-wrap .cardnews-detail-content img {
+  width: 100%;
+}
+.cardnew-detail-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.cardnews-btn {
+  background-color: #408c70;
+  color: #fff;
+}
+button.cardnews-btn:hover {
+  opacity: 0.65;
+  border: 1px solid #408c70;
+}
