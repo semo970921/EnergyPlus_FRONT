@@ -19,16 +19,15 @@ const MileageDetail = () => {
   const [mileage, setMileage] = useState(null);
   const [showCategory, setShowCategory] = useState(false);
   const [showRejectReason, setShowRejectReason] = useState(false);
-  const [rejectReason, setRejectReason] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [point, setPoint] = useState("");
+  const [mileageReject, setMileageReject] = useState("");
+  const [mileageScore, setMileageScore] = useState("");
 
   useEffect(() => {
     const fetchDetail = async () => {
       try {
         const token = sessionStorage.getItem("accessToken");
         const res = await axios.get(
-          `http://localhost:8080/admin/mileages/${mileageSeq}`,
+          `http://localhost/admin/mileages/${mileageSeq}`,
           {
             headers: {
               Authorization: token ? `Bearer ${token}` : undefined,
@@ -55,7 +54,7 @@ const MileageDetail = () => {
   };
 
   const handleGivePoint = async () => {
-    if (!point) {
+    if (!mileageScore) {
       alert("포인트를 입력하세요.");
       return;
     }
@@ -63,15 +62,15 @@ const MileageDetail = () => {
     try {
       const token = sessionStorage.getItem("accessToken");
       await axios.post(
-        `http://localhost:8080/admin/mileages/${mileageSeq}/status`,
-        { point },
+        `http://localhost/admin/mileages/${mileageSeq}/status`,
+        { mileageScore },
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
           },
         }
       );
-      console.log(point);
+      console.log(mileageScore);
       alert("포인트가 지급되었습니다.");
       navigate(-1);
     } catch (err) {
@@ -81,7 +80,7 @@ const MileageDetail = () => {
   };
 
   const handleRejectSubmit = async () => {
-    if (!rejectReason.trim()) {
+    if (!mileageReject.trim()) {
       alert("반려 사유를 입력하세요.");
       return;
     }
@@ -89,9 +88,9 @@ const MileageDetail = () => {
     try {
       const token = sessionStorage.getItem("accessToken");
       await axios.post(
-        `http://localhost:8080/admin/mileages/${mileageSeq}/status`,
+        `http://localhost/admin/mileages/${mileageSeq}/statusReject`,
         {
-          reason: rejectReason,
+          mileageReject,
         },
         {
           headers: {
@@ -126,7 +125,7 @@ const MileageDetail = () => {
           {mileage.mileageImg ? (
             <div style={{ marginTop: "2rem" }}>
               <img
-                src={`http://localhost:8080${mileage.mileageImg}`}
+                src={`http://localhost${mileage.mileageImg}`}
                 alt="마일리지 이미지"
                 style={{
                   maxWidth: "100%",
@@ -143,7 +142,7 @@ const MileageDetail = () => {
           </div>
           <br />
           <strong>상태:</strong>{" "}
-          {mileage.challengeStatus === "Y" ? "답변완료" : "확인중"}
+          {mileage.mileageStatus === "N" ? "확인중" : "답변완료"}
         </ContentDetail>
       </ContentDiv>
 
@@ -163,8 +162,8 @@ const MileageDetail = () => {
             <input
               type="number"
               placeholder="숫자를 입력하세요"
-              value={point}
-              onChange={(e) => setPoint(e.target.value)}
+              value={mileageScore}
+              onChange={(e) => setMileageScore(e.target.value)}
             />
             <SubmitBtn onClick={handleGivePoint}>포인트 지급하기</SubmitBtn>
           </PointInput>
@@ -177,8 +176,8 @@ const MileageDetail = () => {
           <input
             type="text"
             placeholder="반려 사유를 입력하세요"
-            value={rejectReason}
-            onChange={(e) => setRejectReason(e.target.value)}
+            value={mileageReject}
+            onChange={(e) => setMileageReject(e.target.value)}
           />
           <SubmitBtn onClick={handleRejectSubmit}>반려 처리</SubmitBtn>
         </RejectInput>
