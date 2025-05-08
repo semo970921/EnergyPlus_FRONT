@@ -80,10 +80,21 @@ const MypageMain = () => {
               <FaCoins size={50} />
               <Label>마일리지 현황</Label>
             </MenuItem>
-            <MenuItem onClick={() => navi("/mypage_qna")}>
+
+            <MenuItem
+              onClick={() => {
+                const role = sessionStorage.getItem("userRole"); // 사용자 권한 확인
+                if (role === "ROLE_ADMIN") {
+                  navi("/admin/mypage/qna"); // 관리자용 QnA 페이지
+                } else {
+                  navi("/mypage_qna"); // 일반 사용자용 QnA 페이지
+                }
+              }}
+            >
               <FaQuestionCircle size={50} />
               <Label>QnA</Label>
             </MenuItem>
+            
           </MenuGrid>
         </ContentWrapper>
       </Container>
