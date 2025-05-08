@@ -7,7 +7,6 @@ import MileageInfo from "./components/Mileage/MileageInfo/MileageInfo";
 import MypageMain from "./components/Mypage/MypageMain";
 import Notices from "./components/Notice/Notices";
 import NoticeDetail from "./components/Notice/NoticeDetail";
-import NoticeWrite from "./components/Notice/NoticeWrite";
 import MarketList from "./components/Market/MarketList";
 import MileageForm from "./components/Mileage/MileageForm/MileageForm";
 import MarketDetail from "./components/Market/MarketDetail";
@@ -50,6 +49,8 @@ import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
+import AdminNoticeEdit from "./components/Admin/Notice/AdminNoticeEdit";
+import AdminNoticeDetail from "./components/Admin/Notice/AdminNoticeDetail";
 
 function App() {
   return (
@@ -62,12 +63,13 @@ function App() {
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
           <Route path="/notices/:noticeId" element={<NoticeDetail />} />
-          <Route path="/noticewrite" element={<NoticeWrite />} />
           <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
 
           {/* 관리자 공지사항 */}
           <Route path="/admin/notices" element={<AdminNotices/>} />
+          <Route path="/admin/notices/:noticeId" element={<AdminNoticeDetail />} />
           <Route path="/admin/noticewrite" element={<AdminNoticeWrite/>} />
+          <Route path="/admin/notices/:noticeId/edit" element={<AdminNoticeEdit/>} />
 
 
           {/* 챌린지 */}
