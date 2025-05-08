@@ -128,12 +128,20 @@ const SignupForm = () => {
                 userEmail: formData.userEmail,
                 userPassword: formData.userPassword,
                 userPhone: formData.userPhone || null,
-                gradeId: 1 // 기본 등급 아이디 설정
+                gradeId: 1, // 기본 등급 아이디 설정
+                agreementInfo: {
+                    privacyAgreed: agreementInfo.privacyRequiredAgreed,
+                    creditInfoAgreed: agreementInfo.creditInfoOptionalAgreed,
+                    marketingAgreed: agreementInfo.marketingOptionalAgreed
+                }
             });
             
             if (response.status === 201) {
                 alert("회원가입이 완료되었습니다!");
                 
+                // 세션에서 약관 동의 정보 제거
+                sessionStorage.removeItem("agreementInfo");
+
                 // 인증된 이메일 목록에서 제거하는 API 호출
                 try {
                     await axios.post(`${API_BASE_URL}/api/verification/check-status`, {

@@ -30,6 +30,29 @@ export const SectionTitle = styled.div`
   font-weight: 500;
 `;
 
+export const ScrollContainer = styled.div`
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 15px;
+  background-color: white;
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 8px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;
 
 export const ContentText = styled.div`
   margin-bottom: 15px;
@@ -107,26 +130,10 @@ export const SubmitButton = styled.button`
   }
 `;
 
-export const ScrollContainer = styled.div`
-  max-height: 200px;
-  overflow-y: auto;
-  padding: 15px;
-  background-color: white;
-  
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 8px;
-  }
-  
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+export const ErrorMessage = styled.div`
+  color: #e53935;
+  text-align: center;
+  margin: 15px 0;
+  font-size: 14px;
+  font-weight: 500;
 `;

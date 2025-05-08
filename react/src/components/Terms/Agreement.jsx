@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { 
   Container,
   Title,
@@ -12,18 +13,22 @@ import {
   CheckboxLabel,
   Checkbox,
   SubmitButton,
-  ScrollContainer
+  ScrollContainer,
+  ErrorMessage
 } from "./Agreement.style";
 
 const Agreement = () => {
+  const navigate = useNavigate();
+
   // 체크박스 상태 관리
   const [privacyThirdPartyAgreed, setPrivacyThirdPartyAgreed] = useState(false);
   const [privacyRequiredAgreed, setPrivacyRequiredAgreed] = useState(false);
-  const [creditInfoAgreed, setCreditInfoAgreed] = useState(false);
-  const [creditInfoOptionalAgreed, setCreditInfoOptionalAgreed] = useState(false);
+  const [personalInfoAgreed, setPersonalInfoAgreed] = useState(false);
+  const [personalInfoRequiredAgreed, setPersonalInfoRequiredAgreed] = useState(false);
   const [marketingAgreed, setMarketingAgreed] = useState(false);
   const [marketingOptionalAgreed, setMarketingOptionalAgreed] = useState(false);
   const [allAgreed, setAllAgreed] = useState(false);
+  const [error, setError] = useState("");
 
   // 전체 동의 처리
   const handleAllAgreed = (e) => {
@@ -31,10 +36,14 @@ const Agreement = () => {
     setAllAgreed(checked);
     setPrivacyThirdPartyAgreed(checked);
     setPrivacyRequiredAgreed(checked);
-    setCreditInfoAgreed(checked);
-    setCreditInfoOptionalAgreed(checked);
+    setPersonalInfoAgreed(checked);
+    setPersonalInfoRequiredAgreed(checked);
     setMarketingAgreed(checked);
     setMarketingOptionalAgreed(checked);
+    
+    if (checked) {
+      setError("");
+    }
   };
 
   // 개별 체크박스 변경 시 전체 동의 상태 업데이트
@@ -42,8 +51,8 @@ const Agreement = () => {
     if (
       privacyThirdPartyAgreed &&
       privacyRequiredAgreed &&
-      creditInfoAgreed &&
-      creditInfoOptionalAgreed &&
+      personalInfoAgreed &&
+      personalInfoRequiredAgreed &&
       marketingAgreed &&
       marketingOptionalAgreed
     ) {
@@ -51,6 +60,28 @@ const Agreement = () => {
     } else {
       setAllAgreed(false);
     }
+  };
+
+  // 다음 단계 버튼 클릭 시 처리
+  const handleNextStep = () => {
+    // 필수 동의 항목 체크
+    if (!privacyRequiredAgreed || !personalInfoRequiredAgreed) {
+      setError("필수 약관에 모두 동의해야 합니다.");
+      return;
+    }
+    
+    // 세션에 약관 동의 정보 저장 (임시)
+    sessionStorage.setItem("agreementInfo", JSON.stringify({
+      privacyThirdPartyAgreed,
+      privacyRequiredAgreed,
+      personalInfoAgreed,
+      personalInfoRequiredAgreed,
+      marketingAgreed,
+      marketingOptionalAgreed
+    }));
+    
+    // 다음 페이지로 이동
+    navigate("/signup-type");
   };
 
   return (
@@ -67,7 +98,7 @@ const Agreement = () => {
         </CheckboxLabel>
       </Section>
 
-      {/* 1. 개인정보의 제3자 제공 및 취급 위탁에 동의 */}
+      {/* 1. 이용약관 동의 */}
       <Section>
         <SectionTitle>
           <CheckboxLabel>
@@ -79,38 +110,35 @@ const Agreement = () => {
                 updateAllAgreed();
               }}
             />
-            (필수) 개인정보의 제3자 제공 및 취급 위탁에 동의
+            (필수) 이용약관 동의
           </CheckboxLabel>
         </SectionTitle>
 
         <ScrollContainer>
           <ContentText>
-            &lt;개인정보보호법 제3자 제공 및 취급 위탁 동의&gt;
+            &lt;에너지생활플러스 이용약관&gt;
             <br />
-            회사(에코로그(이하,회사))는 개인정보이용자들의 개인정보를 매우 중요시하며 「개인정보보호법」및「정보통신망 이용촉진 및 개인정보보호에 관한 법률」을 준수하고있습니다. 회사는 개인정보처리방침을 통하여 이용자들이 제공하는 개인정보가 어떠한 용도와 방식으로 이용되고 있으며 개인정보보호를 위해 어떠한 조치를 취하고 있는지 알려드리고자 합니다.
+            제1조 (목적)<br />
+            이 약관은 에너지생활플러스가 제공하는 서비스의 이용과 관련하여 에너지생활플러스와 회원 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
             <br /><br />
-            &lt;탄소중립포인트(에너지 포인트) 제도 인센티브 제공 서비스 제공을 위해 개인정보를 처리하고있는 기관&gt;
-            이용자가 제공하는 회원가입을 위한 정보 및 각 탄소중립포인트(에너지 포인트) 관련 인센티브 신청 자료 내역 개인정보에 대해 수집/이용, 업무처리에 필요 범위에서 위탁처리 업무수탁자에게 아래와 같은 개인정보를 처리하고있습니다.
+            제2조 (정의)<br />
+            1. "서비스"라 함은 에너지생활플러스가 제공하는 인터넷 기반의 모든 서비스를 의미합니다.<br />
+            2. "회원"이라 함은 에너지생활플러스에 개인정보를 제공하여 회원등록을 한 자로서, 에너지생활플러스의 정보를 지속적으로 제공받으며 에너지생활플러스가 제공하는 서비스를 계속적으로 이용할 수 있는 자를 말합니다.<br />
+            3. "아이디(ID)"라 함은 회원의 식별과 서비스 이용을 위하여 회원이 정하고 에너지생활플러스가 승인하는 문자와 숫자의 조합을 의미합니다.
+            <br /><br />
+            제3조 (약관의 게시와 개정)<br />
+            1. 에너지생활플러스는 이 약관의 내용을 회원이 쉽게 알 수 있도록 서비스 초기 화면에 게시합니다.<br />
+            2. 에너지생활플러스는 필요한 경우 관련법령을 위배하지 않는 범위 내에서 이 약관을 개정할 수 있습니다.<br />
+            3. 약관이 개정될 경우 에너지생활플러스는 개정된 약관을 적용하기 7일 전에 홈페이지에 공지합니다.
+            <br /><br />
+            제4조 (서비스의 제공 및 변경)<br />
+            1. 에너지생활플러스는 회원에게 아래와 같은 서비스를 제공합니다.<br />
+              - 에너지 절약 관련 정보 제공<br />
+              - 탄소중립 포인트 제도 관련 서비스<br />
+              - 커뮤니티 서비스<br />
+              - 기타 에너지생활플러스가 추가 개발하거나 제휴를 통해 회원에게 제공하는 서비스<br />
+            2. 에너지생활플러스는 서비스의 내용, 이용방법, 이용시간에 대하여 변경이 있는 경우 변경사유, 변경될 서비스의 내용 및 제공일자 등을 명시하여 홈페이지에 공지합니다.
           </ContentText>
-          
-          <Table>
-            <thead>
-              <tr>
-                <TableHeader>제공받는 자</TableHeader>
-                <TableHeader>제공받는 자의 이용목적</TableHeader>
-                <TableHeader>제공하는 개인정보 항목</TableHeader>
-                <TableHeader>제공받는 자의 개인정보 보유 및 이용기간</TableHeader>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <TableCell>한국환경공단, 환경부</TableCell>
-                <TableCell>회원가입 및 서비스 이용</TableCell>
-                <TableCell>성명, 전화번호/휴대폰, 이메일/아이디(ID)</TableCell>
-                <TableCell>회원 탈퇴 시까지</TableCell>
-              </tr>
-            </tbody>
-          </Table>
         </ScrollContainer>
 
         <AgreementContainer>
@@ -123,7 +151,7 @@ const Agreement = () => {
                 updateAllAgreed();
               }}
             />
-            개인정보의 제3자 제공 및 취급 위탁에 동의합니다.
+            이용약관에 동의합니다.
           </CheckboxLabel>
           <CheckboxLabel>
             <Checkbox
@@ -134,54 +162,54 @@ const Agreement = () => {
                 updateAllAgreed();
               }}
             />
-            개인정보의 제3자 제공 및 취급 위탁에 미동의합니다.
+            이용약관에 미동의합니다.
           </CheckboxLabel>
         </AgreementContainer>
       </Section>
 
-      {/* 2. 고유식별정보 처리에 동의 */}
+      {/* 2. 개인정보 수집 및 이용 동의 */}
       <Section>
         <SectionTitle>
           <CheckboxLabel>
             <Checkbox
               type="checkbox"
-              checked={creditInfoAgreed}
+              checked={personalInfoAgreed}
               onChange={(e) => {
-                setCreditInfoAgreed(e.target.checked);
+                setPersonalInfoAgreed(e.target.checked);
                 updateAllAgreed();
               }}
             />
-            (필수) 고유식별정보 처리에 동의
+            (필수) 개인정보 수집 및 이용 동의
           </CheckboxLabel>
         </SectionTitle>
 
         <ScrollContainer>
           <ContentText>
-            &lt;고유식별번호에 대한 처리 동의서&gt;
+            &lt;개인정보 수집 및 이용 동의&gt;
             <br />
-            에코로그는 아래와 같이 귀하의 정보주체의 동의 내지 법률에 특별한 규정이 있는 경우에만 고유식별정보를 처리하고 있습니다.
-            <br /><br />
-            &lt;탄소중립포인트(에너지 포인트) 제도 인센티브 제공 신청 및 접수를 위해 고유식별번호(주민등록번호)&gt;
-            회원 가입 및 접수를 위해 수집 이용 신청서에 대하여 고지하고있으며, 업무처리에 필요 범위에서 이용하고 있습니다.
+            에너지생활플러스는 회원가입, 서비스 제공 및 민원 처리 등을 위해 아래와 같이 개인정보를 수집 및 이용합니다. 귀하께서는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있으나, 동의 거부 시 회원가입 및 서비스 이용이 제한됩니다.
           </ContentText>
           
           <Table>
             <thead>
               <tr>
-                <TableHeader>수집하는 개인정보의 항목</TableHeader>
-                <TableHeader>개인정보의 수집 이용목적</TableHeader>
-                <TableHeader>개인정보의 보유 및 이용기간</TableHeader>
+                <TableHeader>수집항목</TableHeader>
+                <TableHeader>수집목적</TableHeader>
+                <TableHeader>보유 및 이용기간</TableHeader>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <TableCell>고유식별번호(주민등록번호)</TableCell>
                 <TableCell>
-                  - 본인확인(아이핀/주민등록증) 실명 인증(환경부/행정망 이용)
-                  <br />
-                  - 만14세이하 이용자의 개인정보 수집시 법정대리인(부모/후견인)의 동의
+                  [필수] 이름, 이메일<br />
+                  [선택] 전화번호
                 </TableCell>
-                <TableCell>회원 탈퇴 및 파기 요청시까지</TableCell>
+                <TableCell>
+                  - 회원가입 및 관리<br />
+                  - 에너지생활플러스 서비스 제공<br />
+                  - 서비스 이용 관련 안내 및 문의 대응
+                </TableCell>
+                <TableCell>회원 탈퇴 시까지<br />(관계법령에 따라 보존할 필요가 있는 경우 해당 기간 동안 보존)</TableCell>
               </tr>
             </tbody>
           </Table>
@@ -191,29 +219,29 @@ const Agreement = () => {
           <CheckboxLabel>
             <Checkbox
               type="checkbox"
-              checked={creditInfoOptionalAgreed}
+              checked={personalInfoRequiredAgreed}
               onChange={(e) => {
-                setCreditInfoOptionalAgreed(e.target.checked);
+                setPersonalInfoRequiredAgreed(e.target.checked);
                 updateAllAgreed();
               }}
             />
-            고유식별정보 처리에 동의합니다.
+            개인정보 수집 및 이용에 동의합니다.
           </CheckboxLabel>
           <CheckboxLabel>
             <Checkbox
               type="checkbox"
-              checked={!creditInfoOptionalAgreed}
+              checked={!personalInfoRequiredAgreed}
               onChange={(e) => {
-                setCreditInfoOptionalAgreed(!e.target.checked);
+                setPersonalInfoRequiredAgreed(!e.target.checked);
                 updateAllAgreed();
               }}
             />
-            고유식별정보 처리에 미동의합니다.
+            개인정보 수집 및 이용에 미동의합니다.
           </CheckboxLabel>
         </AgreementContainer>
       </Section>
 
-      {/* 3. 선택사항에 동의 */}
+      {/* 3. 마케팅 정보 수신 동의 (선택) */}
       <Section>
         <SectionTitle>
           <CheckboxLabel>
@@ -225,23 +253,26 @@ const Agreement = () => {
                 updateAllAgreed();
               }}
             />
-            (선택) 선택사항에 동의
+            (선택) 마케팅 정보 수신 동의
           </CheckboxLabel>
         </SectionTitle>
 
         <ScrollContainer>
           <ContentText>
-            &lt;선택사항 동의&gt;
+            &lt;마케팅 정보 수신 동의&gt;
             <br />
-            개인정보보호법 제22조 제4항에 의해 선택정보의 수집/이용 동의가 가능합니다. 서비스 질을 높이기 위해서만 수집됩니다.
-            <br />
-            &lt;마케팅/홍보(에너지 포인트)에서 활용하기 위한 개인정보활용 수집 / 이용안내&gt;
-            <br />
-            - 신규서비스
-            <br />
-            - 이벤트정보 안내
-            <br />
-            선택/수집 항목에서 동의한 정보가 변경되었거나 함께합니다.
+            에너지생활플러스는 회원님께 유익한 정보 및 광고를 제공하기 위해 아래와 같이 개인정보를 수집 및 이용합니다. 마케팅 정보 수신에 동의하지 않더라도 회원가입 및 기본 서비스 이용에는 제한이 없습니다.
+            <br /><br />
+            1. 수집 및 이용 목적<br />
+            - 새로운 서비스 및 이벤트 정보 안내<br />
+            - 맞춤형 서비스 및 혜택 제공<br />
+            - 광고성 정보 제공
+            <br /><br />
+            2. 수집 항목<br />
+            - 이메일, 전화번호
+            <br /><br />
+            3. 보유 및 이용 기간<br />
+            - 회원 탈퇴 시 또는 마케팅 정보 수신 동의 철회 시까지
           </ContentText>
         </ScrollContainer>
 
@@ -255,7 +286,7 @@ const Agreement = () => {
                 updateAllAgreed();
               }}
             />
-            선택사항에 동의합니다.
+            마케팅 정보 수신에 동의합니다.
           </CheckboxLabel>
           <CheckboxLabel>
             <Checkbox
@@ -266,12 +297,13 @@ const Agreement = () => {
                 updateAllAgreed();
               }}
             />
-            선택사항에 미동의합니다.
+            마케팅 정보 수신에 미동의합니다.
           </CheckboxLabel>
         </AgreementContainer>
       </Section>
 
-      <SubmitButton>다음단계</SubmitButton>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      <SubmitButton onClick={handleNextStep}>다음단계</SubmitButton>
     </Container>
   );
 };
