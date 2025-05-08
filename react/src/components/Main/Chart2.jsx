@@ -15,7 +15,7 @@ const Chart2 = () => {
       for (let page = 1; page <= 10; page++) {
         try {
           const res = await axios.get(
-            `http://localhost:8080/apis/energyUsage2?pageNo=${page}`
+            `http://localhost/apis/energyUsage2?pageNo=${page}`
           );
           console.log(`energyUsage2 page ${page}:`, res.data);
 
