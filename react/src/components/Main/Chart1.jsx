@@ -22,10 +22,7 @@ const Chart1 = () => {
       for (let page = 1; page <= 10; page++) {
         try {
           const res = await axios.get(
-            `http://localhost:8080/apis/energyUsage1?pageNo=${page}`,
-            {
-              params: { pageNo: page },
-            }
+            `http://localhost/apis/energyUsage1?pageNo=${page}`,
           );
 
           const items = res.data.opentable?.field || [];
