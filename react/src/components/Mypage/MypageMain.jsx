@@ -80,6 +80,7 @@ const MypageMain = () => {
               <FaCoins size={50} />
               <Label>마일리지 현황</Label>
             </MenuItem>
+
             
             <MenuItem
               onClick={() => {
@@ -94,6 +95,7 @@ const MypageMain = () => {
               <FaQuestionCircle size={50} />
               <Label>QnA</Label>
             </MenuItem>
+            
 
           </MenuGrid>
         </ContentWrapper>
