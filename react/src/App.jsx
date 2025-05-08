@@ -23,13 +23,18 @@ import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
 import LoginForm from "./components/Login/LoginForm";
+import MileageStore from "./components/Mileage/MileageStore/MileageStore";
+import MileageList from "./components/Admin/Mileage/MileageList";
 import ChallengeEdit from "./components/Challenge/ChallengeEdit";
 import NoticeEdit from "./components/Notice/NoticeEdit";
 import MypageQnaWrite from "./components/Mypage/Qna/MypageQnaWrite";
 import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
-import MileageStore from "./components/Mileage/MileageStore/MileageStore";
+import MypageMile from "./components/Mypage/Mileage/MypageMile";
+import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
+import Member from "./components/admin/member/Member";
+import MileageDetail from "./components/Admin/Mileage/MileageDetail";
 
 function App() {
   return (
@@ -51,10 +56,18 @@ function App() {
             element={<ChallengeDetail />}
           />
           <Route path="/challenges/write" element={<ChallengeWrite />} />
-          {/* 마일리지 */}
-          <Route path="/mileage/info" element={<MileageInfo />} />
-          <Route path="/mileageform" element={<MileageForm />} />
-          <Route path="/mileage/store" element={<MileageStore />} />
+          <Route
+            path="/challenges/edit/:challengeSeq"
+            element={<ChallengeEdit />}
+          />
+          {/* 분류해서 모아주세요 */}
+          <Route path="/mileageinfo" element={<MileageInfo />} />
+          <Route path="/mileagestore" element={<MileageStore />} />
+          <Route path="/admin/mileage/list" element={<MileageList />} />
+          <Route
+            path="/admin/mileage/:mileageSeq"
+            element={<MileageDetail />}
+          />
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
@@ -65,15 +78,20 @@ function App() {
           <Route path="/mypage_qna_form/:id" element={<MypageQnaForm />} />{" "}
           {/* 글 수정 */}
           <Route path="/mypage_qna/:id" element={<MypageQnaDetail />} />
-          <Route path="/mypage_market" element={<MypageMarket />} />{" "}
           {/* 나의 게시글 메인 */}
+          <Route path="/mypage_market" element={<MypageMarket />} />
+          {/* 나의 게시글 상세 */}
           <Route
             path="/mypage_market/:marketNo"
             element={<MypageMarketDetail />}
-          />{" "}
-          {/* 나의 게시글 상세 */}
-          <Route path="/mypage_password" element={<MypagePassword />} />{" "}
+          />
           {/* 비밀번호 변경 */}
+          <Route path="/mypage_password" element={<MypagePassword />} />
+          {/* 마일리지 현황 */}
+          <Route path="/mypage_mile" element={<MypageMile />} />
+          {/* 마일리지 시각화 페이지 */}
+          <Route path="/mypage_mile_visual" element={<MypageMileVisual />} />
+          {/* 중고거래 */}
           <Route path="/market_list" element={<MarketList />} />
           <Route path="/mileage-form" element={<MileageForm />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
@@ -83,6 +101,8 @@ function App() {
           <Route path="/signup" element={<SignupForm />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
+          {/* 관리자 회원관리 */}
+          <Route path="/admin/member" element={<Member />} />
         </Routes>
       </div>
       <Footer />

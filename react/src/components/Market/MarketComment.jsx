@@ -98,6 +98,34 @@ const MarketComment = ({ marketNo }) => {
       });
   };
 
+  const handleCommentReport = async (marketCommentNo) => {
+    const reason = prompt("댓글 신고 사유를 입력하세요:");
+    const userId = sessionStorage.getItem("userId");
+
+    if (!reason || reason.trim() === "") {
+      alert("신고 사유를 입력해야 합니다!");
+      return;
+    }
+
+    try {
+      await axios.post(
+        "http://localhost:80/markets/commentReport",
+        {
+          marketCommentNo,
+          commentReportReason: reason,
+          reporterUserId: userId,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert("댓글 신고가 완료되었습니다!");
+    } catch (error) {
+      console.error(error);
+      alert("댓글 신고에 실패했습니다.");
+    }
+  };
+
   const handleReplySubmit = (e, commentNo) => {
     e.preventDefault();
 
@@ -147,6 +175,35 @@ const MarketComment = ({ marketNo }) => {
       });
   };
 
+  const handleReplyReport = async (replyNo) => {
+    const reason = prompt("답글 신고 사유를 입력하세요:");
+    const userId = sessionStorage.getItem("userId");
+    const token = sessionStorage.getItem("accessToken");
+
+    if (!reason || reason.trim() === "") {
+      alert("신고 사유를 입력해야 합니다!");
+      return;
+    }
+
+    try {
+      await axios.post(
+        "http://localhost:80/markets/replyReport",
+        {
+          replyNo,
+          replyReportReason: reason,
+          reporterUserId: userId,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert("답글 신고가 완료되었습니다!");
+    } catch (error) {
+      console.error(error);
+      alert("답글 신고에 실패했습니다.");
+    }
+  };
+
   return (
     <div className="comment-section">
       <h3>댓글</h3>
@@ -184,7 +241,14 @@ const MarketComment = ({ marketNo }) => {
                   )}
                 </span>
               </div>
-              <button className="btn btn-danger btn-no-line">신고</button>
+              {!comment.isMine && (
+                <button
+                  className="btn btn-danger btn-no-line"
+                  onClick={() => handleCommentReport(comment.marketCommentNo)}
+                >
+                  신고
+                </button>
+              )}
             </div>
 
             <div className="comment-content-wrap">
@@ -296,9 +360,14 @@ const MarketComment = ({ marketNo }) => {
                               )}
                             </span>
                           </div>
-                          <button className="btn btn-danger btn-no-line">
-                            신고
-                          </button>
+                          {!reply.isMine && (
+                            <button
+                              className="btn btn-danger btn-no-line"
+                              onClick={() => handleReplyReport(reply.replyNo)}
+                            >
+                              신고
+                            </button>
+                          )}
                         </div>
 
                         <div className="reply-content-wrap">

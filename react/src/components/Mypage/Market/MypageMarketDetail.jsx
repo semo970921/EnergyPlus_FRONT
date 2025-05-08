@@ -4,6 +4,7 @@ import "../../Market/css/market.css";
 import defaultImg from "../../../assets/img/default.jpg";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import MypageComment from "./MypageComment";
 
 const MypageMarketDetail = () => {
 
@@ -99,31 +100,9 @@ const MypageMarketDetail = () => {
           </button>
         </div>
 
-        {/* 댓글 조회 */}
-        <div className="comment-section">
-          <h3>댓글</h3>
-          <ul className="comment-list">
-            {comments.length === 0 ? (
-              <p>등록된 댓글이 없습니다.</p>
-            ) : (
-              comments.map((c) => (
-                <li key={c.marketCommentNo} className="comment-item">
-                  <div className="comment-meta">
-                    <span className="comment-writer">{c.userName}</span>
-                    <em className="line">|</em>
-                    <span className="comment-date">
-                      {new Date(c.marketCommentDate).toLocaleDateString("ko-KR")}
-                    </span>
-                  </div>
+        {/* 댓글/대댓글 컴포넌트 */}
+        <MypageComment marketNo={marketNo} />
 
-                  <p className="comment-content">
-                    {c.marketCommentContent}
-                  </p>
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
       </div>
     </>
   );

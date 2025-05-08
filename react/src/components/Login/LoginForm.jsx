@@ -57,6 +57,8 @@ const LoginForm = () => {
         sessionStorage.setItem("userEmail", response.data.userEmail);
         sessionStorage.setItem("userName", response.data.userName);
 
+        sessionStorage.setItem("userRole", response.data.userRole);
+
         // 상태 업데이트
         setIsLoggedIn(true);
         setUserName(response.data.userName);
@@ -66,8 +68,11 @@ const LoginForm = () => {
 
         alert(response.data.userName + "님 환영합니다!");
 
-        // 홈 페이지로 리다이렉션
-        navigate("/");
+        if (response.data.userRole === "ROLE_ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
       }
     } catch (error) {
       console.error("로그인 오류:", error);

@@ -21,8 +21,8 @@ const Nav = () => {
           <li className="nav-item">
             마일리지
             <ul>
-              <li onClick={() => navi("/mileage/info")}>마일리지 안내</li>
-              <li onClick={() => navi("/mileage/store")}>마일리지 사용</li>
+              <li onClick={() => navi("/mileageInfo")}>마일리지 안내</li>
+              <li onClick={() => navi("/mileagestore")}>마일리지 사용</li>
             </ul>
           </li>
           <li className="nav-item">
