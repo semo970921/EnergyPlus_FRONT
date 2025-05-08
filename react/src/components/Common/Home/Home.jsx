@@ -7,7 +7,9 @@ const Home = () => {
   return (
     <>
       <HomeLayout>
+        <br/>
         <MainSection1 />
+        <br/>
         <MainSection2 />
         <CardNewsMain />
       </HomeLayout>
