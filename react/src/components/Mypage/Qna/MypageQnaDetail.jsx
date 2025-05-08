@@ -1,11 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Wrapper, HeaderRow, Title, SearchBox, SearchButton, 
-      DeleteButton, ContentDiv, BackBtn, 
+      DeleteButton, ContentDiv, BackBtn, ReplyDetail, ReplyDiv,  
       ContentTitle, ContentDate, ContentDetail } from "../../TableStyle/Table.style";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Reply from "./Reply/Reply";
-import ReplyForm from "./Reply/ReplyForm";
 
 const MypageQnaDetail = () => {
 
@@ -93,7 +92,7 @@ const MypageQnaDetail = () => {
     <>
       <Wrapper>
         <HeaderRow>
-          <Title>나의 QnA 확인({id})</Title>
+          <Title>나의 QnA</Title>
           <SearchBox>
             <SearchButton onClick={handleEdit}>글 수정</SearchButton>
             <DeleteButton onClick={handleDelete}>글 삭제</DeleteButton>
@@ -112,12 +111,11 @@ const MypageQnaDetail = () => {
         
         {/* 댓글란 */}
 
-        {qnaStatus === "Y" ? (
-          <Reply qnaId={id} /> // 댓글 존재
-        ) : qnaStatus === "N" ? (
-          <ReplyForm qnaId={id} /> // 댓글 없음 → 작성 폼
-        ) : (
-          <p>댓글 상태를 불러오는 중입니다...</p> // 초기 로딩 처리
+        {qnaStatus === "Y" && <Reply qnaId={id} />}
+        {qnaStatus === "N" && (
+          <ReplyDiv>
+            <ReplyDetail>등록된 댓글이 없습니다.</ReplyDetail>
+          </ReplyDiv>
         )}
 
         <BackBtn onClick={() => navi(-1)}>뒤로가기</BackBtn>

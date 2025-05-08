@@ -81,6 +81,7 @@ const MypageMain = () => {
               <Label>마일리지 현황</Label>
             </MenuItem>
 
+            
             <MenuItem
               onClick={() => {
                 const role = sessionStorage.getItem("userRole"); // 사용자 권한 확인
@@ -95,6 +96,7 @@ const MypageMain = () => {
               <Label>QnA</Label>
             </MenuItem>
             
+
           </MenuGrid>
         </ContentWrapper>
       </Container>

@@ -95,3 +95,54 @@ export const ErrorMessage = styled.div`
   font-size: 14px;
   text-align: center;
 `;
+
+export const Divider = styled.div`
+  display: flex;
+  align-items: center;
+  color: #888;
+  margin: 20px 0;
+  font-size: 12px;
+  
+  &:before, 
+  &:after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  span {
+    margin: 0 10px;
+  }
+`;
+
+// 소셜 로그인 섹션 스타일
+export const SocialLoginSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+export const KakaoLoginButton = styled.img`
+  width: 220px;
+  height: auto;
+  display: block;
+  margin: 10px auto 20px;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+`;
+
+// 카카오 아이콘 스타일
+export const KakaoIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  background-image: url('/assets/kakao_logo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
