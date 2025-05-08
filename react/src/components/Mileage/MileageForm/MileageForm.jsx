@@ -23,7 +23,7 @@ const MileageForm = () => {
     formData.append("fileDescription", fileDescription);
 
     try {
-      const response = await fetch("http://localhost:8080/mileages/save", {
+      const response = await fetch("http://localhost:80/mileages/save", {
         method: "POST",
         body: formData,
         headers: {

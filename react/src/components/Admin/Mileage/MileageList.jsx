@@ -23,7 +23,7 @@ const MileageList = () => {
   const fetchList = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/admin/mileages?page=${pageNo}`,
+        `http://localhost/admin/mileages?page=${pageNo}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ const MileageList = () => {
               <td>{m.mileageCategory}</td>
               <td>{m.userName}</td>
               <td>{m.createDate}</td>
-              <td>{m.mileageStatus === "Y" ? "답변완료" : "확인중"}</td>
+              <td>{m.mileageStatus === "N" ? "확인중" : "답변완료"}</td>
             </tr>
           ))}
         </tbody>
