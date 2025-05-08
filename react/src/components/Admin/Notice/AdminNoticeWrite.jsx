@@ -18,6 +18,7 @@ const AdminNoticeWrite = () => {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
+  AdminSidebar
   const handleSubmit = async e => {
     e.preventDefault();
     try {
