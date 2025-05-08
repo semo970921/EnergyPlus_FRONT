@@ -23,10 +23,14 @@ const LoadingSpinner = styled.div`
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
-  
+
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `;
 
@@ -38,7 +42,7 @@ const KakaoCallback = () => {
   useEffect(() => {
     const handleKakaoCallback = async () => {
       const code = new URLSearchParams(location.search).get("code");
-      
+
       if (!code) {
         setError("인증 코드를 찾을 수 없습니다.");
         return;
@@ -92,6 +96,7 @@ const KakaoCallback = () => {
       ) : (
         <>
           <LoadingText>카카오 로그인 처리 중</LoadingText>
+
           <LoadingSpinner />
         </>
       )}
