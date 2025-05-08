@@ -31,11 +31,16 @@ import MypageQnaWrite from "./components/Mypage/Qna/MypageQnaWrite";
 import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
 import MypagePassword from "./components/Mypage/Member/MypagePassword";
+import CardNewsList from "./components/CardNews/CardNewsList";
+import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
 import KakaoCallback from "./components/Login/kakaoCallback";
 import LoginSuccess from "./components/Login/LoginSuccess";
+import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
+import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
+import Faq from "./components/FAQ/Faq";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
@@ -81,21 +86,22 @@ function App() {
           {/* 나의 게시글 메인 */}
           <Route path="/mypage_market" element={<MypageMarket />} />
           {/* 나의 게시글 상세 */}
-          <Route path="/mypage_market/:marketNo" element={<MypageMarketDetail />}/>
+          <Route
+            path="/mypage_market/:marketNo"
+            element={<MypageMarketDetail />}
+          />
           {/* 비밀번호 변경 */}
           <Route path="/mypage_password" element={<MypagePassword />} />
           {/* 마일리지 현황 */}
-          <Route path="/mypage_mile" element={<MypageMile />} /> 
+          <Route path="/mypage_mile" element={<MypageMile />} />
           {/* 마일리지 시각화 페이지 */}
           <Route path="/mypage_mile_visual" element={<MypageMileVisual />} />
-
           {/* 중고거래 */}
           <Route path="/market_list" element={<MarketList />} />
           <Route path="/mileage-form" element={<MileageForm />} />
           <Route path="/markets/:marketNo" element={<MarketDetail />} />
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
-
           {/* 회원가입 */}
           <Route path="/signup-form" element={<SignupForm />} />
           <Route path="/signup-type" element={<SignupType />} />
@@ -106,13 +112,18 @@ function App() {
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
           {/* 비번 재설정 */}
-          <Route path="/find-password" element={<PasswordRecovery />}/>
+          <Route path="/find-password" element={<PasswordRecovery />} />
           <Route path="/password-reset" element={<PasswordReset />} />
-
+          <Route path="/cardnews/list" element={<CardNewsList />} />
+          <Route path="/cardnews_detail/:id" element={<CardNewsDetail />} />
+          <Route path="/cardnews_form" element={<CardNewsForm />} />
+          <Route path="/admin/cardnews/edit/:id" element={<CardNewsEdit />} />
+          {/* FAQ */}
+          <Route path="/faq" element={<Faq />} />
           {/* 관리자 qna */}
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
-
         </Routes>
+        {/* 메인페이지 */}
       </div>
       <Footer />
     </>
