@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     FormContainer,
     FormTitle,
@@ -15,13 +16,14 @@ import {
     HelpButton,
     ErrorMessage,
     SuccessMessage
-  } from "./SignupForm.style";
-import axios from "axios"; // axios 추가
+} from "./SignupForm.style";
+import axios from "axios";
 
 // API 기본 URL 설정
 const API_BASE_URL = "http://localhost:80"; // 백엔드 서버 주소에 맞게 수정
 
 const SignupForm = () => {
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         userName: '',
@@ -32,13 +34,26 @@ const SignupForm = () => {
         userPhone: ''
     });
 
-    
     const [errors, setErrors] = useState({});
     const [success, setSuccess] = useState({});
     const [emailVerified, setEmailVerified] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [emailSending, setEmailSending] = useState(false);
     const [verifying, setVerifying] = useState(false);
+    
+    // 약관 동의 정보 상태 추가
+    const [agreementInfo, setAgreementInfo] = useState(null);
+    
+    // 컴포넌트 마운트 시 세션스토리지에서 약관 동의 정보 로드
+    useEffect(() => {
+        const savedAgreementInfo = sessionStorage.getItem("agreementInfo");
+        if (savedAgreementInfo) {
+            setAgreementInfo(JSON.parse(savedAgreementInfo));
+        } else {
+            // 약관 동의 정보가 없으면 약관 페이지로 리다이렉트
+            navigate("/agreement");
+        }
+    }, [navigate]);
     
     // 폼 검증 함수
     const validateForm = () => {
@@ -108,7 +123,6 @@ const SignupForm = () => {
         }
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         
@@ -119,9 +133,28 @@ const SignupForm = () => {
             return;
         }
         
+        // 약관 동의 정보가 없으면 처리 중단
+        if (!agreementInfo) {
+            setErrors(prev => ({
+                ...prev,
+                general: "약관 동의가 필요합니다. 약관 동의 페이지로 이동합니다."
+            }));
+            setTimeout(() => {
+                navigate("/agreement");
+            }, 2000);
+            return;
+        }
+        
         setIsSubmitting(true);
         
         try {
+            // 약관 동의 정보 매핑
+            const agreementData = {
+                termsOfUseAgreed: agreementInfo.privacyThirdPartyAgreed && agreementInfo.privacyRequiredAgreed,
+                privacyPolicyAgreed: agreementInfo.personalInfoAgreed && agreementInfo.personalInfoRequiredAgreed,
+                marketingAgreed: agreementInfo.marketingAgreed && agreementInfo.marketingOptionalAgreed
+            };
+            
             // 회원가입 API 호출
             const response = await axios.post(`${API_BASE_URL}/members`, {
                 userName: formData.userName,
@@ -129,11 +162,7 @@ const SignupForm = () => {
                 userPassword: formData.userPassword,
                 userPhone: formData.userPhone || null,
                 gradeId: 1, // 기본 등급 아이디 설정
-                agreementInfo: {
-                    privacyAgreed: agreementInfo.privacyRequiredAgreed,
-                    creditInfoAgreed: agreementInfo.creditInfoOptionalAgreed,
-                    marketingAgreed: agreementInfo.marketingOptionalAgreed
-                }
+                agreementInfo: agreementData
             });
             
             if (response.status === 201) {
@@ -163,8 +192,8 @@ const SignupForm = () => {
                 setEmailVerified(false);
                 setSuccess({});
                 
-                // 메인 페이지로 이동 또는 로그인 페이지로 이동
-                // window.location.href = "/login";
+                // 로그인 페이지로 이동
+                navigate("/login");
             }
         } catch (error) {
             // 에러 처리
@@ -277,13 +306,13 @@ const SignupForm = () => {
         }
     };
 
-
     const handleCancel = () => {
         const confirmCancel = window.confirm("회원가입을 취소하시겠습니까?");
         if (confirmCancel) {
-            // 이전 페이지로 이동
-            // mainpage가 만들어지면 추후에 고칠 예정
-            window.history.back();
+            // 세션 스토리지의 약관 동의 정보 삭제
+            sessionStorage.removeItem("agreementInfo");
+            // 메인 페이지로 이동
+            navigate("/");
         }
     };
 
@@ -291,6 +320,8 @@ const SignupForm = () => {
         <FormContainer>
             <FormTitle>회원가입</FormTitle>
             <FormContent onSubmit={handleSubmit}>
+                
+                {errors.general && <ErrorMessage>{errors.general}</ErrorMessage>}
                 
                 <FormGroup>
                     <Label>이름</Label>
@@ -409,7 +440,7 @@ const SignupForm = () => {
 
             </FormContent>
             <HelpButtonWrapper>
-                <HelpButton onClick={() => alert("회원가입에 문제가 있으신가요?\n이메일: semo970921@naver.com\n전화: 02-123-4567")}>도움</HelpButton>
+                <HelpButton onClick={() => alert("회원가입에 문제가 있으신가요?\n이메일: info@energyplus.kr\n전화: 02-123-4567")}>도움</HelpButton>
             </HelpButtonWrapper>
         </FormContainer>
     );

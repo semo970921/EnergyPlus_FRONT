@@ -49,7 +49,7 @@ import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
-import Agreement from "./components/Terms/Agreement";
+import Agreement from "./components/Agreement/Agreement";
 
 function App() {
   return (
@@ -124,7 +124,7 @@ function App() {
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
 
           {/* 이용약관 */}
-          <Route path="/terms" element={<Agreement  />}/>
+          <Route path="/agreement" element={<Agreement  />}/>
 
 
           {/* 관리자 메인 */}
