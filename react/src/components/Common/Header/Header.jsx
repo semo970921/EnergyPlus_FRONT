@@ -12,15 +12,15 @@ const Header = () => {
 
   // 나의 다짐
   const [userPromise, setUserPromise] = useState("");
-  
+
   // 나의 다짐 조회
   useEffect(() => {
     const fetchUserData = async () => {
-      try{
+      try {
         // 토큰 없으면 다짐 비워줌
         const token = sessionStorage.getItem("accessToken");
 
-        if(!token){
+        if (!token) {
           setUserPromise("");
           return;
         }
@@ -30,7 +30,6 @@ const Header = () => {
           },
         });
         setUserPromise(response.data.userPromise);
-
       } catch (error) {
         console.error("나의 다짐 불러오기 실패", error);
         setUserPromise(""); // 에러 떠도 다짐 비워줌
@@ -43,28 +42,12 @@ const Header = () => {
       fetchUserData();
     };
 
-    window.addEventListener('promiseChanged', handlePromiseChanged);
+    window.addEventListener("promiseChanged", handlePromiseChanged);
 
     return () => {
-      window.addEventListener('promiseChanged', handlePromiseChanged);
+      window.addEventListener("promiseChanged", handlePromiseChanged);
     };
   }, [isLoggedIn]); // 로그인 상태 바뀔 때마다 실행함
-
-
-  // 마이페이지에서 내 정보 수정하면 헤더에 표시되는 이름도 바뀌도록
-  useEffect(() => {
-    checkLoginStatus();
-  
-    window.addEventListener('loginStateChanged', checkLoginStatus);
-    window.addEventListener('userNameChanged', checkLoginStatus); // 이름 변경 이벤트 추가
-  
-    return () => {
-      window.removeEventListener('loginStateChanged', checkLoginStatus);
-      window.removeEventListener('userNameChanged', checkLoginStatus); // 해제
-    };
-  }, []);
-
-
 
   useEffect(() => {
     // 초기 로그인 상태 확인
@@ -117,43 +100,47 @@ const Header = () => {
   return (
     <>
       <div className="header">
-        <a href="/" className="logo">
-          <img src={LogoImg} alt="에너지 생활+ 로고" />
-        </a>
+        <div className="header-container">
+          <a href="/" className="logo">
+            <img src={LogoImg} alt="에너지 생활+ 로고" />
+          </a>
 
-        {/* 나의 다짐 불러오기 */}
-        <div className="slogan-wrap">
-          {userPromise ? (
-            <span>{userPromise}</span> // 다짐 있을 때
-          ) : (
-            <span>탄소 중립 실천 다짐을 작성해주세요</span>
-          )}
+          {/* 나의 다짐 불러오기 */}
+          <div className="slogan-wrap">
+            {userPromise ? (
+              <span>{userPromise}</span> // 다짐 있을 때
+            ) : (
+              <span>탄소 중립 실천 다짐을 작성해주세요</span>
+            )}
+          </div>
+
+          <ul className="header-link">
+            {isLoggedIn ? (
+              // 로그인 상태일 때
+              <>
+                <li className="link-item welcome-text">
+                  <span>{userName}님</span>
+                </li>
+                <li className="link-item">
+                  <span onClick={handleLogout}>로그아웃</span>
+                </li>
+                <li className="link-item">
+                  <span onClick={() => navi("/mypage_main")}>마이페이지</span>
+                </li>
+              </>
+            ) : (
+              // 로그아웃 상태일 때
+              <>
+                <li className="link-item">
+                  <span onClick={() => navi("/login")}>로그인</span>
+                </li>
+                <li className="link-item">
+                  <span onClick={() => navi("/signup")}> 회원가입</span>
+                </li>
+              </>
+            )}
+          </ul>
         </div>
-
-        <ul className="header-link">
-          {isLoggedIn ? (
-            // 로그인 상태일 때
-            <>
-              <li className="link-item welcome-text">{userName}님</li>
-              <li className="link-item" onClick={handleLogout}>
-                로그아웃
-              </li>
-              <li className="link-item" onClick={() => navi("/mypage_main")}>
-                마이페이지
-              </li>
-            </>
-          ) : (
-            // 로그아웃 상태일 때
-            <>
-              <li className="link-item" onClick={() => navi("/login")}>
-                로그인
-              </li>
-              <li className="link-item" onClick={() => navi("/signup")}>
-                회원가입
-              </li>
-            </>
-          )}
-        </ul>
       </div>
       <Nav />
     </>
