@@ -15,12 +15,17 @@ const AdminNotices = () => {
   const [notices, setNotices] = useState([]);
   const navigate = useNavigate();
 
+  const token = sessionStorage.getItem("accessToken");
+
   useEffect(() => {
     axios.get("http://localhost/admin/notices",{
       params: {
         page: 0,
-        keyword: ""  // 검색 없을 경우 빈 문자열
-      }
+        keyword: ""
+      },
+      headers : {
+        Authorization: `Bearer ${token}`,
+      },
     })
       .then((res) => {
         console.log("📢 관리자 공지사항 응답:", res.data); // 👈 로그 확인
@@ -40,10 +45,15 @@ const AdminNotices = () => {
 
   const goToWrite = () => navigate("/admin/noticewrite");
   const goToEdit = (id) => navigate(`/admin/notices/${id}/edit`);
+  
   const handleDelete = (id) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     axios
-      .delete(`http://localhost/admin/notices/${id}`)
+      .delete(`http://localhost/admin/notices/${id}`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
       .then(() => {
         alert("삭제 완료");
         setNotices((prev) => prev.filter((n) => n.noticeId !== id));
@@ -76,7 +86,7 @@ const AdminNotices = () => {
             {notices.map((n) => (
               <tr key={n.noticeId}>
                 <td>{n.noticeId}</td>
-                <td onClick={() => navigate(`/notices/${n.noticeId}`)} style={{ cursor: "pointer" }}>
+                <td onClick={() => navigate(`/admin/notices/${n.noticeId}`)} style={{ cursor: "pointer" }}>
                   {n.noticeTitle}
                 </td>
                 <td>{n.noticeDate}</td>

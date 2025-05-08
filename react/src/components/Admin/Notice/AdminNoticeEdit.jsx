@@ -15,6 +15,7 @@ import {
 const AdminNoticeEdit = () => {
   const { noticeId } = useParams();
   const navi = useNavigate();
+  const token = sessionStorage.getItem("accessToken");
 
   const [form, setForm] = useState({
     noticeTitle: "",
@@ -22,7 +23,11 @@ const AdminNoticeEdit = () => {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost/notices/${noticeId}`)
+    axios.get(`http://localhost/admin/notices/${noticeId}`,{
+      headers : {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then(res => {
         setForm({
           noticeTitle: res.data.noticeTitle,
@@ -33,7 +38,7 @@ const AdminNoticeEdit = () => {
         console.error("기존 공지사항 불러오기 실패", err);
         alert("데이터를 불러올 수 없습니다.");
       });
-  }, [noticeId]);
+  }, [noticeId, token]);
 
   const handleChange = (e) => {
     setForm({
@@ -44,9 +49,13 @@ const AdminNoticeEdit = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.put(`http://localhost/admin/notices/${noticeId}`, form); // 🔁 관리자용 API 사용
+      await axios.put(`http://localhost/admin/notices/${noticeId}`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       alert("수정 완료되었습니다!");
-      navi("/admin/notices"); // 🔁 수정 후 관리자 공지 목록으로 이동
+      navi("/admin/notices");
     } catch (err) {
       console.error("수정 실패", err);
       alert("수정 중 오류가 발생했습니다.");

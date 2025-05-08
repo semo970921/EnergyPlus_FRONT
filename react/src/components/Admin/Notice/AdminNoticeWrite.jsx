@@ -12,6 +12,7 @@ import AdminSidebar from '../AdminSidebar';
 const AdminNoticeWrite = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ noticeTitle: '', noticeContent: '' });
+  const token = sessionStorage.getItem("accessToken");
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -22,7 +23,11 @@ const AdminNoticeWrite = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost/admin/notices', form);
+      await axios.post('http://localhost/admin/notices', form, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       alert("공지사항이 등록되었습니다.");
       navigate('/admin/notices');
     } catch (err) {

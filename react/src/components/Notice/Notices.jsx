@@ -78,9 +78,6 @@ const Notices = () => {
           {keyword && (
             <SearchButton onClick={resetSearch}>초기화</SearchButton>
           )}
-          <WriteButton onClick={() => navi("/noticewrite")}>
-            글 작성
-          </WriteButton>
         </SearchBox>
       </HeaderRow>
       
