@@ -26,35 +26,16 @@ const NoticeDetail = () => {
       .catch(err => console.error("공지사항 상세 불러오기 실패", err));
   }, [noticeId]);
 
-  const handleEdit = () => navi(`/notices/edit/${noticeId}`);
-  const handleDelete = async () => {
-    if (!window.confirm("정말 삭제하시겠습니까?")) return;
-
-    try{await axios.delete(`http://localhost/notices/${noticeId}`);
-    alert("삭제가 완료되었습니다.");
-    navi("/notices");
-
-  } catch (err) {
-    console.error("삭제 실패", err);
-    alert("삭제 중 오류가 발생했습니다.");
-  }
-  };
-
   if (!notice) return <Wrapper>로딩 중...</Wrapper>;
 
   return (
     <Wrapper>
       <p style={{ textAlign: "center", marginBottom: 8, color: "#555" }}>
-        공지사항 번호: {noticeId}
       </p>
 
       {/* 1) 상단 헤더: 페이지 제목 + 버튼 */}
       <HeaderRow>
         <Title>공지사항 확인</Title>
-        <SearchBox>
-          <SearchButton onClick={handleEdit}>글 수정</SearchButton>
-          <DeleteButton onClick={handleDelete}>글 삭제</DeleteButton>
-        </SearchBox>
       </HeaderRow>
 
       {/* 2) 카드형 콘텐츠 */}
