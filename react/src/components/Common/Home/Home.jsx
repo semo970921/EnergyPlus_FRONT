@@ -19,6 +19,6 @@ const Home = () => {
 export default Home;
 
 const HomeLayout = styled.div`
-  height: 5000px;
+  height: 4200px;
   min-height: 600px;
 `;

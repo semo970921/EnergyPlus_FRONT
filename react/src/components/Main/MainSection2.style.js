@@ -8,7 +8,7 @@ export const Hero = styled.section`
   align-items: center;
   justify-content: flex-start;
   padding-left: 4vw;
-
+  
   &::before {
     content: "";
     position: absolute;
