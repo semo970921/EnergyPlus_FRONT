@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { getKakaoLoginURL } from "../../services/authService"; // 서비스 함수 import
+import { login, getKakaoLoginURL } from "../../services/authService";
 import {
   LoginContainer,
   LoginBox,
@@ -19,7 +18,6 @@ import {
 } from "./LoginForm.styles";
 
 import kakaoLogo from '../../assets/kakao_logo.png';
-
 
 const LoginForm = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -42,48 +40,49 @@ const LoginForm = () => {
     setErrorMsg("");
 
     try {
-      // 백엔드 API 호출
-      const response = await axios.post("http://localhost:80/auth/login", {
-        userEmail: userEmail,
-        userPassword: userPassword,
-      });
+      // 로그인 서비스 호출
+      const data = await login(userEmail, userPassword);
 
-      // 로그인 성공 처리
-      if (response.data) {
-        // 토큰 저장
-        sessionStorage.setItem("accessToken", response.data.accessToken);
-        sessionStorage.setItem("refreshToken", response.data.refreshToken);
+      // 토큰 저장
+      sessionStorage.setItem("accessToken", data.accessToken);
+      sessionStorage.setItem("refreshToken", data.refreshToken);
 
-        // 사용자 정보 저장
-        sessionStorage.setItem("userEmail", response.data.userEmail);
-        sessionStorage.setItem("userName", response.data.userName);
-        sessionStorage.setItem("userRole", response.data.userRole);
+      // 사용자 정보 저장
+      sessionStorage.setItem("userEmail", data.userEmail);
+      sessionStorage.setItem("userName", data.userName);
+      sessionStorage.setItem("userRole", data.userRole);
 
-        // 로그인 상태변경 이벤트 발생
-        window.dispatchEvent(new Event("loginStateChanged"));
+      // 로그인 상태변경 이벤트 발생
+      window.dispatchEvent(new Event("loginStateChanged"));
 
-        alert(response.data.userName + "님 환영합니다!");
+      alert(data.userName + "님 환영합니다!");
 
-        // 역할에 따라 리다이렉트
-        if (response.data.userRole === "ROLE_ADMIN") {
-          navigate("/admin");
-        } else {
-          navigate("/");
-        }
+      // 역할에 따라 리다이렉트
+      if (data.userRole === "ROLE_ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
       }
     } catch (error) {
       console.error("로그인 오류:", error);
-      setErrorMsg("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+      setErrorMsg(error.response?.data?.error || "로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
     } finally {
       setIsLoading(false);
     }
   };
 
   // 카카오 로그인 처리
-  const handleKakaoLogin = () => {
-    // 서비스 함수를 사용하여 카카오 로그인 URL 가져오기
-    const kakaoAuthURL = getKakaoLoginURL();
-    window.location.href = kakaoAuthURL;
+  const handleKakaoLogin = async () => {
+    try {
+      setIsLoading(true);
+      // 서비스 함수를 사용하여 카카오 로그인 URL 가져오기
+      const kakaoAuthURL = await getKakaoLoginURL();
+      window.location.href = kakaoAuthURL;
+    } catch (error) {
+      console.error("카카오 로그인 URL 가져오기 오류:", error);
+      setErrorMsg("카카오 로그인 서비스를 이용할 수 없습니다.");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -95,24 +94,12 @@ const LoginForm = () => {
         <Form onSubmit={handleLogin}>
           {errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
 
-          <InputField
-            type="email"
-            placeholder="이메일"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-            disabled={isLoading}
-          />
+          <InputField type="email" placeholder="이메일" value={userEmail} onChange={(e) => setUserEmail(e.target.value)} disabled={isLoading} />
 
-          <InputField
-            type="password"
-            placeholder="비밀번호"
-            value={userPassword}
-            onChange={(e) => setUserPassword(e.target.value)}
-            disabled={isLoading}
-          />
+          <InputField type="password" placeholder="비밀번호" value={userPassword} onChange={(e) => setUserPassword(e.target.value)} disabled={isLoading} />
 
           <LoginButton type="submit" disabled={isLoading}>
-            {isLoading ? "로그인 중..." : "로그인"}
+            {isLoading ? "로그인 중" : "로그인"}
           </LoginButton>
         </Form>
 
@@ -132,11 +119,8 @@ const LoginForm = () => {
 
         {/* 소셜 로그인 섹션 */}
         <SocialLoginSection>
-          {/* <SocialLoginTitle>소셜 계정으로 간편 로그인</SocialLoginTitle> */}
-          <KakaoLoginButton src={kakaoLogo} onClick={handleKakaoLogin} /> 
+          <KakaoLoginButton src={kakaoLogo} onClick={handleKakaoLogin} disabled={isLoading} /> 
         </SocialLoginSection>
-
-
       </LoginBox>
     </LoginContainer>
   );

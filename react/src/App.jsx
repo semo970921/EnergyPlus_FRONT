@@ -36,10 +36,11 @@ import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
+import KakaoCallback from "./components/Login/kakaoCallback";
+import LoginSuccess from "./components/Login/LoginSuccess";
 import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
 import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
 import Faq from "./components/FAQ/Faq";
-import kakaoCallback from "./components/Login/kakaoCallback";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
@@ -102,11 +103,12 @@ function App() {
           <Route path="/marketform" element={<MarketForm />} />
           <Route path="/markets/edit/:marketNo" element={<MarketEdit />} />
           {/* 회원가입 */}
-          <Route path="/signup-type" element={<SignupType />} />
           <Route path="/signup-form" element={<SignupForm />} />
+          <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
+          <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
           {/* 비번 재설정 */}
