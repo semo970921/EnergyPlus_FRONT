@@ -35,7 +35,9 @@ import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/Admin/member/Member";
 import kakaoCallback from "./components/Login/kakaoCallback";
-import AdminNotice from "./components/Admin/notice/AdminNotice";
+import AdminNotices from "./components/Admin/Notice/AdminNotices";
+import AdminNoticeWrite from "./components/Admin/notice/AdminNoticeWrite";
+import Admin from "./components/Admin/Admin";
 
 
 
@@ -54,7 +56,9 @@ function App() {
           <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
 
           {/* 관리자 공지사항 */}
-          <Route path="/admin/notices" element={<Notices />} />
+          <Route path="/admin/notices" element={<AdminNotices/>} />
+          <Route path="/admin/noticewrite" element={<AdminNoticeWrite/>} />
+
 
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
@@ -104,6 +108,11 @@ function App() {
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
+
+          {/* 관리자 메인 */}
+          <Route path="/admin" element={<Admin />} />
+
+
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
 
