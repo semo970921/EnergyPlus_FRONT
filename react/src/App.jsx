@@ -35,7 +35,6 @@ import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
 import Member from "./components/admin/member/Member";
-import MileageDetail from "./components/Admin/Mileage/MileageDetail";
 import AdminNotices from "./components/Admin/Notice/AdminNotices";
 import AdminNoticeWrite from "./components/Admin/notice/AdminNoticeWrite";
 import Admin from "./components/Admin/Admin";
@@ -49,6 +48,7 @@ import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
+import Agreement from "./components/Agreement/Agreement";
 import AdminNoticeEdit from "./components/Admin/Notice/AdminNoticeEdit";
 import AdminNoticeDetail from "./components/Admin/Notice/AdminNoticeDetail";
 
@@ -87,10 +87,6 @@ function App() {
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mileagestore" element={<MileageStore />} />
           <Route path="/admin/mileage/list" element={<MileageList />} />
-          <Route
-            path="/admin/mileage/:mileageSeq"
-            element={<MileageDetail />}
-          />
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
@@ -125,13 +121,13 @@ function App() {
           <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
-          {/* 관리자 회원관리 */}
-          <Route path="/admin/member" element={<Member />} />
-
           <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
           <Route path="/login-success" element={<LoginSuccess />} />
-
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
+
+          {/* 이용약관 */}
+          <Route path="/agreement" element={<Agreement  />}/>
+
 
           {/* 관리자 메인 */}
           <Route path="/admin" element={<Admin />} />
