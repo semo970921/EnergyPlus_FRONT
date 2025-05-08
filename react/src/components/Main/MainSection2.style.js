@@ -2,156 +2,124 @@ import styled from "styled-components";
 
 export const HeroSection = styled.section`
   background: url(${props => props.img}) center/cover no-repeat;
-  height: 520px;
+  height: 480px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   color: white;
   text-align: center;
+  position: relative;
 
-  .overlay {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 40px;
-    border-radius: 12px;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
   }
 
-  h1 {
-    font-size: 2.8rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+  div {
+    position: relative;
+    z-index: 1;
 
-  p {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-  }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
 
-  .buttons {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-`;
-
-export const CTAButton = styled.button`
-  background: ${props => (props.secondary ? '#fff' : 'linear-gradient(to right, #6cc15b, #52b3ff)')};
-  color: ${props => (props.secondary ? '#228b22' : 'white')};
-  padding: 12px 24px;
-  font-size: 1rem;
-  border: ${props => (props.secondary ? '2px solid #228b22' : 'none')};
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s;
-
-  &:hover {
-    opacity: 0.85;
+    p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
   }
 `;
 
-export const InfoSection = styled.section`
-  background: #f9f9f9;
+export const LightSection = styled.section`
+  background: #f5f9f6;
   padding: 60px 20px;
   text-align: center;
 
   h2 {
     font-size: 1.8rem;
-    margin-bottom: 40px;
-    color: #333;
+    margin-bottom: 30px;
+    color: #228b22;
   }
 
-  .card-container {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+  p {
+    font-size: 1rem;
+    margin-top: 12px;
   }
-
-  .card {
-    background: white;
-    border-radius: 12px;
-    padding: 24px;
-    max-width: 300px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-
-    h3 {
-      color: #228b22;
-      margin-bottom: 10px;
-    }
-
-    p {
-      color: #444;
-      font-size: 0.95rem;
-    }
-  }
-`;
-
-export const IconMenuSection = styled.section`
-  background: white;
-  padding: 40px 20px;
-  text-align: center;
 
   ul {
     display: flex;
     justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 24px;
     list-style: none;
     padding: 0;
 
     li {
-      font-size: 1.1rem;
-      padding: 16px;
-      border-radius: 50px;
-      background: #f0f8f4;
-      min-width: 120px;
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      max-width: 300px;
+      font-size: 1rem;
+      flex: 1;
     }
   }
 `;
 
-export const NewsSection = styled.section`
-  background: #f5f5f5;
-  padding: 60px 20px;
-  text-align: center;
+export const CTAButton = styled.button`
+  background: linear-gradient(to right, #6cc15b, #52b3ff);
+  color: white;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  margin-top: 24px;
+  cursor: pointer;
+  transition: background 0.3s;
 
-  h2 {
-    font-size: 1.8rem;
-    margin-bottom: 32px;
-    color: #222;
+  &:hover {
+    background: linear-gradient(to right, #5aa94a, #3d97e0);
   }
+`;
 
-  .news-cards {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
+export const ActionList = styled.ul`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
 
-  .news {
-    background: white;
+  li {
+    flex: 1;
+    min-width: 240px;
+    background-color: #e6f4ea;
     border-radius: 12px;
-    max-width: 300px;
-    text-align: left;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    padding: 20px;
 
-    img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    h4 {
-      padding: 12px 16px 0;
-      font-size: 1.1rem;
-      color: #228b22;
+    h3 {
+      margin-bottom: 10px;
+      color: #2f6d38;
     }
 
     p {
-      padding: 0 16px 16px;
-      font-size: 0.9rem;
-      color: #555;
+      margin-bottom: 12px;
     }
+  }
+`;
+
+export const SimpleList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 500;
+  list-style: none;
+  padding-left: 0;
+
+  li::before {
+    content: "✔ ";
+    color: #228b22;
   }
 `;
