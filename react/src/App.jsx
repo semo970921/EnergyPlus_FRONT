@@ -42,14 +42,18 @@ import AdminNoticeWrite from "./components/Admin/notice/AdminNoticeWrite";
 import Admin from "./components/Admin/Admin";
 import KakaoCallback from "./components/Login/kakaoCallback";
 import LoginSuccess from "./components/Login/LoginSuccess";
-import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
-import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
+import AdminCardNewsForm from "./components/Admin/CardNews/AdminCardNewsForm";
+import AdminCardNewsEdit from "./components/Admin/CardNews/AdminCardNewsEdit";
 import AdminQna from "./components/Admin/Qna/AdminQna";
 import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
+import AdminCardNewsList from "./components/Admin/CardNews/AdminCardNewsList";
+import AdminCardNewsDetail from "./components/Admin/CardNews/AdminCardNewsDetail";
 
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
+import MarketReportList from "./components/Admin/Market/MarketReportList";
+import MarketReportDetail from "./components/Admin/Market/MarketReportDetail";
 
 function App() {
   return (
@@ -118,6 +122,10 @@ function App() {
           <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
+
+          <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
+
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
 
           {/* 관리자 메인 */}
@@ -130,16 +138,35 @@ function App() {
           {/* 비번 재설정 */}
           <Route path="/find-password" element={<PasswordRecovery />} />
           <Route path="/password-reset" element={<PasswordReset />} />
+
+          {/* 카드뉴스 */}
           <Route path="/cardnews/list" element={<CardNewsList />} />
           <Route path="/cardnews_detail/:id" element={<CardNewsDetail />} />
-          <Route path="/cardnews_form" element={<CardNewsForm />} />
-          <Route path="/admin/cardnews/edit/:id" element={<CardNewsEdit />} />
+
           {/* FAQ */}
           <Route path="/faq" element={<Faq />} />
           {/* 관리자 qna */}
           <Route path="/admin/mypage_qna" element={<AdminQna />} />
           <Route path="/admin/mypage_qna/:id" element={<AdminQnaDetail />} />
           {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
+
+          {/* 관리자 카드뉴스 */}
+          <Route path="/admin/cardnews" element={<AdminCardNewsList />} />
+          <Route
+            path="/admin/cardnews/detail/:id"
+            element={<AdminCardNewsDetail />}
+          />
+          <Route path="/cardnews_form" element={<AdminCardNewsForm />} />
+          <Route
+            path="/admin/cardnews/edit/:id"
+            element={<AdminCardNewsEdit />}
+          />
+          {/* 관리자 중고거래 */}
+          <Route path="/admin/market/report" element={<MarketReportList />} />
+          <Route
+            path="/admin/market/report/:reportId"
+            element={<MarketReportDetail />}
+          />
         </Routes>
         {/* 메인페이지 */}
       </div>
