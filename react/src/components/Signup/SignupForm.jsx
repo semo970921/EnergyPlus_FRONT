@@ -148,21 +148,17 @@ const SignupForm = () => {
         setIsSubmitting(true);
         
         try {
-            // 약관 동의 정보 매핑
-            const agreementData = {
-                termsOfUseAgreed: agreementInfo.privacyThirdPartyAgreed && agreementInfo.privacyRequiredAgreed,
-                privacyPolicyAgreed: agreementInfo.personalInfoAgreed && agreementInfo.personalInfoRequiredAgreed,
-                marketingAgreed: agreementInfo.marketingAgreed && agreementInfo.marketingOptionalAgreed
-            };
+            // 마케팅 동의 정보 가져오기 <-선택적 항목만 DB에 저장하면 됨!!
+            const marketingAgreed = agreementInfo.marketingAgreed && agreementInfo.marketingOptionalAgreed;
             
-            // 회원가입 API 호출
+            // 회원가입 API 호출 (마케팅 동의 정보만 포함)
             const response = await axios.post(`${API_BASE_URL}/members`, {
                 userName: formData.userName,
                 userEmail: formData.userEmail,
                 userPassword: formData.userPassword,
                 userPhone: formData.userPhone || null,
                 gradeId: 1, // 기본 등급 아이디 설정
-                agreementInfo: agreementData
+                marketingAgreed: marketingAgreed
             });
             
             if (response.status === 201) {
