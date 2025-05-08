@@ -35,7 +35,7 @@ import CardNewsList from "./components/CardNews/CardNewsList";
 import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
-import Member from "./components/Admin/member/Member";
+import Member from "./components/admin/member/Member";
 import AdminNotices from "./components/Admin/Notice/AdminNotices";
 import AdminNoticeWrite from "./components/Admin/notice/AdminNoticeWrite";
 import Admin from "./components/Admin/Admin";
@@ -118,6 +118,10 @@ function App() {
           <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
+
+          <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
+          <Route path="/login-success" element={<LoginSuccess />} />
+
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
 
           {/* 관리자 메인 */}
