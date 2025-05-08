@@ -35,7 +35,10 @@ import CardNewsList from "./components/CardNews/CardNewsList";
 import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
-import Member from "./components/admin/member/Member";
+import Member from "./components/Admin/member/Member";
+import AdminNotices from "./components/Admin/Notice/AdminNotices";
+import AdminNoticeWrite from "./components/Admin/notice/AdminNoticeWrite";
+import Admin from "./components/Admin/Admin";
 import KakaoCallback from "./components/Login/kakaoCallback";
 import LoginSuccess from "./components/Login/LoginSuccess";
 import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
@@ -60,6 +63,12 @@ function App() {
           <Route path="/notices/:noticeId" element={<NoticeDetail />} />
           <Route path="/noticewrite" element={<NoticeWrite />} />
           <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
+
+          {/* 관리자 공지사항 */}
+          <Route path="/admin/notices" element={<AdminNotices/>} />
+          <Route path="/admin/noticewrite" element={<AdminNoticeWrite/>} />
+
+
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
           <Route
@@ -109,8 +118,13 @@ function App() {
           <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
+
+          {/* 관리자 메인 */}
+          <Route path="/admin" element={<Admin />} />
           <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
           <Route path="/login-success" element={<LoginSuccess />} />
+
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
           {/* 비번 재설정 */}
