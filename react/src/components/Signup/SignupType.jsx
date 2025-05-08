@@ -15,10 +15,14 @@ const SignupType = () => {
   const navigate = useNavigate();
 
   // 카카오 회원가입/로그인
-  const handleKakaoSignup = () => {
-    // 서비스 함수를 사용하여 카카오 인증 URL 가져오기
-    const kakaoAuthURL = getKakaoLoginURL();
-    window.location.href = kakaoAuthURL;
+  const handleKakaoSignup = async () => {
+    try{
+      // 서비스 함수를 사용하여 카카오 인증 URL 가져오기
+      const kakaoAuthURL = await getKakaoLoginURL();
+      window.location.href = kakaoAuthURL;
+    } catch (error){
+      console.log("카카오인증 URL 요청실패 : ", error);
+    }
   };
 
   // 이메일 회원가입

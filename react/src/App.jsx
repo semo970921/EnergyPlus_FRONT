@@ -43,6 +43,8 @@ import kakaoCallback from "./components/Login/kakaoCallback";
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
+import Agreement from "./components/Terms/Agreement";
+
 
 function App() {
   return (
@@ -109,6 +111,8 @@ function App() {
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
+          {/* 이용약관 */}
+          <Route path="/terms" element={<Agreement />} />
           {/* 비번 재설정 */}
           <Route path="/find-password" element={<PasswordRecovery />} />
           <Route path="/password-reset" element={<PasswordReset />} />
