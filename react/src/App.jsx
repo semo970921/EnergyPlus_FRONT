@@ -51,7 +51,6 @@ import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
 import Agreement from "./components/Terms/Agreement";
 
-
 function App() {
   return (
     <>
@@ -120,11 +119,13 @@ function App() {
           <Route path="/signup-type" element={<SignupType />} />
           {/* 로그인 */}
           <Route path="/login" element={<LoginForm />} />
-
           <Route path="/oauth2/kakao/callback" element={<KakaoCallback />} />
           <Route path="/login-success" element={<LoginSuccess />} />
-
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
+
+          {/* 이용약관 */}
+          <Route path="/terms" element={<Agreement  />}/>
+
 
           {/* 관리자 메인 */}
           <Route path="/admin" element={<Admin />} />
@@ -133,8 +134,6 @@ function App() {
 
           {/* 관리자 회원관리 */}
           <Route path="/admin/members" element={<Member />} />
-          {/* 이용약관 */}
-          <Route path="/terms" element={<Agreement />} />
           {/* 비번 재설정 */}
           <Route path="/find-password" element={<PasswordRecovery />} />
           <Route path="/password-reset" element={<PasswordReset />} />
