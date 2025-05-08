@@ -148,7 +148,6 @@ function App() {
           {/* 관리자 qna */}
           <Route path="/admin/mypage_qna" element={<AdminQna />} />
           <Route path="/admin/mypage_qna/:id" element={<AdminQnaDetail />} />
-          {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
         </Routes>
         {/* 메인페이지 */}
       </div>
