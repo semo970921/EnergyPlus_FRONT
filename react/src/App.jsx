@@ -17,7 +17,7 @@ import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
 import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
-import ChallengeList from "./components/Challenge/ChallengeList";
+import ChallengeList from "./components/Challenge/Challenges";
 import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
@@ -51,6 +51,8 @@ import SignupType from "./components/Signup/SignupType";
 import Agreement from "./components/Agreement/Agreement";
 import AdminNoticeEdit from "./components/Admin/Notice/AdminNoticeEdit";
 import AdminNoticeDetail from "./components/Admin/Notice/AdminNoticeDetail";
+import AdminChallenges from "./components/Admin/Challenge/AdminChallenges";
+import AdminChallengeDetail from "./components/Admin/Challenge/AdminChallengeDetail";
 
 function App() {
   return (
@@ -71,18 +73,16 @@ function App() {
           <Route path="/admin/noticewrite" element={<AdminNoticeWrite/>} />
           <Route path="/admin/notices/:noticeId/edit" element={<AdminNoticeEdit/>} />
 
-
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
-          <Route
-            path="/challenges/:challengeSeq"
-            element={<ChallengeDetail />}
-          />
+          <Route path="/challenges/:challengeSeq" element={<ChallengeDetail />}/>
           <Route path="/challenges/write" element={<ChallengeWrite />} />
-          <Route
-            path="/challenges/edit/:challengeSeq"
-            element={<ChallengeEdit />}
-          />
+          <Route path="/challenges/edit/:challengeSeq" element={<ChallengeEdit />} />
+
+          {/* 관리자 챌린지 */}
+          <Route path="/admin/challenges" element={<AdminChallenges />} />
+          <Route path="/admin/challenges/:challengeSeq" element={<AdminChallengeDetail/>}/>
+
           {/* 분류해서 모아주세요 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mileagestore" element={<MileageStore />} />

@@ -28,7 +28,7 @@ const MileageDetail = () => {
       try {
         const token = sessionStorage.getItem("accessToken");
         const res = await axios.get(
-          `http://localhost:8080/admin/mileages/${mileageSeq}`,
+          `http://localhost/admin/mileages/${mileageSeq}`,
           {
             headers: {
               Authorization: token ? `Bearer ${token}` : undefined,
@@ -63,7 +63,7 @@ const MileageDetail = () => {
     try {
       const token = sessionStorage.getItem("accessToken");
       await axios.post(
-        `http://localhost:8080/admin/mileages/${mileageSeq}/status`,
+        `http://localhost/admin/mileages/${mileageSeq}/status`,
         { point },
         {
           headers: {
@@ -89,7 +89,7 @@ const MileageDetail = () => {
     try {
       const token = sessionStorage.getItem("accessToken");
       await axios.post(
-        `http://localhost:8080/admin/mileages/${mileageSeq}/status`,
+        `http://localhost/admin/mileages/${mileageSeq}/status`,
         {
           reason: rejectReason,
         },
@@ -126,7 +126,7 @@ const MileageDetail = () => {
           {mileage.mileageImg ? (
             <div style={{ marginTop: "2rem" }}>
               <img
-                src={`http://localhost:8080${mileage.mileageImg}`}
+                src={`http://localhost${mileage.mileageImg}`}
                 alt="마일리지 이미지"
                 style={{
                   maxWidth: "100%",

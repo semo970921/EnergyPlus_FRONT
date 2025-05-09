@@ -23,7 +23,7 @@ const MileageList = () => {
   const fetchList = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8080/admin/mileages?page=${pageNo}`,
+        `http://localhost/admin/mileages?page=${pageNo}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
