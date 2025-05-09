@@ -136,7 +136,6 @@ const Header = () => {
                 </li>
                 <li className="link-item">
                   <span onClick={() => navi("/agreement")}> 회원가입</span>
-
                 </li>
               </>
             )}

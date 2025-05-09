@@ -9,6 +9,7 @@ import {
   Pagination,
   PageBtn,
 } from "../../TableStyle/Table.style";
+import AdminSidebar from "../AdminSidebar";
 
 const MileageList = () => {
   const [mileages, setMileages] = useState([]);
@@ -39,6 +40,7 @@ const MileageList = () => {
 
   return (
     <Wrapper>
+      <AdminSidebar />
       <HeaderRow>
         <Title>마일리지 인증 신청 목록</Title>
       </HeaderRow>
@@ -63,7 +65,14 @@ const MileageList = () => {
               <td>{m.mileageCategory}</td>
               <td>{m.userName}</td>
               <td>{m.createDate}</td>
-              <td>{m.mileageStatus === "Y" ? "답변완료" : "확인중"}</td>
+              <td
+                style={{
+                  color: m.mileageStatus === "N" ? "red" : "black",
+                  fontWeight: m.mileageStatus === "N" ? "bold" : "normal",
+                }}
+              >
+                {m.mileageStatus === "N" ? "확인중" : "답변완료"}
+              </td>
             </tr>
           ))}
         </tbody>

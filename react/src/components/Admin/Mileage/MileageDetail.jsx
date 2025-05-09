@@ -19,9 +19,8 @@ const MileageDetail = () => {
   const [mileage, setMileage] = useState(null);
   const [showCategory, setShowCategory] = useState(false);
   const [showRejectReason, setShowRejectReason] = useState(false);
-  const [rejectReason, setRejectReason] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [point, setPoint] = useState("");
+  const [mileageReject, setMileageReject] = useState("");
+  const [mileageScore, setMileageScore] = useState("");
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -55,7 +54,7 @@ const MileageDetail = () => {
   };
 
   const handleGivePoint = async () => {
-    if (!point) {
+    if (!mileageScore) {
       alert("포인트를 입력하세요.");
       return;
     }
@@ -64,14 +63,18 @@ const MileageDetail = () => {
       const token = sessionStorage.getItem("accessToken");
       await axios.post(
         `http://localhost/admin/mileages/${mileageSeq}/status`,
-        { point },
+        {
+          mileageSeq: Number(mileageSeq), // 이거 꼭 있어야 백엔드에서 DTO에 바인딩됨
+          mileageScore: Number(mileageScore),
+        },
+
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
           },
         }
       );
-      console.log(point);
+      console.log(mileageScore);
       alert("포인트가 지급되었습니다.");
       navigate(-1);
     } catch (err) {
@@ -81,7 +84,7 @@ const MileageDetail = () => {
   };
 
   const handleRejectSubmit = async () => {
-    if (!rejectReason.trim()) {
+    if (!mileageReject.trim()) {
       alert("반려 사유를 입력하세요.");
       return;
     }
@@ -89,9 +92,9 @@ const MileageDetail = () => {
     try {
       const token = sessionStorage.getItem("accessToken");
       await axios.post(
-        `http://localhost/admin/mileages/${mileageSeq}/status`,
+        `http://localhost/admin/mileages/${mileageSeq}/statusReject`,
         {
-          reason: rejectReason,
+          mileageReject,
         },
         {
           headers: {
@@ -143,46 +146,56 @@ const MileageDetail = () => {
           </div>
           <br />
           <strong>상태:</strong>{" "}
-          {mileage.challengeStatus === "Y" ? "답변완료" : "확인중"}
+          {mileage.mileageStatus === "N" ? "확인중" : "답변완료"}
         </ContentDetail>
       </ContentDiv>
 
       <BackBtn onClick={() => navigate(-1)}>뒤로가기</BackBtn>
 
-      <ActionButtonRow>
-        <ActionBtn onClick={handleApproveClick}>지급하기</ActionBtn>
-        <ActionBtn onClick={handleRejectClick}>반려하기</ActionBtn>
-      </ActionButtonRow>
+      <div>
+        <ActionButtonRow>
+          <ActionBtn onClick={handleApproveClick}>지급하기</ActionBtn>
+          <ActionBtn onClick={handleRejectClick}>반려하기</ActionBtn>
+        </ActionButtonRow>
 
-      {showCategory && (
-        <>
-          <CategorySelect>{mileage.mileageCategory}</CategorySelect>
+        <ActionDiv>
+          {showCategory && (
+            <>
+              <CategorySelect>{mileage.mileageCategory}</CategorySelect>
 
-          <PointInput>
-            <label>지급할 포인트: </label>
-            <input
-              type="number"
-              placeholder="숫자를 입력하세요"
-              value={point}
-              onChange={(e) => setPoint(e.target.value)}
-            />
-            <SubmitBtn onClick={handleGivePoint}>포인트 지급하기</SubmitBtn>
-          </PointInput>
-        </>
-      )}
+              <PointInput>
+                <label>지급할 포인트: </label>
+                <input
+                  type="number"
+                  placeholder="숫자를 입력하세요"
+                  value={mileageScore}
+                  onChange={(e) => setMileageScore(e.target.value)}
+                />
+                💰
+                <SubmitBtn onClick={handleGivePoint}>포인트 지급하기</SubmitBtn>
+              </PointInput>
+            </>
+          )}
 
-      {showRejectReason && (
-        <RejectInput>
-          <label>반려 사유: </label>
-          <input
-            type="text"
-            placeholder="반려 사유를 입력하세요"
-            value={rejectReason}
-            onChange={(e) => setRejectReason(e.target.value)}
-          />
-          <SubmitBtn onClick={handleRejectSubmit}>반려 처리</SubmitBtn>
-        </RejectInput>
-      )}
+          {showRejectReason && (
+            <div>
+              <CategorySelect>{mileage.mileageCategory}</CategorySelect>
+              <RejectInput>
+                <label>반려 사유: </label>
+                <input
+                  type="text"
+                  placeholder="반려 사유를 입력하세요"
+                  value={mileageReject}
+                  onChange={(e) => setMileageReject(e.target.value)}
+                />
+                <SubmitBtn onClick={handleRejectSubmit}>
+                  반려 처리하기
+                </SubmitBtn>
+              </RejectInput>
+            </div>
+          )}
+        </ActionDiv>
+      </div>
     </Wrapper>
   );
 };
@@ -191,6 +204,7 @@ export default MileageDetail;
 
 const ActionButtonRow = styled.div`
   display: flex;
+  justify-content: center; // 수평 중앙 정렬
   gap: 1rem;
   margin-top: 1rem;
 `;
@@ -210,10 +224,26 @@ const ActionBtn = styled.button`
 `;
 
 const CategorySelect = styled.div`
-  margin-top: 1rem;
-  select {
-    padding: 0.5rem;
-    font-size: 1rem;
+  text-align: center;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  width: 132px;
+  height: auto;
+  color: white;
+  padding: 5px 0;
+  background: #5c9767;
+`;
+
+const inputStyle = `
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #999;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+
+  &:focus {
+    border-color: #2c6e49;
   }
 `;
 
@@ -224,8 +254,7 @@ const PointInput = styled.div`
   gap: 0.5rem;
 
   input {
-    padding: 0.5rem;
-    font-size: 1rem;
+    ${inputStyle}
     width: 150px;
   }
 `;
@@ -237,8 +266,7 @@ const RejectInput = styled.div`
   gap: 0.5rem;
 
   input {
-    padding: 0.5rem;
-    font-size: 1rem;
+    ${inputStyle}
     width: 300px;
   }
 `;
@@ -255,4 +283,18 @@ const SubmitBtn = styled.button`
   &:hover {
     background-color: #a11414;
   }
+`;
+
+const ActionDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid #000;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 `;
