@@ -67,7 +67,10 @@ const MileageDetail = () => {
           mileageSeq: Number(mileageSeq), // 이거 꼭 있어야 백엔드에서 DTO에 바인딩됨
           mileageScore: Number(mileageScore),
         },
+<<<<<<< HEAD
 
+=======
+>>>>>>> bf90c5633f7e218402f9751b908c8a5057a88030
         {
           headers: {
             Authorization: token ? `Bearer ${token}` : undefined,
