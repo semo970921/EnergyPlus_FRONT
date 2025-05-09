@@ -51,7 +51,7 @@ const AdminChallenges = () => {
               <th>제목</th>
               <th>작성자</th>
               <th>상태</th>
-              <th>관리</th>
+              <th>마일리지</th>
             </tr>
           </thead>
           <tbody>
@@ -66,13 +66,7 @@ const AdminChallenges = () => {
                     {p.challengeStatus === "N" ? "대기" : p.challengeStatus === "Y" ? "승인" : "반려"}
                   </td>
                   <td>
-                    <button
-                      onClick={() =>
-                        navigate(`/admin/challenges/${p.challengeSeq}`)
-                      }
-                    >
-                      상세
-                    </button>
+                  {p.mileageRewarded || "-"}
                   </td>
                 </tr>
               ))

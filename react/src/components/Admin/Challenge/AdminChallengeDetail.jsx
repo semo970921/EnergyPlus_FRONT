@@ -23,6 +23,10 @@ const AdminChallengeDetail = () => {
   const [challenge, setChallenge] = useState(null);
   const [showRejectInput, setShowRejectInput] = useState(false);
   const [rejectReason, setRejectReason] = useState("");
+  const [showApproveInput, setShowApproveInput] = useState(false);
+  const [mileage, setMileage] = useState("");
+
+
 
   const fetchDetail = async () => {
     try {
@@ -42,7 +46,10 @@ const AdminChallengeDetail = () => {
 
   const handleApprove = async () => {
     try {
-      await axios.put(`http://localhost/admin/challenges/${challengeSeq}/approve`, {}, {
+      await axios.put(`http://localhost/admin/challenges/${challengeSeq}/approve`,
+        {
+          mileage: Number(mileage)
+        }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert("승인 처리되었습니다.");
@@ -103,6 +110,16 @@ const AdminChallengeDetail = () => {
           {challenge.rejectReason && (
             <p style={{ marginTop: "1rem", color: "tomato" }}>❗ 반려 사유: {challenge.rejectReason}</p>
           )}
+
+          {challenge.challengeImg && (
+            <div style={{ marginTop: "1rem" }}>
+              <img
+                src={`http://localhost:${challenge.challengeImg}`}
+                alt="인증 이미지"
+                style={{ width: "100%", maxWidth: "400px", borderRadius: "8px" }}
+              />
+            </div>
+          )}
         </ContentDiv>
             <br />
             {showRejectInput && (
@@ -120,9 +137,25 @@ const AdminChallengeDetail = () => {
                 </div>
                 )}
 
+          {showApproveInput && (
+            <div style={{ marginTop: "1rem" }}>
+              <input
+                type="number"
+                placeholder="지급할 마일리지를 입력하세요"
+                value={mileage}
+                onChange={(e) => setMileage(e.target.value)}
+                style={{ padding: "0.5rem", width: "100%" }}
+              />
+              <div style={{ marginTop: "0.5rem" }}>
+                <SearchButton onClick={handleApprove}>지급</SearchButton>
+                <DeleteButton onClick={() => setShowApproveInput(false)}>취소</DeleteButton>
+              </div>
+            </div>
+          )}
+
             <br/>
           <SearchBox>
-            <SearchButton onClick={handleApprove}>승인</SearchButton>
+            <SearchButton onClick={() => setShowApproveInput(true)}>승인</SearchButton>
             <DeleteButton onClick={() => setShowRejectInput(true)}>반려</DeleteButton>
           </SearchBox>
 
