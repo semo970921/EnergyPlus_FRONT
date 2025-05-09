@@ -5,32 +5,31 @@ import {
   Wrapper,
   HeaderRow,
   Title,
-  SearchBox,
-  SearchInput,
-  SearchButton,
   StyledTable,
-  WriteButton,
   Pagination,
   PageBtn,
-  BackBtn,
 } from "../../TableStyle/Table.style";
 
 const MileageList = () => {
   const [mileages, setMileages] = useState([]);
+  const [pageNo, setPageNo] = useState(0);
   const token = sessionStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchList();
-  }, []);
+    fetchList(pageNo);
+  }, [pageNo]);
 
   const fetchList = async () => {
     try {
-      const res = await axios.get("http://localhost/admin/mileages", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `http://localhost/admin/mileages?page=${pageNo}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setMileages(res.data);
       console.log(res.data);
     } catch (err) {
@@ -57,42 +56,33 @@ const MileageList = () => {
         <tbody>
           {mileages.map((m) => (
             <tr
-              key={m.challengeSeq}
-              onClick={() => navigate(`/challenges/${c.challengeSeq}`)}
+              key={m.mileageSeq}
+              onClick={() => navigate(`/admin/mileage/${m.mileageSeq}`)}
             >
               <td>{m.mileageSeq}</td>
               <td>{m.mileageCategory}</td>
               <td>{m.userName}</td>
               <td>{m.createDate}</td>
-              <td>{m.challengeStatus === "Y" ? "답변완료" : "확인중"}</td>
+              <td>{m.mileageStatus === "N" ? "확인중" : "답변완료"}</td>
             </tr>
           ))}
         </tbody>
       </StyledTable>
 
       <Pagination>
-        <PageBtn
-          onClick={() => {
-            /* 이전 페이지 로직 */
-          }}
-        >
+        <PageBtn onClick={() => setPageNo((prev) => Math.max(prev - 1, 0))}>
           &lt;&lt;
         </PageBtn>
-        {[1, 2, 3, 4, 5].map((n) => (
+        {[0, 1, 2, 3, 4].map((n) => (
           <PageBtn
             key={n}
-            onClick={() => {
-              /* 페이지 이동 로직 */
-            }}
+            onClick={() => setPageNo(n)}
+            style={{ fontWeight: pageNo === n ? "bold" : "normal" }}
           >
-            {n}
+            {n + 1}
           </PageBtn>
         ))}
-        <PageBtn
-          onClick={() => {
-            /* 다음 페이지 로직 */
-          }}
-        >
+        <PageBtn onClick={() => setPageNo((prev) => prev + 1)}>
           &gt;&gt;
         </PageBtn>
       </Pagination>

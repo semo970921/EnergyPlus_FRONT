@@ -31,7 +31,7 @@ export const SearchInput = styled.input`
 
 // 검색 버튼
 export const SearchButton = styled.button`
-  background-color: #408C70;
+  background-color: #408c70;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -41,16 +41,16 @@ export const SearchButton = styled.button`
 
 // 글 작성 버튼
 export const WriteButton = styled.button`
-  border: 1px solid #408C70;
+  border: 1px solid #408c70;
   background-color: white;
-  color: #408C70;
+  color: #408c70;
   padding: 6px 12px;
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
 
   &:hover {
-    background-color: #408C70;
+    background-color: #408c70;
     color: white;
   }
 `;
@@ -61,8 +61,8 @@ export const StyledTable = styled.table`
   border-collapse: collapse;
   margin-top: 10px;
 
-
-  th, td {
+  th,
+  td {
     padding: 12px;
     border-bottom: 1px solid #ccc;
     text-align: center;
@@ -74,18 +74,18 @@ export const StyledTable = styled.table`
     font-weight: 600;
   }
 
-  thead > tr{
+  thead > tr {
     border-top: 1px solid black;
   }
 
-  tbody > tr{
+  tbody > tr {
     &:hover {
-      background-color:rgb(241, 241, 241);
+      background-color: rgb(241, 241, 241);
     }
   }
 
   .status-checking {
-    color: #408C70;
+    color: #408c70;
     font-weight: bold;
   }
 `;
@@ -100,9 +100,9 @@ export const Pagination = styled.div`
 
 // 페이지 버튼
 export const PageBtn = styled.button`
-  background-color: ${props => props.active ? "#5EB3D3" : "white"};
-  border: 1px solid #5EB3D3;
-  color: ${props => props.active ? "white" : "#5EB3D3"};
+  background-color: ${(props) => (props.active ? "#5EB3D3" : "white")};
+  border: 1px solid #5eb3d3;
+  color: ${(props) => (props.active ? "white" : "#5EB3D3")};
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -116,7 +116,7 @@ export const PageBtn = styled.button`
   padding: 0;
 
   &:hover {
-    background-color: #5EB3D3;
+    background-color: #5eb3d3;
     color: white;
   }
 `;
@@ -126,9 +126,9 @@ export const BackBtn = styled.button`
   width: 150px;
   height: 50px;
   background-color: white;
-  color: #408C70;
+  color: #408c70;
   font-weight: bold;
-  border: 1px solid #408C70;
+  border: 1px solid #408c70;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
@@ -138,7 +138,7 @@ export const BackBtn = styled.button`
   align-items: center;
 
   &:hover {
-    background-color: #408C70;
+    background-color: #408c70;
     color: white;
   }
 `;
@@ -146,7 +146,7 @@ export const BackBtn = styled.button`
 // ------------------------------ qna_detail style
 // 글 삭제 버튼
 export const DeleteButton = styled.button`
-  background-color: #CD4749;
+  background-color: #cd4749;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -173,6 +173,11 @@ export const ContentDate = styled.div`
 export const ContentDetail = styled.div`
   font-size: 16px;
   margin-top: 20px;
+`;
+
+export const ContentCategory = styled.div`
+  font-size: 27px;
+  float: left;
 `;
 
 // ------------------------------ mypage_qna_form 글 작성/수정 부분
@@ -205,10 +210,10 @@ export const UpdateTextarea = styled.textarea`
 export const UpdateBtn = styled.button`
   width: 150px;
   height: 50px;
-  background-color: #408C70;
+  background-color: #408c70;
   color: white;
   font-weight: bold;
-  border: 1px solid #408C70;
+  border: 1px solid #408c70;
   border-radius: 8px;
   cursor: pointer;
   display: flex;
@@ -242,7 +247,7 @@ export const Replybutton = styled.div`
 `;
 // 댓글 삭제
 export const DeleteReply = styled.button`
-  background-color: #CD4749;
+  background-color: #cd4749;
   color: white;
   border: none;
   padding: 6px 12px;
