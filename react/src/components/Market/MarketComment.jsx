@@ -222,10 +222,6 @@ const MarketComment = ({ marketNo }) => {
 
       {/* 댓글 작성 폼 */}
       <form className="comment-form" onSubmit={handleCommentSubmit}>
-        <label>
-          <input type="checkbox" className="secret-checkbox" />
-          비밀댓글
-        </label>
         <div className="comment-form-field">
           <textarea
             placeholder="댓글을 입력하세요"
