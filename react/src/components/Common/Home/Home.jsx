@@ -8,9 +8,8 @@ const Home = () => {
     <>
       <HomeLayout>
         <br/>
-        <MainSection1 />
-        <br/>
         <MainSection2 />
+        <MainSection1 />
         <CardNewsMain />
       </HomeLayout>
     </>
@@ -19,6 +18,6 @@ const Home = () => {
 export default Home;
 
 const HomeLayout = styled.div`
-  height: 4200px;
+  height: 4750px;
   min-height: 600px;
 `;

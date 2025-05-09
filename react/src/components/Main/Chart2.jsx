@@ -72,7 +72,7 @@ const Chart2 = () => {
   };
 
   return (
-    <div style={{ height: "300px", width: "500px" }}>
+    <div style={{ height: "300px", width: "400px" }}>
       {pieChartData ? (
         <Pie data={pieChartData} options={options} />
       ) : (
