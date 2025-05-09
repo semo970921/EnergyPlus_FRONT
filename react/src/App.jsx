@@ -55,6 +55,7 @@ import SignupType from "./components/Signup/SignupType";
 import Agreement from "./components/Agreement/Agreement";
 import AdminNoticeEdit from "./components/Admin/Notice/AdminNoticeEdit";
 import AdminNoticeDetail from "./components/Admin/Notice/AdminNoticeDetail";
+import MileageDetail from "./components/Admin/Mileage/MileageDetail";
 
 import MarketReportList from "./components/Admin/Market/MarketReport/MarketReportList";
 import MarketReportDetail from "./components/Admin/Market/MarketReport/MarketReportDetail";
@@ -97,10 +98,15 @@ function App() {
             path="/challenges/edit/:challengeSeq"
             element={<ChallengeEdit />}
           />
-          {/* 분류해서 모아주세요 */}
+          {/* 마일리지 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mileagestore" element={<MileageStore />} />
           <Route path="/admin/mileage/list" element={<MileageList />} />
+          <Route
+            path="/admin/mileage/:mileageSeq"
+            element={<MileageDetail />}
+          />
+
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
