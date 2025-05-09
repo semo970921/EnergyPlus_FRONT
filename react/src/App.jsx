@@ -51,6 +51,7 @@ import SignupType from "./components/Signup/SignupType";
 import Agreement from "./components/Agreement/Agreement";
 import AdminNoticeEdit from "./components/Admin/Notice/AdminNoticeEdit";
 import AdminNoticeDetail from "./components/Admin/Notice/AdminNoticeDetail";
+import MileageDetail from "./components/Admin/Mileage/MileageDetail";
 
 function App() {
   return (
@@ -66,11 +67,16 @@ function App() {
           <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
 
           {/* 관리자 공지사항 */}
-          <Route path="/admin/notices" element={<AdminNotices/>} />
-          <Route path="/admin/notices/:noticeId" element={<AdminNoticeDetail />} />
-          <Route path="/admin/noticewrite" element={<AdminNoticeWrite/>} />
-          <Route path="/admin/notices/:noticeId/edit" element={<AdminNoticeEdit/>} />
-
+          <Route path="/admin/notices" element={<AdminNotices />} />
+          <Route
+            path="/admin/notices/:noticeId"
+            element={<AdminNoticeDetail />}
+          />
+          <Route path="/admin/noticewrite" element={<AdminNoticeWrite />} />
+          <Route
+            path="/admin/notices/:noticeId/edit"
+            element={<AdminNoticeEdit />}
+          />
 
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
@@ -83,10 +89,15 @@ function App() {
             path="/challenges/edit/:challengeSeq"
             element={<ChallengeEdit />}
           />
-          {/* 분류해서 모아주세요 */}
+          {/* 마일리지 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mileagestore" element={<MileageStore />} />
           <Route path="/admin/mileage/list" element={<MileageList />} />
+          <Route
+            path="/admin/mileage/:mileageSeq"
+            element={<MileageDetail />}
+          />
+
           {/* 마이페이지 */}
           <Route path="/mypage_main" element={<MypageMain />} />
           <Route path="/mypage_info" element={<MypageInfo />} />
@@ -126,8 +137,7 @@ function App() {
           <Route path="/auth/kakao/callback" element={<kakaoCallback />} />
 
           {/* 이용약관 */}
-          <Route path="/agreement" element={<Agreement  />}/>
-
+          <Route path="/agreement" element={<Agreement />} />
 
           {/* 관리자 메인 */}
           <Route path="/admin" element={<Admin />} />
