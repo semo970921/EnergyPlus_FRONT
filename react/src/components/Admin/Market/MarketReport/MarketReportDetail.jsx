@@ -11,7 +11,6 @@ const MarketReportDetail = () => {
 
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
-
     axios
       .get(`http://localhost:80/admin/market/report/${reportId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -23,9 +22,11 @@ const MarketReportDetail = () => {
       });
   }, [reportId]);
 
-  const handleHide = () => {
+  const handleToggleHide = () => {
     const token = sessionStorage.getItem("accessToken");
-    if (!window.confirm("정말 해당 게시물을 숨기시겠습니까?")) return;
+    const action = report.isHidden === "Y" ? "숨김 해제" : "숨김 처리";
+
+    if (!window.confirm(`정말 ${action} 하시겠습니까?`)) return;
 
     axios
       .put(
@@ -36,12 +37,12 @@ const MarketReportDetail = () => {
         }
       )
       .then(() => {
-        alert("게시물이 숨김 처리되었습니다.");
-        setReport({ ...report, isHidden: "Y" }); // 상태만 반영
+        alert(`${action} 완료되었습니다.`);
+        setReport({ ...report, isHidden: report.isHidden === "Y" ? "N" : "Y" });
       })
       .catch((err) => {
-        console.error("숨김 처리 실패", err);
-        alert("숨김 처리에 실패했습니다.");
+        console.error(`${action} 실패`, err);
+        alert(`${action}에 실패했습니다.`);
       });
   };
 
@@ -91,8 +92,13 @@ const MarketReportDetail = () => {
         </a>
 
         <div className="btn-group">
-          <button className="btn btn-delete" onClick={handleHide}>
-            게시글 숨김
+          <button
+            className={`btn ${
+              report.isHidden === "Y" ? "btn-show" : "btn-hide"
+            }`}
+            onClick={handleToggleHide}
+          >
+            {report.isHidden === "Y" ? "숨김 해제" : "숨김 처리"}
           </button>
           <button
             className="btn"
