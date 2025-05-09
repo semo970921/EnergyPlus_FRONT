@@ -1,40 +1,41 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/admin-market.css";
+import { useNavigate } from "react-router-dom";
 
 const pageSize = 20;
 
 const MarketMange = () => {
+  const navigate = useNavigate();
   const [marketList, setMarketList] = useState([]);
   const [page, setPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
 
-  const totalPages = Math.ceil(totalCount / pageSize);
+  const totalPages = Math.ceil(marketList.length / pageSize);
   const startPage = Math.max(0, page - 2);
   const endPage = Math.min(totalPages, startPage + 5);
+
+  const paginatedList = marketList.slice(
+    page * pageSize,
+    (page + 1) * pageSize
+  );
 
   useEffect(() => {
     const token = sessionStorage.getItem("accessToken");
     axios
-      .get(
-        `http://localhost:80/admin/market/list?page=${page}&size=${pageSize}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
-      .then((res) => {
-        setMarketList(res.data.list);
-        setTotalCount(res.data.totalCount);
+      .get("http://localhost:80/admin/market/list", {
+        headers: { Authorization: `Bearer ${token}` },
       })
+      .then((res) => setMarketList(res.data))
       .catch((err) => {
         console.error("게시글 조회 실패", err);
         alert("게시글을 불러오는 데 실패했습니다.");
       });
-  }, [page]);
+  }, []);
 
   return (
     <>
       <h1>중고거래 게시글 현황</h1>
+
       <table className="admin-table">
         <thead>
           <tr>
@@ -47,20 +48,23 @@ const MarketMange = () => {
           </tr>
         </thead>
         <tbody>
-          {marketList.map((item) => (
-            <tr key={item.marketNo}>
+          {paginatedList.map((item) => (
+            <tr
+              key={item.marketNo}
+              onClick={() => navigate(`/admin/market/detail/${item.marketNo}`)}
+              className="clickable-row"
+            >
               <td>{item.marketNo}</td>
               <td>{item.marketTitle}</td>
               <td>{item.userName}</td>
               <td>{item.marketDate?.substring(0, 10)}</td>
               <td>{item.marketStatus === "N" ? "판매중" : "판매완료"}</td>
-              <td>{item.isHidden === "Y" ? "숨김" : "노출"}</td>
+              <td>{item.isHidden === "Y" ? "비노출" : "노출"}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* ✅ 페이징 */}
       <div className="pagination">
         <button onClick={() => setPage(0)} disabled={page === 0}>
           ≪

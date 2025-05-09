@@ -65,6 +65,7 @@ const MileageForm = () => {
               <option value="">카테고리</option>
               <option value="자전거">자전거</option>
               <option value="다회용기">다회용기</option>
+              <option value="기타">기타</option>
             </Select>
           </Column>
         </RowHorizontal>
