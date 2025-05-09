@@ -18,8 +18,11 @@ const MypagePromise = ( {token} ) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUserPromise(response.data.userPromise);
-        setPromiseExists(true); // 다짐이 이미 존재함
+        setUserPromise(response.data.userPromise ?? "");
+        const fetchedPromise = response.data.userPromise;
+        setUserPromise(fetchedPromise ?? "");
+        setPromiseExists(!!fetchedPromise); // ← null/빈 문자열이면 false
+        //setPromiseExists(true); // 다짐이 이미 존재함
       } catch (error) {
         console.error("나의 다짐 불러오기 실패", error);
         setPromiseExists(false); // 다짐 없음

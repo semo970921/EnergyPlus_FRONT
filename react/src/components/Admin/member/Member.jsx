@@ -20,6 +20,7 @@ import {
   FilterSelect,
   ResetButton
 } from './Member.styles';
+import AdminSidebar from '../AdminSidebar';
 
 
 const Member = () => {
@@ -119,6 +120,8 @@ const Member = () => {
   const paginate = (page) => setCurrentPage(page);
 
   return (
+    <>
+    <AdminSidebar />
     <Container>
       <Title>회원관리</Title>
 
@@ -230,6 +233,7 @@ const Member = () => {
         <PageButton onClick={goToLastPage}>&raquo;</PageButton>
       </Pagination>
     </Container>
+    </>
   );
 };
 
