@@ -17,7 +17,7 @@ import MypageQna from "./components/Mypage/Qna/MypageQna";
 import MypageDelMember from "./components/Mypage/Member/MypageDelMember";
 import MypageQnaForm from "./components/Mypage/Qna/MypageQnaForm";
 import MypageQnaDetail from "./components/Mypage/Qna/MypageQnaDetail";
-import ChallengeList from "./components/Challenge/ChallengeList";
+import ChallengeList from "./components/Challenge/Challenges";
 import ChallengeWrite from "./components/Challenge/ChallengeWrite";
 import ChallengeDetail from "./components/Challenge/ChallengeDetail";
 import SignupForm from "./components/Signup/SignupForm";
@@ -55,8 +55,9 @@ import SignupType from "./components/Signup/SignupType";
 import Agreement from "./components/Agreement/Agreement";
 import AdminNoticeEdit from "./components/Admin/Notice/AdminNoticeEdit";
 import AdminNoticeDetail from "./components/Admin/Notice/AdminNoticeDetail";
+import AdminChallenges from "./components/Admin/Challenge/AdminChallenges";
+import AdminChallengeDetail from "./components/Admin/Challenge/AdminChallengeDetail";
 import MileageDetail from "./components/Admin/Mileage/MileageDetail";
-
 import MarketReportList from "./components/Admin/Market/MarketReport/MarketReportList";
 import MarketReportDetail from "./components/Admin/Market/MarketReport/MarketReportDetail";
 import MarketMain from "./components/Admin/Market/MarketMain";
@@ -77,28 +78,21 @@ function App() {
           <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
 
           {/* 관리자 공지사항 */}
-          <Route path="/admin/notices" element={<AdminNotices />} />
-          <Route
-            path="/admin/notices/:noticeId"
-            element={<AdminNoticeDetail />}
-          />
-          <Route path="/admin/noticewrite" element={<AdminNoticeWrite />} />
-          <Route
-            path="/admin/notices/:noticeId/edit"
-            element={<AdminNoticeEdit />}
-          />
+          <Route path="/admin/notices" element={<AdminNotices/>} />
+          <Route path="/admin/notices/:noticeId" element={<AdminNoticeDetail />} />
+          <Route path="/admin/noticewrite" element={<AdminNoticeWrite/>} />
+          <Route path="/admin/notices/:noticeId/edit" element={<AdminNoticeEdit/>} />
 
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
-          <Route
-            path="/challenges/:challengeSeq"
-            element={<ChallengeDetail />}
-          />
+          <Route path="/challenges/:challengeSeq" element={<ChallengeDetail />}/>
           <Route path="/challenges/write" element={<ChallengeWrite />} />
-          <Route
-            path="/challenges/edit/:challengeSeq"
-            element={<ChallengeEdit />}
-          />
+          <Route path="/challenges/edit/:challengeSeq" element={<ChallengeEdit />} />
+
+          {/* 관리자 챌린지 */}
+          <Route path="/admin/challenges" element={<AdminChallenges />} />
+          <Route path="/admin/challenges/:challengeSeq" element={<AdminChallengeDetail/>}/>
+
           {/* 마일리지 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mileagestore" element={<MileageStore />} />
