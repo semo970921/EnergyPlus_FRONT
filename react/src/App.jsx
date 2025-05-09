@@ -93,6 +93,7 @@ function App() {
           <Route path="/admin/challenges" element={<AdminChallenges />} />
           <Route path="/admin/challenges/:challengeSeq" element={<AdminChallengeDetail/>}/>
 
+
           {/* 마일리지 */}
           <Route path="/mileageinfo" element={<MileageInfo />} />
           <Route path="/mileagestore" element={<MileageStore />} />
