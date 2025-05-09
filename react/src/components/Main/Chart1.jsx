@@ -61,7 +61,7 @@ const Chart1 = () => {
   if (!chartData) return <div>로딩 중...</div>;
 
   return (
-    <div style={{ height: "300px", width: "500px" }}>
+    <div style={{ height: "300px", width: "600px" }}>
       <Bar data={chartData} />
     </div>
   );
