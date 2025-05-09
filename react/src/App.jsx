@@ -61,6 +61,7 @@ import MarketReportList from "./components/Admin/Market/MarketReport/MarketRepor
 import MarketReportDetail from "./components/Admin/Market/MarketReport/MarketReportDetail";
 import MarketMain from "./components/Admin/Market/MarketMain";
 import MarketManage from "./components/Admin/Market/MarketManage/MarketManage";
+import MarketManageDetail from "./components/Admin/Market/MarketManage/MarketManageDetail";
 
 function App() {
   return (
@@ -189,6 +190,10 @@ function App() {
             element={<MarketReportDetail />}
           />
           <Route path="/admin/market/list" element={<MarketManage />} />
+          <Route
+            path="/admin/market/detail/:marketNo"
+            element={<MarketManageDetail />}
+          />
         </Routes>
         {/* 메인페이지 */}
       </div>
