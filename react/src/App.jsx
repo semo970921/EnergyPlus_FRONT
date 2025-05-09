@@ -34,24 +34,33 @@ import CardNewsList from "./components/CardNews/CardNewsList";
 import CardNewsDetail from "./components/CardNews/CardNewDetail";
 import MypageMile from "./components/Mypage/Mileage/MypageMile";
 import MypageMileVisual from "./components/Mypage/Mileage/MypageMileVisual";
-import Member from "./components/admin/member/Member";
+import Member from "./components/Admin/member/Member";
+import Faq from "./components/FAQ/Faq";
 import AdminNotices from "./components/Admin/Notice/AdminNotices";
 import AdminNoticeWrite from "./components/Admin/notice/AdminNoticeWrite";
 import Admin from "./components/Admin/Admin";
 import KakaoCallback from "./components/Login/kakaoCallback";
 import LoginSuccess from "./components/Login/LoginSuccess";
-import CardNewsForm from "./components/Admin/CardNews/CardNewsForm";
-import CardNewsEdit from "./components/Admin/CardNews/CardNewsEdit";
-import Faq from "./components/FAQ/Faq";
+import AdminCardNewsForm from "./components/Admin/CardNews/AdminCardNewsForm";
+import AdminCardNewsEdit from "./components/Admin/CardNews/AdminCardNewsEdit";
 import AdminQna from "./components/Admin/Qna/AdminQna";
 import AdminQnaDetail from "./components/Admin/Qna/AdminQnaDetail";
+import AdminCardNewsList from "./components/Admin/CardNews/AdminCardNewsList";
+import AdminCardNewsDetail from "./components/Admin/CardNews/AdminCardNewsDetail";
+
 import PasswordRecovery from "./components/Password/PasswordRecovery";
 import PasswordReset from "./components/Password/PasswordReset";
 import SignupType from "./components/Signup/SignupType";
+
 import Agreement from "./components/Agreement/Agreement";
 import AdminNoticeEdit from "./components/Admin/Notice/AdminNoticeEdit";
 import AdminNoticeDetail from "./components/Admin/Notice/AdminNoticeDetail";
 import MileageDetail from "./components/Admin/Mileage/MileageDetail";
+
+import MarketReportList from "./components/Admin/Market/MarketReport/MarketReportList";
+import MarketReportDetail from "./components/Admin/Market/MarketReport/MarketReportDetail";
+import MarketMain from "./components/Admin/Market/MarketMain";
+import MarketManage from "./components/Admin/Market/MarketManage/MarketManage";
 
 function App() {
   return (
@@ -149,15 +158,37 @@ function App() {
           {/* 비번 재설정 */}
           <Route path="/find-password" element={<PasswordRecovery />} />
           <Route path="/password-reset" element={<PasswordReset />} />
+
+          {/* 카드뉴스 */}
           <Route path="/cardnews/list" element={<CardNewsList />} />
           <Route path="/cardnews_detail/:id" element={<CardNewsDetail />} />
-          <Route path="/cardnews_form" element={<CardNewsForm />} />
-          <Route path="/admin/cardnews/edit/:id" element={<CardNewsEdit />} />
+
           {/* FAQ */}
           <Route path="/faq" element={<Faq />} />
           {/* 관리자 qna */}
           <Route path="/admin/mypage_qna" element={<AdminQna />} />
           <Route path="/admin/mypage_qna/:id" element={<AdminQnaDetail />} />
+          {/* <Route path="/admin/mypage_qna" element={<AdminQna />} /> */}
+
+          {/* 관리자 카드뉴스 */}
+          <Route path="/admin/cardnews" element={<AdminCardNewsList />} />
+          <Route
+            path="/admin/cardnews/detail/:id"
+            element={<AdminCardNewsDetail />}
+          />
+          <Route path="/cardnews_form" element={<AdminCardNewsForm />} />
+          <Route
+            path="/admin/cardnews/edit/:id"
+            element={<AdminCardNewsEdit />}
+          />
+          {/* 관리자 중고거래 */}
+          <Route path="/admin/market/main" element={<MarketMain />} />
+          <Route path="/admin/market/report" element={<MarketReportList />} />
+          <Route
+            path="/admin/market/report/:reportId"
+            element={<MarketReportDetail />}
+          />
+          <Route path="/admin/market/list" element={<MarketManage />} />
         </Routes>
         {/* 메인페이지 */}
       </div>
