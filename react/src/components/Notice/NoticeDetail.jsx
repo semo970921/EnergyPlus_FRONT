@@ -53,8 +53,7 @@ const NoticeDetail = () => {
         <ContentDetail>{notice.noticeContent}</ContentDetail>
       </ContentDiv>
 
-      {/* 3) 뒤로가기 버튼 */}
-      <BackBtn onClick={() => navi(-1)}>뒤로가기</BackBtn>
+      <BackBtn onClick={() => navi("/notices")}>목록으로</BackBtn>
     </Wrapper>
   );
 };

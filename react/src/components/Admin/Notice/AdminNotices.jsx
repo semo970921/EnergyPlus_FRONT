@@ -9,43 +9,60 @@ import {
   StyledTable,
   WriteButton,
   BackBtn,
+  SearchBox,
+  SearchInput,
+  SearchButton,
+  Pagination,
+  PageBtn
 } from "../../TableStyle/Table.style";
 
 const AdminNotices = () => {
   const [notices, setNotices] = useState([]);
+  const [page, setPage] = useState(0);
+  const [keyword, setKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const size = 10;
+  const totalPages = Math.ceil(totalCount / size);
+  const token = sessionStorage.getItem("accessToken");
   const navigate = useNavigate();
 
-  const token = sessionStorage.getItem("accessToken");
-
   useEffect(() => {
-    axios.get("http://localhost/admin/notices",{
-      params: {
-        page: 0,
-        keyword: ""
-      },
-      headers : {
-        Authorization: `Bearer ${token}`,
-      },
+    axios.get("http://localhost/admin/notices", {
+      params: { page, keyword: searchKeyword },
+      headers: { Authorization: `Bearer ${token}` }
     })
-      .then((res) => {
-        console.log("📢 관리자 공지사항 응답:", res.data); // 👈 로그 확인
-        if (Array.isArray(res.data)) {
-          setNotices(res.data);
-        } else {
-          console.warn("❗응답이 배열이 아님:", res.data);
-          setNotices([]);
-        }
-      })
-      .catch((err) => {
-        console.error("❌ 공지사항 불러오기 실패:", err);
-        setNotices([]);
-      });
-  }, []);
-  
+    .then(res => setNotices(res.data))
+    .catch(err => {
+      console.error("❌ 목록 실패:", err);
+      setNotices([]);
+    });
+
+    axios.get("http://localhost/admin/notices/pages", {
+      params: { keyword: searchKeyword },
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    .then(res => setTotalCount(res.data * size))
+    .catch(err => {
+      console.error("❌ 페이지 수 불러오기 실패:", err);
+      setTotalCount(0);
+    });
+  }, [page, searchKeyword]);
+
+  const handleSearch = () => {
+    setPage(0);
+    setSearchKeyword(keyword);
+  };
+
+  const resetSearch = () => {
+    setKeyword("");
+    setSearchKeyword("");
+    setPage(0);
+  };
 
   const goToWrite = () => navigate("/admin/noticewrite");
   const goToEdit = (id) => navigate(`/admin/notices/${id}/edit`);
-  
+
   const handleDelete = (id) => {
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
     axios
@@ -64,12 +81,27 @@ const AdminNotices = () => {
       });
   };
 
+  // 페이징 계산
+  const blockSize  = 5;
+  const blockIndex = Math.floor(page / blockSize);
+  const startPage  = blockIndex * blockSize;
+  const endPage    = Math.min(startPage + blockSize, totalPages);
+
   return (
     <div style={{ display: "flex" }}>
       <AdminSidebar />
       <Wrapper style={{ flex: 1 }}>
         <HeaderRow>
           <Title>📢 관리자 공지사항</Title>
+          <SearchBox>
+            <SearchInput
+              placeholder="검색어를 입력하세요"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            />
+            <SearchButton onClick={handleSearch}>검색</SearchButton>
+            {keyword && <SearchButton onClick={resetSearch}>초기화</SearchButton>}
+          </SearchBox>
           <WriteButton onClick={goToWrite}>공지 작성</WriteButton>
         </HeaderRow>
 
@@ -104,6 +136,24 @@ const AdminNotices = () => {
             등록된 공지사항이 없습니다.
           </p>
         )}
+
+        <Pagination>
+          <PageBtn onClick={() => setPage(0)} disabled={page === 0}>≪</PageBtn>
+          <PageBtn onClick={() => setPage(p => Math.max(p - 1, 0))} disabled={page === 0}>{"<"}</PageBtn>
+
+          {Array.from({ length: endPage - startPage }, (_, i) => (
+            <PageBtn
+              key={startPage + i}
+              onClick={() => setPage(startPage + i)}
+              active={page === startPage + i}
+            >
+              {startPage + i + 1}
+            </PageBtn>
+          ))}
+
+          <PageBtn onClick={() => setPage(p => Math.min(p + 1, totalPages - 1))} disabled={page === totalPages - 1}>{">"}</PageBtn>
+          <PageBtn onClick={() => setPage(totalPages - 1)} disabled={page === totalPages - 1}>≫</PageBtn>
+        </Pagination>
 
         <BackBtn onClick={() => navigate(-1)}>뒤로가기</BackBtn>
       </Wrapper>

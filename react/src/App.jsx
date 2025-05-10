@@ -25,7 +25,6 @@ import LoginForm from "./components/Login/LoginForm";
 import MileageStore from "./components/Mileage/MileageStore/MileageStore";
 import MileageList from "./components/Admin/Mileage/MileageList";
 import ChallengeEdit from "./components/Challenge/ChallengeEdit";
-import NoticeEdit from "./components/Notice/NoticeEdit";
 import MypageQnaWrite from "./components/Mypage/Qna/MypageQnaWrite";
 import MypageMarket from "./components/Mypage/Market/MypageMarket";
 import MypageMarketDetail from "./components/Mypage/Market/MypageMarketDetail";
@@ -63,6 +62,8 @@ import MarketReportDetail from "./components/Admin/Market/MarketReport/MarketRep
 import MarketMain from "./components/Admin/Market/MarketMain";
 import MarketManage from "./components/Admin/Market/MarketManage/MarketManage";
 import MarketManageDetail from "./components/Admin/Market/MarketManage/MarketManageDetail";
+import ChallengeInfo from "./components/Challenge/Challengeinfo";
+
 
 function App() {
   return (
@@ -75,7 +76,6 @@ function App() {
           {/* 공지사항 */}
           <Route path="/notices" element={<Notices />} />
           <Route path="/notices/:noticeId" element={<NoticeDetail />} />
-          <Route path="/notices/edit/:noticeId" element={<NoticeEdit />} />
 
           {/* 관리자 공지사항 */}
           <Route path="/admin/notices" element={<AdminNotices/>} />
@@ -85,6 +85,7 @@ function App() {
 
           {/* 챌린지 */}
           <Route path="/challenges" element={<ChallengeList />} />
+          <Route path="/challenge/info" element={<ChallengeInfo />} />
           <Route path="/challenges/:challengeSeq" element={<ChallengeDetail />}/>
           <Route path="/challenges/write" element={<ChallengeWrite />} />
           <Route path="/challenges/edit/:challengeSeq" element={<ChallengeEdit />} />
