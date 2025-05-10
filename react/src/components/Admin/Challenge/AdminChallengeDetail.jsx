@@ -159,8 +159,9 @@ const AdminChallengeDetail = () => {
             <DeleteButton onClick={() => setShowRejectInput(true)}>반려</DeleteButton>
           </SearchBox>
 
-        <BackBtn onClick={() => navi(-1)}>뒤로가기</BackBtn>
+          <BackBtn onClick={() => navi("/admin/challenges")}>목록으로</BackBtn>
       </Wrapper>
+
     </div>
   );
 };

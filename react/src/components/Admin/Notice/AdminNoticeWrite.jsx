@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {
-  Container,
-  TitleInput,
-  ContentTextarea,
-  SubmitButton
-} from '../../Notice/NoticeWrite.style';
+  Wrapper,
+  HeaderRow,
+  Title,
+  SearchButton
+} from '../../TableStyle/Table.style';
+import {
+  WriteFormWrapper,
+  FormSection,
+  Label,
+  StyledInput,
+  StyledTextarea
+} from '../../TableStyle/Write.style';
 import AdminSidebar from '../AdminSidebar';
 
 const AdminNoticeWrite = () => {
@@ -19,7 +26,6 @@ const AdminNoticeWrite = () => {
     setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  AdminSidebar
   const handleSubmit = async e => {
     e.preventDefault();
     try {
@@ -38,25 +44,42 @@ const AdminNoticeWrite = () => {
   };
 
   return (
-    <Container onSubmit={handleSubmit}>
-      <AdminSidebar/>
-      <h2>📢 관리자 공지사항 작성</h2>
-      <TitleInput
-        name="noticeTitle"
-        value={form.noticeTitle}
-        onChange={handleChange}
-        placeholder="제목을 입력하세요"
-        required
-      />
-      <ContentTextarea
-        name="noticeContent"
-        value={form.noticeContent}
-        onChange={handleChange}
-        placeholder="내용을 입력하세요"
-        required
-      />
-      <SubmitButton type="submit">등록</SubmitButton>
-    </Container>
+    <div style={{ display: 'flex' }}>
+      <AdminSidebar />
+      <Wrapper style={{ flex: 1 }}>
+        <HeaderRow>
+          <Title>📢 관리자 공지사항 작성</Title>
+        </HeaderRow>
+
+        <form onSubmit={handleSubmit}>
+          <WriteFormWrapper>
+            <FormSection>
+              <Label>제목</Label>
+              <StyledInput
+                name="noticeTitle"
+                value={form.noticeTitle}
+                onChange={handleChange}
+                placeholder="제목을 입력하세요"
+                required
+              />
+            </FormSection>
+
+            <FormSection>
+              <Label>내용</Label>
+              <StyledTextarea
+                name="noticeContent"
+                value={form.noticeContent}
+                onChange={handleChange}
+                placeholder="내용을 입력하세요"
+                required
+              />
+            </FormSection>
+
+            <SearchButton type="submit">등록</SearchButton>
+          </WriteFormWrapper>
+        </form>
+      </Wrapper>
+    </div>
   );
 };
 
