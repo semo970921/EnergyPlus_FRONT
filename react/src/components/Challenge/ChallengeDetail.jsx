@@ -41,7 +41,6 @@ const ChallengeDetail = () => {
       .then(res => {
         setChallenge(res.data);
       })
-      .catch(err => console.error("챌린지 상세 불러오기 실패", err));
   }, [challengeSeq]);
 
   const handleEdit = () => navi(`/challenges/edit/${challengeSeq}`);
