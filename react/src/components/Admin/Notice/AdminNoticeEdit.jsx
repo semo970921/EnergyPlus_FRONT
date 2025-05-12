@@ -69,7 +69,7 @@ const AdminNoticeEdit = () => {
   return (
     <Wrapper>
       <HeaderRow>
-        <Title>📢 공지사항 수정 (관리자)</Title>
+        <Title>📢 공지사항 수정 </Title>
       </HeaderRow>
 
       <WriteFormWrapper>

@@ -16,11 +16,11 @@ const ChallengeInfo = () => {
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)"
         }}>
           <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>📢 에너지생활+ 챌린지란?</h2>
-          <ol>
-            <li>에너지생활+ 챌린지는 우리가 일상 속에서 실천할 수 있는 작은 친환경 행동을 함께 나누는 참여형 캠페인입니다.</li>
-            <li>분리배출, 텀블러 사용, 대중교통 이용 등 실천한 내용을 인증해보세요.</li>
+          <ul>
+            <li>에너지생활+의 챌린지 게시판은 탄소중립을 실천하는 다양한 활동을 자유롭게 등록하고,</li>
+            <li>인증을 통해 마일리지를 받을 수 있는 공간입니다.</li>
             <li>작은 행동 하나도 쌓이면 큰 변화를 만들어냅니다.</li>
-          </ol>
+          </ul>
         </div>
 
         <div style={{
@@ -30,11 +30,11 @@ const ChallengeInfo = () => {
           marginBottom: "2rem",
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)"
         }}>
-          <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>🌱 에너지 챌린지 참여 방법</h2>
+          <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>🌱 챌린지 참여 방법</h2>
           <ol>
-            <li>1. 실천한 친환경 행동을 선택하거나 자유롭게 입력해요.</li>
-            <li>2. 인증 사진을 첨부하고 간단한 설명을 작성해요.</li>
-            <li>3. 관리자의 승인 후 마일리지가 지급됩니다.</li>
+            <li>친환경 행동은 자유롭게 정할 수 있습니다.</li>
+            <li>인증 사진을 첨부하고 간단한 설명을 작성해요.</li>
+            <li>관리자의 승인 후 마일리지가 지급됩니다.</li>
           </ol>
         </div>
 
