@@ -14,29 +14,24 @@ import AdminSidebar from "../AdminSidebar";
 const MileageList = () => {
   const [mileages, setMileages] = useState([]);
   const [pageNo, setPageNo] = useState(0);
+
   const token = sessionStorage.getItem("accessToken");
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchList(pageNo);
+    axios
+      .get(`http://localhost/admin/mileages?page=${pageNo}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        setMileages(res.data);
+        console.log(res.data);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error("마일리지 목록 불러오기 실패", err);
+      });
   }, [pageNo]);
-
-  const fetchList = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost/admin/mileages?page=${pageNo}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setMileages(res.data);
-      console.log(res.data);
-    } catch (err) {
-      console.error("챌린지 목록 불러오기 실패", err);
-    }
-  };
 
   return (
     <Wrapper>
@@ -78,11 +73,12 @@ const MileageList = () => {
         </tbody>
       </StyledTable>
 
+      {/* 페이징 처리 유동적으로 수정하기 */}
       <Pagination>
         <PageBtn onClick={() => setPageNo((prev) => Math.max(prev - 1, 0))}>
           &lt;&lt;
         </PageBtn>
-        {[0, 1, 2, 3, 4].map((n) => (
+        {[0, 1, 2].map((n) => (
           <PageBtn
             key={n}
             onClick={() => setPageNo(n)}
